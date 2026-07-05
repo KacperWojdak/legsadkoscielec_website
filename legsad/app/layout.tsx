@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -26,8 +27,9 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className={`${bebasNeue.variable} ${inter.variable} antialiased`}>
-        {children}
-      </body>
+      <Navbar />
+      {children}
+    </body>
     </html>
   );
 }
