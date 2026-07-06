@@ -61,8 +61,7 @@ export default function Hero() {
         </div>
 
       </div>
-
-      {/* LINIA ODDZIELAJĄCA */}
+      
       <div className="absolute bottom-0 left-0 right-0 h-px bg-white/5" />
 
     </section>

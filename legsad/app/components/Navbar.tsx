@@ -19,7 +19,6 @@ export default function Navbar() {
       <nav className="w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-md">
         <div className="flex items-center justify-between">
 
-          {/* LOGO */}
           <Link href="/" className="flex items-center gap-3">
             <img
               src="/images/logo-pink.png"
