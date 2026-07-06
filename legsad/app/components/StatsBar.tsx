@@ -56,8 +56,8 @@ export default function StatsBar() {
           {[
             { value: `${s.goleZdobyte}:${s.goleStracone}`, label: "Bramki" },
             { value: s.srednioNaMecz, label: "Śr. na mecz" },
-            { value: s.uSiebie, label: "U siebie (W-R-P)" },
-            { value: s.naWyjezdzie, label: "Na wyjeździe (W-R-P)" },
+            { value: s.uSiebie, label: "U siebie (Z-R-P)" },
+            { value: s.naWyjezdzie, label: "Na wyjeździe (Z-R-P)" },
           ].map((stat) => (
             <div
               key={stat.label}

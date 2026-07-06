@@ -56,17 +56,11 @@ export default function NextMatch() {
 
             {/* GOSPODARZ */}
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-black/50">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {match.homeIsLegsad ? (
-                  <img
-                    src="/images/logo-pink.png"
-                    alt="Legsad Kościelec"
-                    className="h-12 w-12 object-contain"
-                  />
+                  <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
                 ) : (
-                  <span className="font-bebas text-2xl text-brand-muted">
-                    {home.charAt(0)}
-                  </span>
+                  <img src={`/images/clubs/${match.opponentLogo}`} alt={home} className="h-12 w-12 object-contain" />
                 )}
               </div>
               <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
@@ -84,17 +78,11 @@ export default function NextMatch() {
 
             {/* GOŚĆ */}
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-black/50">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {!match.homeIsLegsad ? (
-                  <img
-                    src="/images/logo-pink.png"
-                    alt="Legsad Kościelec"
-                    className="h-12 w-12 object-contain"
-                  />
+                  <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
                 ) : (
-                  <span className="font-bebas text-2xl text-brand-muted">
-                    {away.charAt(0)}
-                  </span>
+                  <img src={`/images/clubs/${match.opponentLogo}`} alt={away} className="h-12 w-12 object-contain" />
                 )}
               </div>
               <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
