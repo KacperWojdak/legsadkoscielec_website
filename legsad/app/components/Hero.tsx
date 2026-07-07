@@ -17,10 +17,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/20 via-brand-red/5 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
-      <div className="relative z-10 w-full flex items-center justify-between gap-8 pl-8 pr-16">
+      <div className="relative z-10 w-full flex flex-col md:flex-row items-center md:items-center justify-center md:justify-between gap-8 px-6 md:pl-8 md:pr-16 text-center md:text-left">
 
         {/* LEWA STRONA */}
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col items-center md:items-start">
           <h1 className="font-bebas text-8xl leading-none text-white md:text-9xl">
             Gramy
           </h1>
@@ -33,7 +33,7 @@ export default function Hero() {
             Wyniki, skład, terminarz i więcej.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap justify-center md:justify-start gap-4">
             <Link
               href="/terminarz"
               className="rounded-lg bg-brand-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-80"

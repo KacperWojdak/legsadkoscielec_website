@@ -5,10 +5,10 @@ export default function Footer() {
     <footer className="border-t border-brand-border bg-brand-surface">
       <div className="mx-auto max-w-5xl px-6 py-10">
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 text-center md:text-left">
 
           {/* KOLUMNA 1 — logo i opis */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col items-center md:items-start gap-4">
             <div className="flex items-center gap-3">
               <img
                 src="/images/logo-white.png"
@@ -87,7 +87,7 @@ export default function Footer() {
           </div>
 
           {/* KOLUMNA 2 — nawigacja */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col items-center md:items-start gap-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
               Nawigacja
             </p>
@@ -110,7 +110,7 @@ export default function Footer() {
           </div>
 
           {/* KOLUMNA 3 — kontakt */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col items-center md:items-start gap-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
               Kontakt
             </p>
@@ -134,7 +134,7 @@ export default function Footer() {
         </div>
 
         {/* DOLNA BELKA */}
-        <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-brand-border pt-6 md:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-brand-border pt-6 pb-16 md:pb-6 md:flex-row">
           <p className="text-xs text-brand-muted">
             © {year} GKS Legsad Kościelec. Wszelkie prawa zastrzeżone.
           </p>

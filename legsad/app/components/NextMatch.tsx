@@ -42,7 +42,7 @@ export default function NextMatch() {
         <div className="rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-10">
 
           {/* DATA I LIGA */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-2">
+          <div className="mb-6 flex flex-wrap items-center justify-center md:justify-between gap-2">
             <span className="text-sm text-white/50 capitalize">
               {formatDate(match.date)} · {match.time}
             </span>
