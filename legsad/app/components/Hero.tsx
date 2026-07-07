@@ -29,7 +29,7 @@ export default function Hero() {
       <img
         src="/images/effects/brush-diagonal.png"
         alt=""
-        className="pointer-events-none absolute right-0 top-0 h-[160%] w-[60%] object-cover opacity-30"
+        className="pointer-events-none absolute right-0 top-0 hidden h-[160%] w-[60%] object-cover opacity-30 md:block"
         style={{ objectPosition: "right center" }}
       />
 

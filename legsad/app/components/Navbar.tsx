@@ -39,10 +39,17 @@ export default function Navbar() {
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
-      <nav className="relative w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-md">
+      <nav className="relative w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-lg">
         <div className="flex items-center justify-between">
 
-          <Link href="/" className="flex items-center gap-3">
+          <Link 
+          href="/" 
+          onClick={() => {
+          if (pathname === "/") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+          }}
+          className="flex items-center gap-3">
             <img
               src="/images/logo-pink.png"
               alt="GKS Legsad Kościelec"
@@ -56,7 +63,7 @@ export default function Navbar() {
           </Link>
 
           {/* DESKTOP LINKS */}
-          <ul className="hidden items-center gap-6 md:flex">
+          <ul className="hidden items-center gap-6 lg:flex">
             {links.map((link) => (
               <li key={link.href}>
                 <Link
@@ -79,7 +86,7 @@ export default function Navbar() {
 
           {/* HAMBURGER */}
           <button
-            className="flex flex-col gap-1.5 md:hidden cursor-pointer"
+            className="flex flex-col gap-1.5 lg:hidden cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >
@@ -92,7 +99,7 @@ export default function Navbar() {
 
         {/* MOBILE MENU */}
         {menuOpen && (
-            <div className="mt-4 flex flex-col items-center gap-4 border-t border-white/10 pt-4 md:hidden">
+            <div className="mt-4 flex flex-col items-center gap-4 border-t border-white/10 pt-4 lg:hidden">
                 {links.map((link) => (
                 <Link
                     key={link.href}
