@@ -2,21 +2,22 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden bg-brand-black pt-24 min-h-[80vh] flex items-center">
+    <section className="relative overflow-hidden bg-brand-black pt-24 min-h-screen flex items-center">
 
       {/* WATERMARK — białe logo w tle */}
-      <div className="absolute inset-0 flex items-center justify-center translate-y-16 opacity-[0.04] pointer-events-none">
+      <div className="absolute inset-0 flex items-center justify-center translate-y-16 opacity-[0.05] pointer-events-none">
         <img
-            src="/images/logo-white.png"
-            alt=""
-            className="h-175 w-175 object-contain"
+          src="/images/logo-white.png"
+          alt=""
+          className="h-125 w-125 object-contain md:h-162.5 md:w-162.5"
         />
-        </div>
+      </div>
 
       {/* GRADIENT tło */}
-      <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/10 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/20 via-brand-red/5 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
-      <div className="relative z-10 w-full px-8 flex items-center justify-between gap-8">
+      <div className="relative z-10 w-full flex items-center justify-between gap-8 pl-8 pr-16">
 
         {/* LEWA STRONA */}
         <div className="flex-1">

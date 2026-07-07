@@ -67,7 +67,7 @@ export default function NextMatch() {
                 {home}
               </span>
               <span className="text-xs uppercase tracking-widest text-brand-muted">
-                {match.homeIsLegsad ? "Gospodarz" : "Gość"}
+                {match.homeIsLegsad ? "Gospodarze" : "Goście"}
               </span>
             </div>
 
@@ -89,7 +89,7 @@ export default function NextMatch() {
                 {away}
               </span>
               <span className="text-xs uppercase tracking-widest text-brand-muted">
-                {!match.homeIsLegsad ? "Gospodarz" : "Gość"}
+                {!match.homeIsLegsad ? "Gospodarze" : "Goście"}
               </span>
             </div>
 

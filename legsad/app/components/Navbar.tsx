@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import matchesData from "../../data/matches.json"
 
 const links = [
   { label: "Aktualności", href: "/aktualnosci" },
@@ -11,12 +12,20 @@ const links = [
   { label: "Kontakt", href: "/kontakt" },
 ];
 
+function getNextMatch() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return matchesData
+    .filter((m) => new Date(m.date) >= today && m.status === "upcoming")
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
-      <nav className="w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-md">
+      <nav className="relative w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-md">
         <div className="flex items-center justify-between">
 
           <Link href="/" className="flex items-center gap-3">
@@ -74,6 +83,24 @@ export default function Navbar() {
                 ))}
             </div>
         )}
+
+        {/* NEXT MATCH PILL — desktop */}
+          {(() => {
+            const next = getNextMatch();
+            if (!next) return null;
+            const opponent = next.homeIsLegsad ? next.away : next.home;
+            const date = new Date(next.date).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
+            return (
+              <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 rounded-full border border-brand-border bg-brand-black/80 px-4 py-1.5">
+                <span className="text-[10px]">
+                  {next.homeIsLegsad ? "🏠" : "🚌"}
+                </span>
+                <span className="text-[11px] uppercase tracking-wide text-white/70">
+                  {date} · vs {opponent}
+                </span>
+              </div>
+            );
+          })()}
 
       </nav>
     </div>
