@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import matchesData from "../../data/matches.json"
+import { useRouter, usePathname } from "next/navigation";
 
 const links = [
   { label: "Aktualności", href: "/aktualnosci" },
   { label: "Terminarz", href: "/terminarz" },
   { label: "Drużyna", href: "/druzyna" },
-  { label: "Sponsorzy", href: "/sponsorzy" },
+  { label: "O klubie", href: "/o-klubie" },
   { label: "Kontakt", href: "/kontakt" },
 ];
 
@@ -20,8 +21,21 @@ function getNextMatch() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
 }
 
+function scrollToSponsors(router: ReturnType<typeof useRouter>, pathname: string) {
+  if (pathname === "/") {
+    document.getElementById("sponsorzy")?.scrollIntoView({ behavior: "smooth" });
+  } else {
+    router.push("/");
+    setTimeout(() => {
+      document.getElementById("sponsorzy")?.scrollIntoView({ behavior: "smooth" });
+    }, 300);
+  }
+}
+
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
@@ -47,12 +61,20 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm uppercase tracking-wide text-white/60 transition-colors hover:text-red-500"
+                  className="text-sm uppercase tracking-wide text-white/60 transition-colors hover:text-red-500 cursor-pointer"
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
+            <li>
+              <button
+                onClick={() => scrollToSponsors(router, pathname)}
+                className="text-sm uppercase tracking-wide text-white/60 transition-colors hover:text-red-500 cursor-pointer"
+              >
+                Sponsorzy
+              </button>
+            </li>
           </ul>
 
           {/* HAMBURGER */}
@@ -81,6 +103,15 @@ export default function Navbar() {
                     {link.label}
                 </Link>
                 ))}
+                <button
+                  onClick={() => {
+                    scrollToSponsors(router, pathname);
+                    setMenuOpen(false);
+                  }}
+                  className="text-sm uppercase tracking-wide text-white/60 hover:text-white text-left"
+                >
+                  Sponsorzy
+                </button>
             </div>
         )}
 

@@ -5,7 +5,7 @@ export default function Sponsors() {
   const others = sponsors.filter((s) => !s.featured);
 
   return (
-    <section className="border-b border-brand-border py-10">
+    <section id="sponsorzy" className="border-b border-brand-border py-10">
       <div className="mx-auto max-w-5xl px-6">
 
         {/* NAGŁÓWEK */}

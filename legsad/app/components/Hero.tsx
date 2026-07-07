@@ -13,6 +13,26 @@ export default function Hero() {
         />
       </div>
 
+      {/* BRUSH CORNERS */}
+      <img
+        src="/images/effects/brush-top-left.png"
+        alt=""
+        className="pointer-events-none absolute -left-12 -top-12 h-56 w-56 opacity-60 md:h-80 md:w-80"
+      />
+      <img
+        src="/images/effects/brush-bottom-right.png"
+        alt=""
+        className="pointer-events-none absolute -bottom-12 -right-18 h-56 w-56 opacity-60 md:h-80 md:w-80"
+      />
+
+      {/* BRUSH DIAGONAL*/}
+      <img
+        src="/images/effects/brush-diagonal.png"
+        alt=""
+        className="pointer-events-none absolute right-0 top-0 h-[160%] w-[60%] object-cover opacity-30"
+        style={{ objectPosition: "right center" }}
+      />
+
       {/* GRADIENT tło */}
       <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/20 via-brand-red/5 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
@@ -38,27 +58,24 @@ export default function Hero() {
               href="/terminarz"
               className="rounded-lg bg-brand-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-80"
             >
-              Najbliższy mecz
+              Terminarz
             </Link>
             <Link
-              href="/aktualnosci"
+              href="/o-klubie"
               className="rounded-lg border border-white/20 px-6 py-3 text-sm font-bold uppercase tracking-wide text-white/70 transition-colors hover:border-white/50 hover:text-white"
             >
-              Historia klubu
+              O klubie
             </Link>
           </div>
         </div>
 
         {/* PRAWA STRONA — herb */}
         <div className="hidden md:flex shrink-0 items-center justify-end pr-8">
-          <div className="relative h-64 w-64 rounded-full border-2 border-brand-red bg-black/50 flex items-center justify-center">
-            <div className="absolute inset-0 rounded-full bg-brand-red/5" />
-            <img
-              src="/images/logo-pink.png"
-              alt="GKS Legsad Kościelec"
-              className="h-52 w-52 object-contain"
-            />
-          </div>
+          <img
+            src="/images/logo-pink.png"
+            alt="GKS Legsad Kościelec"
+            className="relative z-10 h-52 w-52 object-contain scale-125"
+          />
         </div>
 
       </div>
