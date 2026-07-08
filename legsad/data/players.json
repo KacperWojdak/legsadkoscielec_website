@@ -1,0 +1,24 @@
+[
+  { "id": 1, "name": "Jan Kowalski", "position": "Bramkarz", "number": 1, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 2, "name": "Jan Kowalski", "position": "Bramkarz", "number": 12, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+
+  { "id": 3, "name": "Jan Kowalski", "position": "Obrońca", "number": 2, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 4, "name": "Jan Kowalski", "position": "Obrońca", "number": 3, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 5, "name": "Jan Kowalski", "position": "Obrońca", "number": 4, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 6, "name": "Jan Kowalski", "position": "Obrońca", "number": 5, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 7, "name": "Jan Kowalski", "position": "Obrońca", "number": 6, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+
+  { "id": 8, "name": "Jan Kowalski", "position": "Pomocnik", "number": 7, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 9, "name": "Jan Kowalski", "position": "Pomocnik", "number": 8, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 10, "name": "Jan Kowalski", "position": "Pomocnik", "number": 10, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 11, "name": "Jan Kowalski", "position": "Pomocnik", "number": 11, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 12, "name": "Jan Kowalski", "position": "Pomocnik", "number": 14, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 13, "name": "Jan Kowalski", "position": "Pomocnik", "number": 15, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 14, "name": "Jan Kowalski", "position": "Pomocnik", "number": 16, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 15, "name": "Jan Kowalski", "position": "Pomocnik", "number": 17, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+
+  { "id": 16, "name": "Jan Kowalski", "position": "Napastnik", "number": 9, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 17, "name": "Jan Kowalski", "position": "Napastnik", "number": 19, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 18, "name": "Jan Kowalski", "position": "Napastnik", "number": 20, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  { "id": 19, "name": "Jan Kowalski", "position": "Napastnik", "number": 21, "photo": "dummy-player.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } }
+]
