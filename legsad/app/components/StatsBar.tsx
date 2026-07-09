@@ -29,7 +29,7 @@ export default function StatsBar() {
           </select>
         </div>
 
-        <div className="grid grid-cols-3 divide-x divide-brand-border md:grid-cols-6">
+        <div className="grid grid-cols-3 divide-x divide-y divide-brand-border md:grid-cols-6 md:divide-y-0">
           {[
             { value: s.miejsce, label: "Miejsce" },
             { value: s.mecze, label: "Mecze" },
@@ -52,7 +52,7 @@ export default function StatsBar() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 divide-x divide-brand-border border-t border-brand-border md:grid-cols-4">
+        <div className="grid grid-cols-2 divide-x divide-y divide-brand-border border-t border-brand-border md:grid-cols-4 md:divide-y-0">
           {[
             { value: `${s.goleZdobyte}:${s.goleStracone}`, label: "Bramki" },
             { value: s.srednioNaMecz, label: "Śr. na mecz" },
@@ -73,7 +73,7 @@ export default function StatsBar() {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 divide-x divide-brand-border border-t border-brand-border">
+        <div className="grid grid-cols-2 divide-x divide-y divide-brand-border border-t border-brand-border md:divide-y-0">
           <div className="flex items-center gap-3 px-6 py-4">
             <span className="text-xl">⚽</span>
             <div>

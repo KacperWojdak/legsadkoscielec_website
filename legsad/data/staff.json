@@ -3,12 +3,12 @@
     "id": 1,
     "name": "Daniel Szymczyk",
     "role": "I trener",
-    "photo": "dummy-player.png"
+    "photo": "szymczyk.png"
   },
   {
     "id": 2,
-    "name": "Jan Kowalski",
-    "role": "II trener / asystent",
-    "photo": "dummy-player.png"
+    "name": "Daniel Matysiak",
+    "role": "II trener / Asystent",
+    "photo": "matysiak.png"
   }
 ]

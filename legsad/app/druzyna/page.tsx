@@ -93,7 +93,7 @@ function PlayerModal({ player, onClose }: { player: Player; onClose: () => void 
           )}
           <div className="relative z-10 flex h-56 items-end justify-center">
             <img
-              src={`/images/players/${player.photo}`}
+              src={`/images/players/${player.photoModal}`}
               alt={player.name}
               className="h-56 w-auto object-contain object-bottom"
             />
@@ -133,6 +133,15 @@ function PlayerModal({ player, onClose }: { player: Player; onClose: () => void 
             <span className="text-[10px] uppercase tracking-widest text-brand-muted">Czerwone kartki</span>
           </div>
         </div>
+
+        {player.position === "Bramkarz" && (
+          <div className="grid grid-cols-1 border-t border-brand-border">
+            <div className="flex flex-col items-center py-4">
+              <span className="font-bebas text-2xl text-blue-400">{player.stats.czysteKonta}</span>
+              <span className="text-[10px] uppercase tracking-widest text-brand-muted">Czyste konta</span>
+            </div>
+          </div>
+        )}
 
       </div>
     </div>
@@ -193,7 +202,7 @@ export default function DruzynaPage() {
                   <PlayerCard
                     key={player.id}
                     name={player.name}
-                    photo={player.photo}
+                    photo={player.photoCard}
                     number={player.number}
                     onClick={() => setSelectedPlayer(player)}
                   />
