@@ -95,9 +95,7 @@ export default function Footer() {
               { label: "Aktualności", href: "/aktualnosci" },
               { label: "Terminarz", href: "/terminarz" },
               { label: "Drużyna", href: "/druzyna" },
-              { label: "Sponsorzy", href: "/sponsorzy" },
-              { label: "Dołącz do nas", href: "/dolacz" },
-              { label: "Kontakt", href: "/kontakt" },
+              { label: "O klubie", href: "/o-klubie" }
             ].map((link) => (
               <a
                 key={link.href}
@@ -126,9 +124,6 @@ export default function Footer() {
             >
               +48 721 035 479
             </a>
-            <p className="text-xs text-brand-muted">
-              Kościelec, gmina Krotoszyce
-            </p>
           </div>
 
         </div>

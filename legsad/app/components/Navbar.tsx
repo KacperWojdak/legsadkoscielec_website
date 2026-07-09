@@ -10,7 +10,6 @@ const links = [
   { label: "Terminarz", href: "/terminarz" },
   { label: "Drużyna", href: "/druzyna" },
   { label: "O klubie", href: "/o-klubie" },
-  { label: "Kontakt", href: "/kontakt" },
 ];
 
 function getNextMatch() {
