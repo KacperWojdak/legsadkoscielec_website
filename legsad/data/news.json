@@ -1,27 +1,6 @@
 [
   {
     "id": 1,
-    "slug": "podsumowanie-sezonu-2025-26",
-    "title": "Podsumowanie sezonu 2025/26",
-    "category": "Klub",
-    "date": "2026-06-16",
-    "image": "sezon-podsumowanie.jpg",
-    "lead": "Sezon 2025/26 dobiegł końca — 22 spotkania, 4. miejsce w tabeli i jedna z najlepszych ofensyw w lidze.",
-    "body": [
-      "Sezon 2025/26 dobiegł końca, dlatego przyszedł czas na pierwsze podsumowania. Za nami 22 spotkania, wiele emocji, pięknych bramek, ważnych zwycięstw oraz chwil, które na długo pozostaną w pamięci zawodników i kibiców.",
-      "Nasza drużyna zakończyła rozgrywki na 4. miejscu, zdobywając 42 punkty i do samego końca licząc się w walce o czołowe lokaty. Szczególnie imponująco prezentowała się ofensywa, która zdobyła aż 79 bramek, co dało jedną z najlepszych skuteczności w całej lidze.",
-      "SEZON W LICZBACH: Miejsce w tabeli: 4 · Mecze: 22 · Zwycięstwa: 13 · Remisy: 3 · Porażki: 6 · Bramki zdobyte: 79 · Bramki stracone: 48 · Punkty: 42 · Średnia zdobytych bramek na mecz: 3,59 · Najwyższe zwycięstwo: Legsad Kościelec 9:0 Lubiatowianka Lubiatów",
-      "U SIEBIE: 8 zwycięstw, 3 porażki, 0 remisów, bilans bramkowy 49:18. NA WYJAZDACH: 5 zwycięstw, 3 remisy, 3 porażki, bilans bramkowy 30:30.",
-      "Piłka nożna jest sportem drużynowym, jednak za każdym wynikiem stoją konkretni zawodnicy. Sprawdźmy więc, którzy gracze najczęściej wpisywali się do protokołu meczowego i wyróżniali się w poszczególnych statystykach.",
-      "KRÓLOWIE STRZELCÓW: Adrian Wiśniewski – 13 bramek, Maksym Karpov – 10 bramek, Mikołaj Dzierbicki i Maciej Tulik – 8 bramek, Janusz Chabecki i Mikołaj Michalik – 7 bramek.",
-      "KRÓLOWIE ASYST: Maksym Karpov – 14 asyst, Leszek Cholewiński – 13 asyst, Michał Małek – 8 asyst, Kacper Goławski i Mikołaj Dzierbicki – 7 asyst.",
-      "NAJWIĘCEJ MINUT: Alan Piskorowski – 1837 minut, Patryk Wątroba – 1693 minuty, Mikołaj Dzierbicki – 1676 minut, Maksym Karpov – 1541 minut, Marcin Pietrakowski – 1384 minut.",
-      "TALIZMANY ZESPOŁU (najwyższy procent zwycięstw przy minimum 15 rozegranych spotkaniach): Mikołaj Michalik – 75,0%, Janusz Chabecki – 66,7%, Adrian Wiśniewski – 62,5%, Marcin Pietrakowski – 61,9%, Alan Piskorowski – 59,1%.",
-      "Na zakończenie chcielibyśmy podziękować wszystkim zawodnikom, trenerom, działaczom, sponsorom oraz kibicom za kolejny wspólny sezon. To dzięki Wam GKS Legsad Kościelec może się rozwijać i każdego tygodnia dostarczać sportowych emocji."
-    ]
-  },
-  {
-    "id": 2,
     "slug": "powrot-do-a-klasy",
     "title": "Oficjalnie – wracamy do A klasy!",
     "category": "Klub",
@@ -39,7 +18,7 @@
     ]
   },
   {
-    "id": 3,
+    "id": 2,
     "slug": "nowy-trener-daniel-szymczyk",
     "title": "Nowy trener. Nowy rozdział.",
     "category": "Klub",
@@ -56,7 +35,7 @@
     ]
   },
   {
-    "id": 4,
+    "id": 3,
     "slug": "asystent-daniel-matysiak",
     "title": "Daniel Matysiak zostaje asystentem trenera",
     "category": "Klub",

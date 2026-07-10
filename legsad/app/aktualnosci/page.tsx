@@ -4,7 +4,7 @@ import { useState } from "react";
 import news from "../../data/news.json";
 import NewsCard from "../components/NewsCard";
 
-const PER_PAGE = 6;
+const PER_PAGE = 9;
 
 export default function AktualnosciPage() {
   const [page, setPage] = useState(1);

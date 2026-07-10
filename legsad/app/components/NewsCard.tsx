@@ -1,11 +1,11 @@
 import Link from "next/link";
 
-const categoryColor: Record<string, string> = {
+{/*const categoryColor: Record<string, string> = {
   "Klub": "bg-brand-red",
   "Wynik": "bg-green-700",
   "Zapowiedź": "bg-blue-700",
   "Transfery": "bg-yellow-700",
-};
+}; */}
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -41,9 +41,9 @@ export default function NewsCard({
           alt={title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-        <span className={`absolute left-3 top-3 rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white ${categoryColor[category] ?? "bg-brand-red"}`}>
+        {/*<span className={`absolute left-3 top-3 rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white ${categoryColor[category] ?? "bg-brand-red"}`}>
           {category}
-        </span>
+        </span>*/}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <span className="text-xs text-brand-muted">{formatDate(date)}</span>
