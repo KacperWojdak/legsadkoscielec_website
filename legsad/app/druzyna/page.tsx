@@ -208,15 +208,19 @@ export default function DruzynaPage() {
                 </span>
                 <div className="h-px w-8 bg-brand-border" />
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 {group.map((player) => (
-                  <PlayerCard
+                  <div
                     key={player.id}
-                    name={player.name}
-                    photo={player.photoCard}
-                    number={player.number}
-                    onClick={() => setSelectedPlayer(player)}
-                  />
+                    className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] md:w-[calc(25%-0.75rem)]"
+                  >
+                    <PlayerCard
+                      name={player.name}
+                      photo={player.photoCard}
+                      number={player.number}
+                      onClick={() => setSelectedPlayer(player)}
+                    />
+                  </div>
                 ))}
               </div>
             </div>

@@ -99,45 +99,45 @@ export default function Navbar() {
         {/* MOBILE MENU */}
         {menuOpen && (
             <div className="mt-4 flex flex-col items-center gap-4 border-t border-white/10 pt-4 lg:hidden">
-                {links.map((link) => (
-                <Link
-                    key={link.href}
-                    href={link.href}
-                    className="text-sm uppercase tracking-wide text-white/60 hover:text-white"
-                    onClick={() => setMenuOpen(false)}
-                >
-                    {link.label}
-                </Link>
-                ))}
-                <button
-                  onClick={() => {
-                    scrollToSponsors(router, pathname);
-                    setMenuOpen(false);
-                  }}
-                  className="text-sm uppercase tracking-wide text-white/60 hover:text-white text-left"
-                >
-                  Sponsorzy
-                </button>
+              {links.map((link) => (
+              <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm uppercase tracking-wide text-white/60 hover:text-white"
+                  onClick={() => setMenuOpen(false)}
+              >
+                  {link.label}
+              </Link>
+              ))}
+              <button
+                onClick={() => {
+                  scrollToSponsors(router, pathname);
+                  setMenuOpen(false);
+                }}
+                className="text-sm uppercase tracking-wide text-white/60 hover:text-white text-left"
+              >
+                Sponsorzy
+              </button>
             </div>
         )}
 
         {/* NEXT MATCH PILL — desktop */}
-          {(() => {
-            const next = getNextMatch();
-            if (!next) return null;
-            const opponent = next.homeIsLegsad ? next.away : next.home;
-            const date = new Date(next.date).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
-            return (
-              <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-2 rounded-full border border-brand-border bg-brand-black/80 px-4 py-1.5">
-                <span className="text-[10px]">
-                  {next.homeIsLegsad ? "🏠" : "🚌"}
-                </span>
-                <span className="text-[11px] uppercase tracking-wide text-white/70">
-                  {date} · vs {opponent}
-                </span>
-              </div>
-            );
-          })()}
+          <div className={`absolute left-1/2 -translate-x-1/2 items-center gap-1.5 rounded-full border border-brand-border bg-brand-black/80 px-2.5 py-1 lg:gap-2 lg:px-4 lg:py-1.5 ${menuOpen ? "hidden" : "flex"} lg:flex`}>
+            {(() => {
+              const next = getNextMatch();
+              if (!next) return null;
+              const opponent = next.homeIsLegsad ? next.away : next.home;
+              const date = new Date(next.date).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
+              return (
+                <>
+                  <span className="text-[9px] lg:text-[10px]">{next.homeIsLegsad ? "🏠" : "🚌"}</span>
+                  <span className="text-[9px] uppercase tracking-wide text-white/70 lg:text-[11px]">
+                    {date} · vs {opponent}
+                  </span>
+                </>
+              );
+            })()}
+          </div>
 
       </nav>
     </div>
