@@ -3,6 +3,7 @@ import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
+import ScrollToTopOnNavigate from "./components/ScrollToTopOnNavigate";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className={`${bebasNeue.variable} ${inter.variable} antialiased`}>
+      <ScrollToTopOnNavigate />
       <Navbar />
       {children}
       <ScrollToTop />

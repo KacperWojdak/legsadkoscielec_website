@@ -3,6 +3,7 @@
 import { useState } from "react";
 import staff from "../../data/staff.json";
 import players from "../../data/players.json";
+import { computePlayerStats, PlayerStats } from "../../lib/stats";
 
 const positionOrder = ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"];
 const positionLabel: Record<string, string> = {
@@ -11,6 +12,8 @@ const positionLabel: Record<string, string> = {
   "Pomocnik": "Pomocnicy",
   "Napastnik": "Napastnicy",
 };
+
+const allPlayerStats = computePlayerStats();
 
 type Player = (typeof players)[0];
 
@@ -60,8 +63,16 @@ function PlayerCard({
   );
 }
 
-function PlayerModal({ player, onClose }: { player: Player; onClose: () => void }) {
-  const s = player.stats;
+function PlayerModal({
+  player,
+  stats,
+  onClose,
+}: {
+  player: Player;
+  stats: PlayerStats;
+  onClose: () => void;
+}) {
+  const s = stats;
 
   return (
     <div
@@ -121,7 +132,7 @@ function PlayerModal({ player, onClose }: { player: Player; onClose: () => void 
         </div>
         <div className="grid grid-cols-3 divide-x divide-brand-border border-t border-brand-border">
           <div className="flex flex-col items-center py-4">
-            <span className="font-bebas text-2xl text-white">{s.minuty}'</span>
+            <span className="font-bebas text-2xl text-white">{s.minuty}&apos;</span>
             <span className="text-[10px] uppercase tracking-widest text-brand-muted">Minuty</span>
           </div>
           <div className="flex flex-col items-center py-4">
@@ -130,14 +141,14 @@ function PlayerModal({ player, onClose }: { player: Player; onClose: () => void 
           </div>
           <div className="flex flex-col items-center py-4">
             <span className="font-bebas text-2xl text-red-500">{s.czerwoneKartki}</span>
-            <span className="text-[10px] uppercase tracking-widest text-brand-muted">Czerwone kartki</span>
+            <span className="text-[8px] uppercase tracking-widest text-brand-muted">Czerwone kartki</span>
           </div>
         </div>
 
         {player.position === "Bramkarz" && (
           <div className="grid grid-cols-1 border-t border-brand-border">
             <div className="flex flex-col items-center py-4">
-              <span className="font-bebas text-2xl text-blue-400">{player.stats.czysteKonta}</span>
+              <span className="font-bebas text-2xl text-blue-400">{s.czysteKonta}</span>
               <span className="text-[10px] uppercase tracking-widest text-brand-muted">Czyste konta</span>
             </div>
           </div>
@@ -215,7 +226,22 @@ export default function DruzynaPage() {
       </div>
 
       {selectedPlayer && (
-        <PlayerModal player={selectedPlayer} onClose={() => setSelectedPlayer(null)} />
+        <PlayerModal
+          player={selectedPlayer}
+          stats={
+            allPlayerStats[selectedPlayer.name] ?? {
+              name: selectedPlayer.name,
+              mecze: 0,
+              gole: 0,
+              asysty: 0,
+              minuty: 0,
+              zolteKartki: 0,
+              czerwoneKartki: 0,
+              czysteKonta: 0,
+            }
+          }
+          onClose={() => setSelectedPlayer(null)}
+        />
       )}
 
     </main>

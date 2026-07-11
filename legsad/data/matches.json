@@ -1,18 +1,58 @@
 [
   {
-    "id": 1,
-    "date": "2026-08-16",
-    "time": "14:00",
-    "home": "Legsad Kościelec",
-    "away": "Park Targoszyn",
-    "homeIsLegsad": true,
-    "opponentLogo": "park-targoszyn.png",
-    "scoreHome": null,
-    "scoreAway": null,
-    "status": "upcoming",
-    "season": "2026/2027",
-    "round": "1",
-    "league": "Klasa A"
+  "id": 1,
+  "date": "2026-08-16",
+  "time": "14:00",
+  "home": "Legsad Kościelec",
+  "away": "Park Targoszyn",
+  "homeIsLegsad": true,
+  "opponentLogo": "park-targoszyn.png",
+  "scoreHome": 5,
+  "scoreAway": 0,
+  "status": "finished",
+  "season": "2026/2027",
+  "round": "1",
+  "league": "Klasa A",
+  "report": {
+    "scorers": {
+      "home": [
+        { "name": "Kacper Wojdak", "minute": 23, "assist": null },
+        { "name": "Michał Małek", "minute": 54, "assist": "Marcin Pietrakowski" },
+        { "name": "Michał Małek", "minute": 55, "assist": "Marcin Pietrakowski" },
+        { "name": "Maksym Karpov", "minute": 77, "assist": "Marcin Pietrakowski" },
+        { "name": "Maksym Karpov", "minute": 78, "assist": "Marcin Pietrakowski" }
+      ],
+      "away": [
+      ]
+    },
+    "yellowCards": {
+      "home": [{ "name": "Bartłomiej Krasowski", "minute": 34 }],
+      "away": [{ "name": "Jan Nowak", "minute": 60 }]
+    },
+    "redCards": {
+      "home": [],
+      "away": []
+    },
+    "lineupHome": [
+      { "number": 99, "name": "Kacper Wojdak" },
+      { "number": 4, "name": "Bartłomiej Krasowski" },
+      { "number": 5, "name": "Maksymilian Talar" },
+      { "number": 7, "name": "Michał Małek" },
+      { "number": 10, "name": "Maksym Karpov" }
+    ],
+    "lineupAway": [
+      { "number": 1, "name": "Jan Nowak" },
+      { "number": 6, "name": "Adam Kowalczyk" }
+    ],
+    "substitutions": {
+    "home": [
+      { "out": "Bartłomiej Krasowski", "in": "Mateusz Miazga", "minute": 63 }
+    ],
+    "away": []
+    },
+    "coachHome": "Daniel Szymczyk",
+    "coachAway": "Nieznany"
+  }
   },
   {
     "id": 2,

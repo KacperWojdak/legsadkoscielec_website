@@ -85,7 +85,7 @@ export default function RecentResults() {
                       ? "bg-green-900/50 text-green-400"
                       : result === "P"
                       ? "bg-red-900/50 text-red-400"
-                      : "bg-white/10 text-white/50"
+                      : "bg-yellow-900/50 text-yellow-400"
                   }`}
                 >
                   {result}
@@ -109,10 +109,18 @@ export default function RecentResults() {
                 </div>
 
                 {/* WYNIK */}
-                <div className="shrink-0 text-right">
+                <div className="shrink-0 flex items-center gap-2 text-right">
                   <span className="font-bebas text-2xl text-white">
                     {legsadScore}:{opponentScore}
                   </span>
+                  {"report" in match && match.report && (
+                    <a
+                      href={`/mecz/${match.id}`}
+                      className="rounded-md border border-brand-red px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                    >
+                      Raport
+                    </a>
+                  )}
                 </div>
 
               </div>

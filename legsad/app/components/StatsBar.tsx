@@ -2,11 +2,40 @@
 
 import { useState } from "react";
 import seasons from "../../data/seasons.json";
+import { computeSeasonStats, computePlayerStats, getTopByStat, pluralizeBramki, pluralizeAsysty } from "../../lib/stats";
 
 export default function StatsBar() {
   const [selectedId, setSelectedId] = useState(seasons[1].id);
   const season = seasons.find((s) => s.id === selectedId)!;
-  const s = season.stats;
+
+  const isCurrentSeason = selectedId === "2026-2027";
+
+  const computed = isCurrentSeason ? computeSeasonStats() : null;
+  const playerStats = isCurrentSeason ? computePlayerStats() : null;
+  const topScorer = playerStats ? getTopByStat(playerStats, "gole") : null;
+  const topAssist = playerStats ? getTopByStat(playerStats, "asysty") : null;
+
+  const s = isCurrentSeason && computed
+    ? {
+        miejsce: season.stats.miejsce, // wpisywane ręcznie przez kierownika
+        mecze: String(computed.mecze),
+        zwycięstwa: String(computed.zwycięstwa),
+        remisy: String(computed.remisy),
+        porażki: String(computed.porażki),
+        goleZdobyte: String(computed.goleZdobyte),
+        goleStracone: String(computed.goleStracone),
+        punkty: String(computed.punkty),
+        srednioNaMecz: computed.srednioNaMecz,
+        uSiebie: computed.uSiebie,
+        uSiebieGole: computed.uSiebieGole,
+        naWyjezdzie: computed.naWyjezdzie,
+        naWyjezdieGole: computed.naWyjezdieGole,
+        krolStrzelcow: topScorer && topScorer.names.length > 0 ? topScorer.names.join(", ") : "-",
+        krolStrzelcowBramki: topScorer ? String(topScorer.value) : "0",
+        krolAsyst: topAssist && topAssist.names.length > 0 ? topAssist.names.join(", ") : "-",
+        krolAsystLiczba: topAssist ? String(topAssist.value) : "0",
+      }
+    : season.stats; // historyczne sezony zostają statyczne z JSON-a
 
   return (
     <section className="border-y border-brand-border bg-brand-surface">
@@ -21,9 +50,9 @@ export default function StatsBar() {
             onChange={(e) => setSelectedId(e.target.value)}
             className="rounded-md border border-brand-border bg-brand-black px-3 py-1.5 text-xs uppercase tracking-wide text-white focus:outline-none focus:border-brand-red cursor-pointer"
           >
-            {seasons.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.label}
+            {seasons.map((season) => (
+              <option key={season.id} value={season.id}>
+                {season.label}
               </option>
             ))}
           </select>
@@ -38,16 +67,9 @@ export default function StatsBar() {
             { value: s.porażki, label: "Porażki" },
             { value: s.punkty, label: "Punkty" },
           ].map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center justify-center px-4 py-5 text-center"
-            >
-              <span className="font-bebas text-4xl leading-none text-brand-red">
-                {stat.value}
-              </span>
-              <span className="mt-1 text-[10px] uppercase tracking-widest text-brand-muted">
-                {stat.label}
-              </span>
+            <div key={stat.label} className="flex flex-col items-center justify-center px-4 py-5 text-center">
+              <span className="font-bebas text-4xl leading-none text-brand-red">{stat.value}</span>
+              <span className="mt-1 text-[10px] uppercase tracking-widest text-brand-muted">{stat.label}</span>
             </div>
           ))}
         </div>
@@ -56,46 +78,35 @@ export default function StatsBar() {
           {[
             { value: `${s.goleZdobyte}:${s.goleStracone}`, label: "Bramki" },
             { value: s.srednioNaMecz, label: "Śr. na mecz" },
-            { value: s.uSiebie, label: "U siebie (Z-R-P)" },
-            { value: s.naWyjezdzie, label: "Na wyjeździe (Z-R-P)" },
+            { value: s.uSiebie, label: "U siebie (W-R-P)" },
+            { value: s.naWyjezdzie, label: "Na wyjeździe (W-R-P)" },
           ].map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center justify-center px-4 py-4 text-center"
-            >
-              <span className="font-bebas text-2xl leading-none text-white">
-                {stat.value}
-              </span>
-              <span className="mt-1 text-[10px] uppercase tracking-widest text-brand-muted">
-                {stat.label}
-              </span>
+            <div key={stat.label} className="flex flex-col items-center justify-center px-4 py-4 text-center">
+              <span className="font-bebas text-2xl leading-none text-white">{stat.value}</span>
+              <span className="mt-1 text-[10px] uppercase tracking-widest text-brand-muted">{stat.label}</span>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-2 divide-x divide-y divide-brand-border border-t border-brand-border md:divide-y-0">
+        <div className="grid grid-cols-1 divide-y divide-brand-border border-t border-brand-border sm:grid-cols-2 sm:divide-x sm:divide-y-0">
           <div className="flex items-center gap-3 px-6 py-4">
             <span className="text-xl">⚽</span>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-brand-muted">
-                Król strzelców
+              <p className="text-[10px] uppercase tracking-widest text-brand-muted">Król strzelców</p>
+              <p className="font-bebas text-lg leading-tight text-brand-red">{s.krolStrzelcow}</p>
+              <p className="text-xs text-white/50">
+                {s.krolStrzelcowBramki} {pluralizeBramki(Number(s.krolStrzelcowBramki))}
               </p>
-              <p className="font-bebas text-lg text-brand-red leading-tight">
-                {s.krolStrzelcow}
-              </p>
-              <p className="text-xs text-white/50">{s.krolStrzelcowBramki} bramek</p>
             </div>
           </div>
           <div className="flex items-center gap-3 px-6 py-4">
             <span className="text-xl">👟</span>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-brand-muted">
-                Król asyst
+              <p className="text-[10px] uppercase tracking-widest text-brand-muted">Król asyst</p>
+              <p className="font-bebas text-lg leading-tight text-brand-red">{s.krolAsyst}</p>
+              <p className="text-xs text-white/50">
+                {s.krolAsystLiczba} {pluralizeAsysty(Number(s.krolAsystLiczba))}
               </p>
-              <p className="font-bebas text-lg text-brand-red leading-tight">
-                {s.krolAsyst}
-              </p>
-              <p className="text-xs text-white/50">{s.krolAsystLiczba} asyst</p>
             </div>
           </div>
         </div>

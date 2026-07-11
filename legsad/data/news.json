@@ -50,5 +50,23 @@
       "Nadchodzący sezon będzie dla niego nowym wyzwaniem. W roli asystenta będzie wspierał trenera Daniela Szymczyka zarówno podczas treningów, jak i meczów, pomagając w przygotowaniu drużyny do rywalizacji w A klasie.",
       "Dla Daniela zmienia się funkcja, ale jedno pozostaje bez zmian – nadal będzie dawał z siebie wszystko dla GKS Legsad Kościelec. Powodzenia w nowej roli!"
     ]
+  },
+  {
+    "id": 4,
+    "slug": "trening-otwarty",
+    "title": "Trening otwarty dla wszystkich",
+    "category": "Klub",
+    "date": "2026-07-11",
+    "image": "trening-otwarty.jpg",
+    "lead": "Zapraszamy na otwarty trening dla wszystkich zainteresowanych.",
+    "body": [
+      "TRENING OTWARTY! ⚽",
+      "Masz ochotę dołączyć do naszego zespołu? To świetna okazja, żeby pokazać swoje umiejętności i poznać drużynę!",
+      "📅 Wtorek",
+      "🕕 Godzina 18:00",
+      "📍 Boisko w Janowicach Dużych",
+      "Zapraszamy wszystkich chętnych – niezależnie od tego, czy szukasz nowego klubu, czy po prostu chcesz sprawdzić się na treningu. Zabierz sprzęt, dobry humor i dołącz do nas!",
+      "Do zobaczenia na boisku!"
+    ]
   }
 ]

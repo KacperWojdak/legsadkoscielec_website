@@ -103,24 +103,32 @@ export default function TerminarzPage() {
                 </div>
 
                 {/* STATUS / LIGA */}
-                <div className="flex items-center justify-center gap-2 md:w-32 md:shrink-0 md:justify-end">
-                  {isFinished && result && (
-                    <span
-                      className={`flex h-6 w-6 items-center justify-center rounded-md font-bebas text-xs ${
-                        result === "W"
-                          ? "bg-green-900/50 text-green-400"
-                          : result === "P"
-                          ? "bg-red-900/50 text-red-400"
-                          : "bg-white/10 text-white/50"
-                      }`}
-                    >
-                      {result}
-                    </span>
-                  )}
-                  <span className="text-[10px] uppercase tracking-widest text-brand-muted">
-                    Kolejka {match.round}
+                <div className="flex items-center justify-center gap-2 md:w-40 md:shrink-0 md:justify-end">
+                {isFinished && result && (
+                  <span
+                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-bebas text-xs ${
+                      result === "W"
+                        ? "bg-green-900/50 text-green-400"
+                        : result === "P"
+                        ? "bg-red-900/50 text-red-400"
+                        : "bg-yellow-900/50 text-yellow-400"
+                    }`}
+                  >
+                    {result}
                   </span>
-                </div>
+                )}
+                <span className="shrink-0 whitespace-nowrap text-[10px] uppercase tracking-widest text-brand-muted">
+                  Kolejka {match.round}
+                </span>
+                {"report" in match && match.report && (
+                  <a
+                    href={`/mecz/${match.id}`}
+                    className="shrink-0 whitespace-nowrap rounded-md border border-brand-red px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                  >
+                    Raport
+                  </a>
+                )}
+              </div>
 
               </div>
             );
