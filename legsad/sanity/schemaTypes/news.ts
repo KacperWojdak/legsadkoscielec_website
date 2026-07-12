@@ -21,7 +21,7 @@ export default defineType({
     defineField({
       name: "publishedAt",
       title: "Data publikacji",
-      type: "datetime",
+      type: "date",
       validation: (Rule) => Rule.required(),
     }),
     defineField({
