@@ -43,9 +43,6 @@ export default async function NewsDetailPage({
 
         <div className="mb-6">
           <div className="mb-3 flex items-center gap-3">
-           {/* <span className="rounded bg-brand-red px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
-              {article.category}
-            </span>*/}
             <span className="text-xs text-brand-muted">{formatDate(article.date)}</span>
           </div>
           <h1 className="font-bebas text-4xl leading-tight text-white md:text-5xl">

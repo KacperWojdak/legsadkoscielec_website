@@ -9,9 +9,9 @@
 
   { "id": 7, "name": "Michał Małek", "position": "Pomocnik", "number": 7, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
   { "id": 8, "name": "Szymon Wolski", "position": "Pomocnik", "number": 8, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
-  { "id": 9, "name": "Maksym Karpov", "position": "Pomocnik", "number": 10, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
-  { "id": 10, "name": "Marcin Pietrakowski", "position": "Pomocnik", "number": 19, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
-
+  { "id": 9, "name": "Marcin Pietrakowski", "position": "Pomocnik", "number": 19, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
+  
+  { "id": 10, "name": "Maksym Karpov", "position": "Napastnik", "number": 10, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
   { "id": 11, "name": "Adrian Wiśniewski", "position": "Napastnik", "number": 11, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } },
   { "id": 12, "name": "Janusz Chabecki", "position": "Napastnik", "number": 17, "photoCard": "szymczyk.png", "photoModal": "matysiak.png", "stats": { "mecze": 0, "gole": 0, "asysty": 0, "minuty": 0, "zolteKartki": 0, "czerwoneKartki": 0 } }
 ]
