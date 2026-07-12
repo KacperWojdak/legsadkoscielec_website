@@ -42,20 +42,25 @@ export default function StatsBar() {
       <div className="mx-auto max-w-5xl">
 
         <div className="flex items-center justify-between border-b border-brand-border px-6 py-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-muted">
-            {season.league}
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+            Statystyki sezonu
           </p>
-          <select
-            value={selectedId}
-            onChange={(e) => setSelectedId(e.target.value)}
-            className="rounded-md border border-brand-border bg-brand-black px-3 py-1.5 text-xs uppercase tracking-wide text-white focus:outline-none focus:border-brand-red cursor-pointer"
-          >
-            {seasons.map((season) => (
-              <option key={season.id} value={season.id}>
-                {season.label}
-              </option>
-            ))}
-          </select>
+          <div className="flex items-center gap-3">
+            <p className="text-xs uppercase tracking-wide text-brand-muted">
+              {season.league}
+            </p>
+            <select
+              value={selectedId}
+              onChange={(e) => setSelectedId(e.target.value)}
+              className="rounded-md border border-brand-border bg-brand-black px-3 py-1.5 text-xs uppercase tracking-wide text-white focus:outline-none focus:border-brand-red cursor-pointer"
+            >
+              {seasons.map((season) => (
+                <option key={season.id} value={season.id}>
+                  {season.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-3 divide-x divide-y divide-brand-border md:grid-cols-6 md:divide-y-0">

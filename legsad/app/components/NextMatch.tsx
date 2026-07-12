@@ -39,7 +39,7 @@ export default function NextMatch() {
         </div>
 
         {/* KARTA MECZU */}
-        <div className="rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-10">
+        <div className="rounded-2xl border border-brand-pink/50 bg-brand-surface p-6 md:p-10">
 
           {/* DATA I LIGA */}
           <div className="mb-6 flex flex-wrap items-center justify-center md:justify-between gap-2">

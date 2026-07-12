@@ -3,6 +3,7 @@
 import { useState } from "react";
 import news from "../../data/news.json";
 import NewsCard from "../components/NewsCard";
+import PageHeaderAccent from "../components/PageHeaderAccent";
 
 const PER_PAGE = 9;
 
@@ -17,8 +18,9 @@ export default function AktualnosciPage() {
   const paginated = sorted.slice((page - 1) * PER_PAGE, page * PER_PAGE);
 
   return (
-    <main className="min-h-screen bg-brand-black pt-32 pb-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-brand-crimson/20 to-brand-black pt-32 pb-20">
+    <PageHeaderAccent />
+      <div className="relative mx-auto max-w-5xl px-6">
 
         <div className="mb-10 text-center">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">

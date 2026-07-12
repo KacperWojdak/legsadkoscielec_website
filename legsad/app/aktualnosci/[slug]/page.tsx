@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import news from "../../../data/news.json";
+import PageHeaderAccent from "@/app/components/PageHeaderAccent";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -21,8 +22,9 @@ export default async function NewsDetailPage({
   if (!article) notFound();
 
   return (
-    <main className="min-h-screen bg-brand-black pt-32 pb-20">
-      <div className="mx-auto max-w-3xl px-6">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-brand-crimson/20 to-brand-black pt-32 pb-20">
+    <PageHeaderAccent />
+      <div className="relative mx-auto max-w-5xl px-6">
 
         <Link
           href="/aktualnosci"
@@ -31,7 +33,7 @@ export default async function NewsDetailPage({
           ← Wróć do aktualności
         </Link>
 
-        <div className="mb-6 aspect-video w-full overflow-hidden rounded-2xl border border-brand-border">
+        <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
           <img
             src={`/images/news/${article.image}`}
             alt={article.title}
@@ -53,7 +55,7 @@ export default async function NewsDetailPage({
 
         <div className="flex flex-col gap-4 border-t border-brand-border pt-6">
           {article.body.map((paragraph, i) => (
-            <p key={i} className="text-sm leading-relaxed text-white/70">
+            <p key={i} className="text-base leading-relaxed text-white/70">
               {paragraph}
             </p>
           ))}

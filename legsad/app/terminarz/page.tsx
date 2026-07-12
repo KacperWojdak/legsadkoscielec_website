@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import matches from "../../data/matches.json";
+import PageHeaderAccent from "../components/PageHeaderAccent";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -38,8 +39,9 @@ export default function TerminarzPage() {
   });
 
   return (
-    <main className="min-h-screen bg-brand-black pt-32 pb-20">
-      <div className="mx-auto max-w-5xl px-6">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-brand-crimson/15 to-brand-black pt-32 pb-20">
+    <PageHeaderAccent />
+      <div className="relative mx-auto max-w-5xl px-6">
 
         {/* NAGŁÓWEK */}
         <div className="mb-10 text-center">
@@ -78,16 +80,16 @@ export default function TerminarzPage() {
 
         {/* LISTA MECZÓW */}
         {filtered.length > 0 ? (
-          <div className="flex flex-col divide-y divide-brand-border overflow-hidden rounded-2xl border border-brand-border bg-brand-surface">
+          <div className="flex flex-col divide-y divide-white/15 overflow-hidden rounded-2xl border border-white/15 bg-brand-surface">
             {filtered.map((match) => {
               const result = getResult(match);
               const isFinished = match.status === "finished";
 
               return (
                 <div
-                  key={match.id}
-                  className="flex flex-col gap-3 px-5 py-4 md:flex-row md:items-center md:gap-4"
-                >
+                key={match.id}
+                className="flex flex-col gap-3 px-6 py-5 md:flex-row md:items-center md:gap-4"
+              >
 
                   {/* DATA */}
                   <div className="flex items-center gap-3 md:w-40 shrink-0">
@@ -107,9 +109,9 @@ export default function TerminarzPage() {
                         {match.home}
                       </span>
                       {match.homeIsLegsad ? (
-                        <img src="/images/logo-pink.png" alt="" className="h-6 w-6 shrink-0 object-contain" />
+                        <img src="/images/logo-pink.png" alt="" className="h-7 w-7 shrink-0 object-contain" />
                       ) : (
-                        <img src={`/images/clubs/${match.opponentLogo}`} alt="" className="h-6 w-6 shrink-0 object-contain" />
+                        <img src={`/images/clubs/${match.opponentLogo}`} alt="" className="h-7 w-7 shrink-0 object-contain" />
                       )}
                     </div>
 
@@ -125,9 +127,9 @@ export default function TerminarzPage() {
 
                     <div className="flex flex-1 items-center gap-2">
                       {!match.homeIsLegsad ? (
-                        <img src="/images/logo-pink.png" alt="" className="h-6 w-6 shrink-0 object-contain" />
+                        <img src="/images/logo-pink.png" alt="" className="h-7 w-7 shrink-0 object-contain" />
                       ) : (
-                        <img src={`/images/clubs/${match.opponentLogo}`} alt="" className="h-6 w-6 shrink-0 object-contain" />
+                        <img src={`/images/clubs/${match.opponentLogo}`} alt="" className="h-7 w-7 shrink-0 object-contain" />
                       )}
                       <span className={`text-sm font-medium ${!match.homeIsLegsad ? "text-white" : "text-white/60"}`}>
                         {match.away}

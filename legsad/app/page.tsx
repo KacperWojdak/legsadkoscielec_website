@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative overflow-hidden bg-linear-to-b from-brand-black via-brand-crimson/10 to-brand-black">
       <Hero />
       <StatsBar />
       <NextMatch />

@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { use, useState } from "react";
 import { notFound } from "next/navigation";
 import matches from "../../../data/matches.json";
+import players from "../../../data/players.json";
+import PlayerModal from "../../components/PlayerModal";
+import { computePlayerStats } from "../../../lib/stats";
+import PageHeaderAccent from "@/app/components/PageHeaderAccent";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -28,19 +35,21 @@ type MatchReport = {
     home: { out: string; in: string; minute: number }[];
     away: { out: string; in: string; minute: number }[];
   };
-  lineupHome: { number: number; name: string; }[];
-  lineupAway: { number: number; name: string; }[];
+  lineupHome: { number: number; name: string }[];
+  lineupAway: { number: number; name: string }[];
   coachHome: string;
   coachAway: string;
 };
 
-export default async function MeczPage({
+export default function MeczPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const { id } = use(params);
   const match = matches.find((m) => m.id === Number(id));
+
+  const [selectedPlayerName, setSelectedPlayerName] = useState<string | null>(null);
 
   if (!match || match.status !== "finished" || !("report" in match)) {
     notFound();
@@ -50,9 +59,28 @@ export default async function MeczPage({
   const home = match.homeIsLegsad ? "Legsad Kościelec" : match.home;
   const away = match.homeIsLegsad ? match.away : "Legsad Kościelec";
 
+  const allPlayerStats = computePlayerStats();
+  const selectedPlayer = players.find((p) => p.name === selectedPlayerName);
+
+  const renderName = (name: string, isLegsad: boolean) => {
+    const isKnownPlayer = players.some((p) => p.name === name);
+    if (isLegsad && isKnownPlayer) {
+      return (
+        <button
+          onClick={() => setSelectedPlayerName(name)}
+          className="cursor-pointer text-white transition-colors hover:text-brand-red"
+        >
+          {name}
+        </button>
+      );
+    }
+    return <span className={isLegsad ? "text-white" : "text-white/60"}>{name}</span>;
+  };
+
   return (
-    <main className="min-h-screen bg-brand-black pt-32 pb-20">
-      <div className="mx-auto max-w-4xl px-6">
+    <main className="relative min-h-screen overflow-hidden bg-brand-black pt-32 pb-20">
+    <PageHeaderAccent />
+      <div className="mx-auto max-w-5xl px-6">
 
         <Link
           href="/terminarz"
@@ -70,9 +98,9 @@ export default async function MeczPage({
             </span>
           </div>
 
-        <p className="mb-6 text-center text-sm text-white/50 capitalize">
+          <p className="mb-6 text-center text-sm text-white/50 capitalize">
             {formatDate(match.date)} · {match.time}
-        </p>
+          </p>
 
           <div className="flex items-center justify-between gap-4">
 
@@ -113,72 +141,81 @@ export default async function MeczPage({
 
         {/* STRZELCY */}
         <div className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6">
-        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
             Strzelcy
-        </p>
-        <div className="flex flex-col gap-3">
+          </p>
+          <div className="flex flex-col gap-3">
             {[
-            ...report.scorers.home.map((g) => ({ ...g, team: home, isLegsad: match.homeIsLegsad })),
-            ...report.scorers.away.map((g) => ({ ...g, team: away, isLegsad: !match.homeIsLegsad })),
+              ...report.scorers.home.map((g) => ({ ...g, team: home, isLegsad: match.homeIsLegsad })),
+              ...report.scorers.away.map((g) => ({ ...g, team: away, isLegsad: !match.homeIsLegsad })),
             ]
-            .sort((a, b) => a.minute - b.minute)
-            .map((g, i) => (
+              .sort((a, b) => a.minute - b.minute)
+              .map((g, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
-                <span className="shrink-0">⚽</span>
-                <div className="min-w-0 flex-1">
-                    <span className={g.isLegsad ? "text-white" : "text-white/60"}>{g.name}</span>
+                  <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
+                  <span className="shrink-0">⚽</span>
+                  <div className="min-w-0 flex-1">
+                    {renderName(g.name, g.isLegsad)}
                     {g.assist && (
-                    <span className="text-brand-muted"> ({g.assist})</span>
+                      <span className="text-brand-muted">
+                        {" ("}
+                        <button
+                          onClick={() => setSelectedPlayerName(g.assist)}
+                          className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
+                        >
+                          {g.assist}
+                        </button>
+                        {")"}
+                      </span>
                     )}
-                </div>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
+                  </div>
+                  <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
                     {g.team}
-                </span>
+                  </span>
                 </div>
-            ))}
+              ))}
             {report.scorers.home.length === 0 && report.scorers.away.length === 0 && (
-            <span className="text-center text-sm text-brand-muted">Brak strzelców</span>
+              <span className="text-center text-sm text-brand-muted">Brak strzelców</span>
             )}
-        </div>
+          </div>
         </div>
 
         {/* KARTKI */}
         <div className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6">
-        <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+          <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
             Kartki
-        </p>
-        <div className="flex flex-col gap-3">
+          </p>
+          <div className="flex flex-col gap-3">
             {[
-            ...report.yellowCards.home.map((c) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
-            ...report.yellowCards.away.map((c) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "yellow" as const })),
-            ...report.redCards.home.map((c) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "red" as const })),
-            ...report.redCards.away.map((c) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "red" as const })),
+              ...report.yellowCards.home.map((c) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
+              ...report.yellowCards.away.map((c) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "yellow" as const })),
+              ...report.redCards.home.map((c) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "red" as const })),
+              ...report.redCards.away.map((c) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "red" as const })),
             ]
-            .sort((a, b) => a.minute - b.minute)
-            .map((c, i) => (
+              .sort((a, b) => a.minute - b.minute)
+              .map((c, i) => (
                 <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="w-8 shrink-0 text-right text-brand-muted">{c.minute}&apos;</span>
-                <span
+                  <span className="w-8 shrink-0 text-right text-brand-muted">{c.minute}&apos;</span>
+                  <span
                     className={`h-3.5 w-3 shrink-0 rounded-sm ${
-                    c.type === "yellow" ? "bg-yellow-400" : "bg-red-500"
+                      c.type === "yellow" ? "bg-yellow-400" : "bg-red-500"
                     }`}
-                />
-                <span className={`min-w-0 flex-1 ${c.isLegsad ? "text-white" : "text-white/60"}`}>
-                    {c.name}
-                </span>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
+                  />
+                  <div className="min-w-0 flex-1">
+                    {renderName(c.name, c.isLegsad)}
+                  </div>
+                  <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
                     {c.team}
-                </span>
+                  </span>
                 </div>
-            ))}
+              ))}
             {report.yellowCards.home.length === 0 &&
-            report.yellowCards.away.length === 0 &&
-            report.redCards.home.length === 0 &&
-            report.redCards.away.length === 0 && (
+              report.yellowCards.away.length === 0 &&
+              report.redCards.home.length === 0 &&
+              report.redCards.away.length === 0 && (
                 <span className="text-center text-sm text-brand-muted">Brak kartek</span>
-            )}
-        </div>
+              )}
+          </div>
         </div>
 
         {/* SKŁADY */}
@@ -192,9 +229,9 @@ export default async function MeczPage({
               <p className="mb-3 font-bebas text-lg text-white">{home}</p>
               <div className="flex flex-col gap-1.5">
                 {report.lineupHome.map((p, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm text-white/70">
+                  <div key={i} className="flex items-center gap-3 text-sm">
                     <span className="w-6 text-brand-red">{p.number}</span>
-                    <span>{p.name}</span>
+                    {renderName(p.name, match.homeIsLegsad)}
                   </div>
                 ))}
               </div>
@@ -205,9 +242,9 @@ export default async function MeczPage({
               <p className="mb-3 font-bebas text-lg text-white">{away}</p>
               <div className="flex flex-col gap-1.5">
                 {report.lineupAway.map((p, i) => (
-                  <div key={i} className="flex items-center gap-3 text-sm text-white/70">
+                  <div key={i} className="flex items-center gap-3 text-sm">
                     <span className="w-6 text-brand-red">{p.number}</span>
-                    <span>{p.name}</span>
+                    {renderName(p.name, !match.homeIsLegsad)}
                   </div>
                 ))}
               </div>
@@ -219,40 +256,60 @@ export default async function MeczPage({
 
         {/* ZMIANY */}
         {report.substitutions &&
-        (report.substitutions.home.length > 0 || report.substitutions.away.length > 0) && (
+          (report.substitutions.home.length > 0 || report.substitutions.away.length > 0) && (
             <div className="rounded-2xl border border-brand-border bg-brand-surface p-6">
-            <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+              <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
                 Zmiany
-            </p>
-            <div className="flex flex-col gap-4">
+              </p>
+              <div className="flex flex-col gap-4">
                 {[
-                ...report.substitutions.home.map((s) => ({ ...s, team: home, isLegsad: match.homeIsLegsad })),
-                ...report.substitutions.away.map((s) => ({ ...s, team: away, isLegsad: !match.homeIsLegsad })),
+                  ...report.substitutions.home.map((s) => ({ ...s, team: home, isLegsad: match.homeIsLegsad })),
+                  ...report.substitutions.away.map((s) => ({ ...s, team: away, isLegsad: !match.homeIsLegsad })),
                 ]
-                .sort((a, b) => a.minute - b.minute)
-                .map((s, i) => (
+                  .sort((a, b) => a.minute - b.minute)
+                  .map((s, i) => (
                     <div key={i} className="flex items-center gap-3 text-sm">
-                    <span className="w-8 shrink-0 text-right text-brand-muted">{s.minute}&apos;</span>
-                    <div className="min-w-0 flex-1">
+                      <span className="w-8 shrink-0 text-right text-brand-muted">{s.minute}&apos;</span>
+                      <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                        <span className="shrink-0 text-green-400">↑</span>
-                        <span className={s.isLegsad ? "text-white" : "text-white/60"}>{s.in}</span>
+                          <span className="shrink-0 text-green-400">↑</span>
+                          {renderName(s.in, s.isLegsad)}
                         </div>
                         <div className="mt-0.5 flex items-center gap-2">
-                        <span className="shrink-0 text-red-500">↓</span>
-                        <span className="text-brand-muted">{s.out}</span>
+                          <span className="shrink-0 text-red-500">↓</span>
+                          <span className="text-brand-muted">{s.out}</span>
                         </div>
-                    </div>
-                    <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
+                      </div>
+                      <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
                         {s.team}
-                    </span>
+                      </span>
                     </div>
-                ))}
+                  ))}
+              </div>
             </div>
-            </div>
-        )}
+          )}
 
       </div>
+
+      {selectedPlayer && (
+        <PlayerModal
+          player={selectedPlayer}
+          stats={
+            allPlayerStats[selectedPlayer.name] ?? {
+              name: selectedPlayer.name,
+              mecze: 0,
+              gole: 0,
+              asysty: 0,
+              minuty: 0,
+              zolteKartki: 0,
+              czerwoneKartki: 0,
+              czysteKonta: 0,
+            }
+          }
+          onClose={() => setSelectedPlayerName(null)}
+        />
+      )}
+
     </main>
   );
 }

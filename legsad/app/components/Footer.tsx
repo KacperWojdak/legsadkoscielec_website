@@ -16,11 +16,11 @@ export default function Footer() {
                 className="h-10 w-10 object-contain"
               />
               <span className="font-bebas text-lg tracking-wider text-white">
-                Legsad Kościelec
+                GKS Legsad Kościelec
               </span>
             </div>
             <p className="text-xs leading-relaxed text-brand-muted">
-              Oficjalna strona GKS Legsad Kościelec.
+              Zapraszamy na nasze social media.
             </p>
             <div className="flex flex-wrap gap-3">
             {[

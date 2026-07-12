@@ -1,3 +1,5 @@
+import PageHeaderAccent from "../components/PageHeaderAccent";
+
 const zarzad = [
   { name: "Jarosław Małysa", role: "Prezes" },
   { name: "Dawid Kromka", role: "Wiceprezes" },
@@ -9,8 +11,9 @@ const zarzad = [
 
 export default function OKlubiePage() {
   return (
-    <main className="min-h-screen bg-brand-black pt-32 pb-20">
-      <div className="mx-auto max-w-4xl px-6">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-brand-black to-brand-crimson/20 pt-32 pb-20">
+        <PageHeaderAccent />
+          <div className="relative mx-auto max-w-5xl px-6">
 
         {/* NAGŁÓWEK */}
         <div className="mb-10 text-center">

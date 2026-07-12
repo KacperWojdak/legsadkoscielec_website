@@ -9,20 +9,19 @@ export default function Sponsors() {
       <div className="mx-auto max-w-5xl px-6">
 
         {/* NAGŁÓWEK */}
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-px w-8 bg-brand-border" />
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
-              Partnerzy klubu
-            </span>
-          </div>
-          <a
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-brand-border" />
+          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+            Partnerzy klubu
+          </span>
+          <div className="h-px flex-1 bg-brand-border" />
+        </div>
+          {/*<a
             href="mailto:gkslegsadkoscielec@wp.pl?subject=Sponsoring GKS Legsad Kościelec"
             className="rounded-lg border border-brand-red px-4 py-2 text-xs font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
           >
             Zostań sponsorem
-          </a>
-        </div>
+          </a> */}
 
         {/* SPONSOR GŁÓWNY — wyróżniony */}
         {featured && (
