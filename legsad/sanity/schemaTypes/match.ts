@@ -193,6 +193,20 @@ export default defineType({
       hidden: ({ document }) => document?.status !== "finished",
     }),
     defineField({
+      name: "reportBenchHome",
+      title: "Ławka rezerwowych — gospodarz",
+      type: "array",
+      of: [lineupPlayerField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "reportBenchAway",
+      title: "Ławka rezerwowych — gość",
+      type: "array",
+      of: [lineupPlayerField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
       name: "reportSubstitutionsHome",
       title: "Zmiany — gospodarz",
       type: "array",

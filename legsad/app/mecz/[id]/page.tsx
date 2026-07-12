@@ -37,6 +37,8 @@ type MatchReport = {
   };
   lineupHome: { number: number; name: string }[];
   lineupAway: { number: number; name: string }[];
+  benchHome?: { number: number; name: string }[];
+  benchAway?: { number: number; name: string }[];
   coachHome: string;
   coachAway: string;
 };
@@ -235,6 +237,23 @@ export default function MeczPage({
                   </div>
                 ))}
               </div>
+
+              {report.benchHome && report.benchHome.length > 0 && (
+                <>
+                  <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
+                    Ławka rezerwowych
+                  </p>
+                  <div className="flex flex-col gap-1.5">
+                    {report.benchHome.map((p, i) => (
+                      <div key={i} className="flex items-center gap-3 text-sm text-white/40">
+                        <span className="w-6 text-brand-muted">{p.number}</span>
+                        <span>{p.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
               <p className="mt-3 text-xs text-brand-muted">Trener: {report.coachHome}</p>
             </div>
 
@@ -248,6 +267,23 @@ export default function MeczPage({
                   </div>
                 ))}
               </div>
+
+              {report.benchAway && report.benchAway.length > 0 && (
+                <>
+                  <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
+                    Ławka rezerwowych
+                  </p>
+                  <div className="flex flex-col gap-1.5">
+                    {report.benchAway.map((p, i) => (
+                      <div key={i} className="flex items-center gap-3 text-sm text-white/40">
+                        <span className="w-6 text-brand-muted">{p.number}</span>
+                        <span>{p.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
               <p className="mt-3 text-xs text-brand-muted">Trener: {report.coachAway}</p>
             </div>
 

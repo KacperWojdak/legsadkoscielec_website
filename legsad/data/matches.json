@@ -44,6 +44,13 @@
       { "number": 1, "name": "Jan Nowak" },
       { "number": 6, "name": "Adam Kowalczyk" }
     ],
+    "benchHome": [
+    { "number": 12, "name": "Jan Kowalski" },
+    { "number": 22, "name": "Mateusz Miazga" }
+    ],
+    "benchAway": [
+      { "number": 13, "name": "Adam Nowak" }
+    ],
     "substitutions": {
     "home": [
       { "out": "Bartłomiej Krasowski", "in": "Mateusz Miazga", "minute": 63 }
