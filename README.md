@@ -1,6 +1,6 @@
 # GKS Legsad Kościelec — oficjalna strona klubu
 
-Oficjalna strona internetowa GKS Legsad Kościelec — klubu piłkarskiego grającego w Klasie A (Okręg Legnicki, gr. 3). Projekt w pełni od podstaw: od statycznego makietowania po headless CMS z automatyczną rewalidacją treści.
+Oficjalna strona internetowa GKS Legsad Kościelec — klubu piłkarskiego grającego obecnie w Klasie A (Okręg Legnicki, gr. 3). Projekt w pełni od podstaw: od statycznego makietowania po headless CMS z automatyczną rewalidacją treści.
 
 ![Hero](./readme/hero.jpg)
 
