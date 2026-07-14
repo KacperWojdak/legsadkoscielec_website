@@ -1,227 +1,163 @@
-# GKS Legsad Kościelec — Project Brief
-### Wstępne podsumowanie projektu · lipiec 2026
+# GKS Legsad Kościelec — oficjalna strona klubu
+
+Oficjalna strona internetowa GKS Legsad Kościelec — klubu piłkarskiego grającego w Klasie A (Okręg Legnicki, gr. 3). Projekt w pełni od podstaw: od statycznego makietowania po headless CMS z automatyczną rewalidacją treści.
+
+![Hero](./readme/hero.jpg)
 
 ---
 
-## 1. Cel projektu
+## 🎯 O projekcie
 
-Stworzenie oficjalnej strony internetowej dla GKS Legsad Kościelec — klubu piłkarskiego grającego w Klasie A (Okręg Legnicki). Strona ma pełnić dwie główne funkcje:
+Strona łączy dwie role: **informacyjną** (wyniki, terminarz, składy, statystyki na żywo) i **promocyjną** (prezentacja klubu dla sponsorów i potencjalnych zawodników). Całość zaprojektowana i zaimplementowana samodzielnie — od pierwszego makietowania w Tailwindzie, przez projekt schematów danych, aż po pełną migrację na Sanity CMS z webhookami rewalidującymi treść w czasie rzeczywistym.
 
-- **Informacyjną** — aktualne wyniki, terminarz, tabela, aktualności dla kibiców i środowiska klubowego
-- **Promocyjną** — prezentacja klubu na zewnątrz w celu pozyskiwania nowych zawodników i sponsorów
-
-Strona nie obejmuje na tym etapie e-commerce (sklep, bilety).
+Kluczowe założenie projektowe: **kierownik klubu ma samodzielnie zarządzać całą treścią** (wyniki, składy, aktualności, sponsorzy) bez znajomości kodu, przez prosty panel CMS.
 
 ---
 
-## 2. Identyfikacja wizualna
+## 📸 Zrzuty ekranu
 
-| Element | Szczegół |
-|---|---|
-| Nazwa klubu | GKS Legsad Kościelec |
-| Poprzednia nazwa | Błękitni Kościelec |
-| Barwy | Głęboka czerwień / bordo, czerń, biel |
-| Logo | Okrągła tarcza z motywem winogron/maliny, korona, napis „Legsad Kościelec" · kolor różowy/malinowy na białym tle |
-| Klimat graficzny | Dark theme, dramatyczny, plakatowy — inspirowany grafikami meczowymi z FB |
-| Typografia | Bebas Neue (nagłówki, wyniki) + Inter (body) |
-| Paleta kolorów | `#0d0d0d` tło · `#c0132a` akcent czerwony · `#ffffff` biel · `#e91e63` akcent różowy (logo) |
+<table>
+<tr>
+<td width="50%">
+
+**Strona główna — Hero**
+![Hero](./readme/hero.jpg)
+
+</td>
+<td width="50%">
+
+**Statystyki sezonu (dane liczone automatycznie)**
+![Statystyki](./readme/statsbar.jpg)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**Terminarz z wyszukiwarką**
+![Terminarz](./readme/terminarz.jpg)
+
+</td>
+<td width="50%">
+
+**Raport meczowy**
+![Raport](./readme/raport.jpg)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**Skład drużyny**
+![Kadra](./readme/naszakadra.jpg)
+
+</td>
+<td width="50%">
+
+**Modal zawodnika ze statystykami**
+![Modal zawodnika](./readme/playermodal.jpg)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**Panel Sanity Studio (CMS)**
+![Sanity Studio](./readme/studio.jpg)
+
+</td>
+<td width="50%">
+
+**Widok mobilny**
+<p align="center">
+<img src="./readme/mobileview1.jpg" width="45%" />
+<img src="./readme/mobileview2.jpg" width="45%" />
+</p>
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 3. Stack technologiczny
+## ✨ Funkcjonalności
+
+- **Statystyki sezonu liczone automatycznie** — gole, asysty, minuty, kartki i klasyfikacja króla strzelców/asyst wyliczane na żywo na podstawie raportów meczowych, z pełną obsługą remisów (ex aequo) i poprawną polską odmianą liczebników
+- **Szczegółowe raporty meczowe** — strzelcy z asystentami, żółte/czerwone kartki (w tym wizualne oznaczenie czerwonej z dwóch żółtych, jak na Flashscore), składy wyjściowe, ławka rezerwowych, zmiany zawodników z minutą wejścia/zejścia
+- **Precyzyjne liczenie minut gry** — uwzględnia zmiany oraz czerwone kartki (zawodnik z czerwoną w 24' ma policzone tylko 24 minuty, nie 90)
+- **Interaktywne karty zawodników** — kliknięcie nazwiska (w składzie, raporcie czy na liście drużyny) otwiera modal z pełnymi statystykami sezonowymi tego zawodnika
+- **Terminarz z wyszukiwarką** — filtrowanie meczów po nazwie drużyny w czasie rzeczywistym
+- **Wybór sezonu** — przełączanie między sezonami z osobną logiką dla sezonu bieżącego (dane liczone automatycznie) i historycznego (dane archiwalne wpisane ręcznie)
+- **Aktualności z rich-textem** — pełny edytor Portable Text w CMS, obsługa zdjęć w treści artykułu
+- **Automatyczna rewalidacja treści** — webhook Sanity → Next.js API Route → natychmiastowe odświeżenie stron po publikacji zmian w CMS
+- **Płynne animacje** — kaskadowe fade-in przy scrollu (Motion/Framer Motion), animowane wejście/wyjście modali
+- **W pełni responsywne** — dedykowane layouty mobile dla list statystyk meczowych (chronologiczna lista z etykietą drużyny zamiast układu dwukolumnowego)
+- **SEO i Open Graph** — dynamiczna metadata dla każdej podstrony, wygenerowany sitemap.xml, skonfigurowany robots.txt
+
+---
+
+## 🛠️ Stack technologiczny
 
 | Warstwa | Technologia |
 |---|---|
-| Framework | Next.js 15 (App Router) |
+| Framework | Next.js 15 (App Router, Server Components) |
 | Język | TypeScript |
 | Stylowanie | Tailwind CSS v4 |
-| Animacje | Framer Motion |
-| CMS | Sanity (headless, darmowy tier) |
-| Deployment | Vercel (darmowy tier) |
-| Domena | legsadkoscielec.pl (do zakupu) |
+| Animacje | Motion (Framer Motion) |
+| CMS | Sanity (headless, embedded Studio) |
+| Zapytania danych | GROQ |
+| Rich text | Portable Text |
+| Hosting | Netlify |
+| Wersjonowanie | Git / GitHub |
 
 ---
 
-## 4. Architektura stron
+## 🏗️ Architektura
 
-```
-legsadkoscielec.pl/
-├── /                     → Strona główna
-├── /aktualnosci          → Lista wszystkich newsów
-├── /aktualnosci/[slug]   → Pojedynczy news
-├── /terminarz            → Terminarz + wyniki sezonu
-├── /druzyna              → Skład (placeholder na start)
-├── /galeria              → Galeria zdjęć (placeholder na start)
-├── /sponsorzy            → Partnerzy klubu
-├── /dolacz               → Rekrutacja zawodników
-└── /kontakt              → Dane kontaktowe + formularz
-```
+**Wzorzec Server/Client Components** — strony pobierają dane z Sanity po stronie serwera (Server Components), a interaktywność (wyszukiwarki, modale, dropdowny) jest wydzielona do osobnych Client Components, które dostają gotowe dane jako propsy. Dzięki temu żadne zapytanie do CMS-a nie odbywa się po stronie przeglądarki.
+
+**Logika biznesowa oddzielona od widoku** — cała matematyka statystyk (agregacja goli, asyst, minut z uwzględnieniem zmian i kartek, wyłanianie króla strzelców z obsługą remisów) żyje w `lib/stats.ts` jako czyste funkcje, niezależne od źródła danych czy warstwy prezentacji.
+
+**Content model w Sanity** — siedem powiązanych ze sobą typów dokumentów (`season`, `match`, `club`, `player`, `staff`, `sponsor`, `news`), z referencjami między nimi (np. mecz odwołuje się do sezonu i klubu przeciwnika przez `reference`, nie przez zdublowany tekst).
+
+**Rewalidacja on-demand** — zamiast czekać na czasowe odświeżenie cache, Sanity wysyła webhook przy każdej publikacji, który trafia do dedykowanego API Route (`/api/revalidate`) i natychmiast czyści cache konkretnych, dotkniętych zmianą stron.
 
 ---
 
-## 5. Sekcje strony głównej
+## 📁 Struktura projektu
 
-**Navbar** — floating, nierzylepki do góry (lekko odsunięty od krawędzi), zamknięty w zaokrąglonym prostokącie z `backdrop-filter: blur`, logo + linki nawigacyjne + CTA „Dołącz do nas"
-
-**Hero** — pełna szerokość, dark background, duży claim typograficzny (Bebas Neue), herb klubu po prawej, dwa przyciski: „Najbliższy mecz" i „Historia klubu"
-
-**Pasek ligowy** — pojedyncza linia pod hero: „Klasa A · Okręg Legnicki · Sezon 2026/27"
-
-**Statystyki sezonu** — 5 kafli: Mecze / Wygrane / Gole / Miejsce / Zawodnicy — dane z Sanity
-
-**Najbliższy mecz** — karta z herbami obu drużyn, wynik VS, data, godzina, boisko — dane z Sanity
-
-**Ostatni wynik** — karta z wynikiem zakończonego meczu i strzelcami — dane z Sanity
-
-**Aktualności** — 3 karty z najnowszych wpisów z Sanity (tytuł, miniatura, data)
-
-**Ostatnie wyniki** — lista 3–5 ostatnich meczów z wynikami (W/R/P) — dane z Sanity
-
-**Sponsorzy** — logotypy lub nazwy partnerów + przycisk „Zostań sponsorem" (mailto)
-
-**Footer** — nazwa klubu, copyright, linki do FB i Instagrama, adres e-mail
-
----
-
-## 6. Zarządzanie treścią (Sanity CMS)
-
-Panel dostępny pod adresem `legsadkoscielec.sanity.studio` — kierownik drużyny loguje się przez przeglądarkę bez znajomości kodu.
-
-### Schematy danych w Sanity:
-
-**`match`** (mecz)
 ```
-- date: datetime
-- opponent: string
-- homeAway: 'home' | 'away'
-- venue: string
-- scoreUs: number (null jeśli nierozegrany)
-- scoreThem: number (null jeśli nierozegrany)
-- goalscorers: array of string
-- status: 'upcoming' | 'finished'
-```
-
-**`news`** (aktualność)
-```
-- title: string
-- slug: slug
-- publishedAt: datetime
-- mainImage: image
-- body: block content (rich text)
-- category: 'wynik' | 'aktualnosci' | 'transfery' | 'inne'
-```
-
-**`sponsor`** (partner)
-```
-- name: string
-- logo: image (opcjonalne)
-- url: string (opcjonalne)
-- tier: 'główny' | 'partner' | 'przyjaciel'
-```
-
-**`player`** (zawodnik — na przyszłość)
-```
-- name: string
-- number: number
-- position: string
-- photo: image
+legsad/
+├── app/
+│   ├── components/        # Współdzielone komponenty (Navbar, Footer, PlayerModal...)
+│   ├── mecz/[id]/          # Raport meczowy
+│   ├── terminarz/          # Terminarz z wyszukiwarką
+│   ├── druzyna/             # Skład drużyny
+│   ├── aktualnosci/         # Lista i szczegóły newsów
+│   ├── o-klubie/            # Informacje o klubie
+│   ├── api/revalidate/      # Endpoint webhooka Sanity
+│   ├── sitemap.ts
+│   └── robots.ts
+├── lib/
+│   ├── stats.ts             # Logika liczenia statystyk zawodników i sezonu
+│   ├── queries.ts           # Zapytania GROQ do Sanity
+│   └── sanity.ts            # Konfiguracja klienta Sanity
+├── sanity/
+│   └── schemaTypes/         # Schematy dokumentów CMS
+└── public/                  # Statyczne zasoby (logo, efekty graficzne)
 ```
 
 ---
 
-## 7. Dane — źródła i strategia
+## 🗺️ Status projektu
 
-| Dane | Źródło | Sposób |
-|---|---|---|
-| Wyniki meczów | Sanity CMS | Kierownik wpisuje ręcznie po meczu |
-| Terminarz | Sanity CMS | Wpisywany na początku rundy |
-| Tabela ligowa | Sanity CMS | Aktualizowana raz w tygodniu |
-| Aktualności | Sanity CMS | Kierownik/admin wpisuje dowolnie |
-| Skład | Sanity CMS | Aktualizowany przy transferach |
-| Sponsorzy | Sanity CMS | Aktualizowane rzadko |
-| Zdjęcia | Sanity CMS (Assets) | Upload przez panel |
+**Gotowe:**
+- Pełna migracja na Sanity CMS (wszystkie dane dynamiczne)
+- Kompletny system raportów meczowych z precyzyjnym liczeniem statystyk
+- Responsywność, animacje, SEO
+- Automatyczna rewalidacja treści przez webhooki
 
-**Dlaczego nie zewnętrzne API:**
-- laczynaspilka.pl (PZPN) — API istnieje, ale nie jest publiczne (403 Forbidden, whitelist hostów)
-- 90minut.pl — brak API, stary HTML, dane często nieaktualne dla niższych lig
-- Sofascore — pokrywa do IV ligi, Klasa A poza zasięgiem
-
----
-
-## 8. Workflow dla kierownika drużyny
-
-Po meczu kierownik wchodzi na `legsadkoscielec.sanity.studio`, loguje się i:
-
-1. Otwiera dokument meczu → wpisuje wynik i strzelców (2 minuty)
-2. Opcjonalnie dodaje aktualność z opisem meczu + zdjęcie (5 minut)
-3. Klika „Publish" → strona aktualizuje się automatycznie (ISR Vercel)
-
-Nie wymaga znajomości kodu, GitHuba ani żadnych narzędzi deweloperskich.
-
----
-
-## 9. Hosting i domena
-
-| Usługa | Plan | Koszt |
-|---|---|---|
-| Vercel | Hobby (darmowy) | 0 zł/mies. |
-| Sanity | Free tier (3 users, 10GB) | 0 zł/mies. |
-| Domena legsadkoscielec.pl | Rejestracja roczna | ~50–80 zł/rok |
-
-Jedyny koszt to domena. Całość hostingu i CMS — bezpłatna.
-
----
-
-## 10. Fazy realizacji
-
-### Faza 1 — Fundament
-- Inicjalizacja projektu Next.js + Tailwind v4 + TypeScript
-- Konfiguracja Sanity (projekt, schematy, studio)
-- Navbar (floating, blur, responsive)
-- Strona główna z komponentami statycznymi
-
-### Faza 2 — Integracja danych
-- Podpięcie Sanity do Next.js (GROQ queries)
-- Dynamiczne komponenty: statystyki, najbliższy mecz, wyniki, aktualności
-- ISR (Incremental Static Regeneration) dla wydajności
-
-### Faza 3 — Podstrony
-- `/aktualnosci` + `/aktualnosci/[slug]`
-- `/terminarz`
-- `/sponsorzy` + `/dolacz` + `/kontakt`
-- Formularz kontaktowy (EmailJS lub Resend)
-
-### Faza 4 — Dopracowanie
-- Responsywność mobile
-- Animacje Framer Motion (page transitions, scroll reveals)
-- SEO (metadata, Open Graph, sitemap.xml)
-- Rejestracja w Google Search Console
-
-### Faza 5 — Launch
-- Konfiguracja domeny legsadkoscielec.pl na Vercel
-- Instrukcja obsługi Sanity dla kierownika
-- Przekazanie projektu
-
----
-
-## 11. Co pozostaje poza zakresem (na razie)
-
-- Sklep internetowy / bilety
-- System komentarzy
-- Logowanie użytkowników / strefa kibica
-- Transmisje live
-- Aplikacja mobilna
-- Statystyki zawodników z zewnętrznych źródeł
-
----
-
-## 12. Otwarte decyzje
-
-- [ ] Potwierdzenie domeny (legsadkoscielec.pl czy inna?)
-- [ ] Czy galeria od razu ma działać, czy zostaje jako placeholder?
-- [ ] Kto będzie administratorem Sanity poza kierownikiem?
-- [ ] Czy potrzebny jest formularz rekrutacyjny z wysyłką maila?
-
----
-
-*Dokument wstępny · do weryfikacji przed rozpoczęciem implementacji*
+**W planach:**
+- Referencje do zawodników w raportach meczowych (zamiast wolnego tekstu) — eliminacja literówek, dropdown w CMS
+- Dynamicznie generowane obrazy Open Graph dla poszczególnych meczów
+- Docelowa domena i migracja hostingu
