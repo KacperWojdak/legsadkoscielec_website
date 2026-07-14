@@ -1,14 +1,15 @@
 "use client";
 
 import type { PlayerStats } from "../../lib/stats";
+import { urlFor } from "../../lib/sanity";
 
 type Player = {
-  id: number;
+  _id: string;
   name: string;
   position: string;
   number: number;
-  photoCard: string;
-  photoModal: string;
+  photoCard?: any;
+  photoModal?: any;
 };
 
 export default function PlayerModal({
@@ -21,6 +22,9 @@ export default function PlayerModal({
   onClose: () => void;
 }) {
   const s = stats;
+
+  const imageSource = player.photoModal ?? player.photoCard;
+  const imageUrl = imageSource ? urlFor(imageSource).width(400).url() : "/images/logo-white.png";
 
   return (
     <div
@@ -50,7 +54,7 @@ export default function PlayerModal({
           )}
           <div className="relative z-10 flex h-56 items-end justify-center">
             <img
-              src={`/images/players/${player.photoModal}`}
+              src={imageUrl}
               alt={player.name}
               className="h-56 w-auto object-contain object-bottom"
             />

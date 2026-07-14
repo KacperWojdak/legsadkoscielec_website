@@ -1,13 +1,6 @@
-import matches from "../../data/matches.json";
+import { getSeasons, getMatchesBySeason } from "../../lib/queries";
 
-function getRecentResults() {
-  return matches
-    .filter((m) => m.status === "finished")
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 5);
-}
-
-function getResult(match: (typeof matches)[0]) {
+function getResult(match: any) {
   if (match.scoreHome === null || match.scoreAway === null) return null;
   const legsadScore = match.homeIsLegsad ? match.scoreHome : match.scoreAway;
   const opponentScore = match.homeIsLegsad ? match.scoreAway : match.scoreHome;
@@ -23,8 +16,27 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function RecentResults() {
-  const results = getRecentResults();
+function hasReport(match: any) {
+  return (
+    (match.reportScorersHome && match.reportScorersHome.length > 0) ||
+    (match.reportScorersAway && match.reportScorersAway.length > 0) ||
+    (match.reportLineupHome && match.reportLineupHome.length > 0) ||
+    (match.reportLineupAway && match.reportLineupAway.length > 0)
+  );
+}
+
+export default async function RecentResults() {
+  const seasons = await getSeasons();
+  const currentSeason = seasons.find((s: any) => s.isCurrent);
+
+  if (!currentSeason) return null;
+
+  const allMatches = await getMatchesBySeason(currentSeason._id);
+
+  const results = allMatches
+    .filter((m: any) => m.status === "finished")
+    .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 5);
 
   if (results.length === 0) {
     return (
@@ -49,7 +61,6 @@ export default function RecentResults() {
     <section className="border-b border-brand-border py-10">
       <div className="mx-auto max-w-5xl px-6">
 
-        {/* NAGŁÓWEK */}
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-px w-8 bg-brand-border" />
@@ -65,20 +76,18 @@ export default function RecentResults() {
           </a>
         </div>
 
-        {/* LISTA WYNIKÓW */}
         <div className="flex flex-col divide-y divide-brand-border rounded-2xl border border-brand-border bg-brand-surface overflow-hidden">
-          {results.map((match) => {
+          {results.map((match: any) => {
             const result = getResult(match);
-            const opponent = match.homeIsLegsad ? match.away : match.home;
+            const opponent = match.opponent.name;
             const legsadScore = match.homeIsLegsad ? match.scoreHome : match.scoreAway;
             const opponentScore = match.homeIsLegsad ? match.scoreAway : match.scoreHome;
 
             return (
               <div
-                key={match.id}
+                key={match._id}
                 className="flex items-center gap-4 px-5 py-4"
               >
-                {/* WYNIK W/R/P */}
                 <div
                   className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-bebas text-sm ${
                     result === "W"
@@ -91,31 +100,28 @@ export default function RecentResults() {
                   {result}
                 </div>
 
-                {/* LOGO PRZECIWNIKA */}
                 <img
-                  src={`/images/clubs/${match.opponentLogo}`}
+                  src={match.opponent.logoUrl ?? "/images/logo-white.png"}
                   alt={opponent}
                   className="h-8 w-8 object-contain shrink-0"
                 />
 
-                {/* NAZWA */}
                 <div className="flex-1 min-w-0">
                   <p className="truncate text-sm font-medium text-white">
-                    {match.homeIsLegsad ? "vs " : "@ "}{opponent}
+                    vs {opponent}
                   </p>
                   <p className="text-xs text-brand-muted">
                     {formatDate(match.date)} · kolejka {match.round}
                   </p>
                 </div>
 
-                {/* WYNIK */}
                 <div className="shrink-0 flex items-center gap-2 text-right">
                   <span className="font-bebas text-2xl text-white">
                     {legsadScore}:{opponentScore}
                   </span>
-                  {"report" in match && match.report && (
+                  {hasReport(match) && (
                     <a
-                      href={`/mecz/${match.id}`}
+                      href={`/mecz/${match._id}`}
                       className="rounded-md border border-brand-red px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
                     >
                       Raport

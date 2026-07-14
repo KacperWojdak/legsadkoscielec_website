@@ -1,14 +1,15 @@
-import sponsors from "../../data/sponsors.json";
+import { getSponsors } from "../../lib/queries";
+import { urlFor } from "../../lib/sanity";
 
-export default function Sponsors() {
-  const featured = sponsors.find((s) => s.featured);
-  const others = sponsors.filter((s) => !s.featured);
+export default async function Sponsors() {
+  const sponsors = await getSponsors();
+  const featured = sponsors.find((s: any) => s.featured);
+  const others = sponsors.filter((s: any) => !s.featured);
 
   return (
     <section id="sponsorzy" className="border-b border-brand-border py-10">
       <div className="mx-auto max-w-5xl px-6">
 
-        {/* NAGŁÓWEK */}
         <div className="mb-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-brand-border" />
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
@@ -16,14 +17,7 @@ export default function Sponsors() {
           </span>
           <div className="h-px flex-1 bg-brand-border" />
         </div>
-          {/*<a
-            href="mailto:gkslegsadkoscielec@wp.pl?subject=Sponsoring GKS Legsad Kościelec"
-            className="rounded-lg border border-brand-red px-4 py-2 text-xs font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
-          >
-            Zostań sponsorem
-          </a> */}
 
-        {/* SPONSOR GŁÓWNY — wyróżniony */}
         {featured && (
           <a
             href={featured.url}
@@ -35,7 +29,7 @@ export default function Sponsors() {
               Sponsor główny
             </span>
             <img
-              src={`/images/sponsors/${featured.logo}`}
+              src={featured.logo ? urlFor(featured.logo).width(200).url() : "/images/logo-white.png"}
               alt={featured.name}
               className="h-20 w-20 rounded-xl object-cover md:h-24 md:w-24"
             />
@@ -48,11 +42,10 @@ export default function Sponsors() {
           </a>
         )}
 
-        {/* POZOSTALI SPONSORZY */}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-          {others.map((sponsor) => (
+          {others.map((sponsor: any) => (
             <a
-              key={sponsor.id}
+              key={sponsor._id}
               href={sponsor.url ?? undefined}
               target={sponsor.url ? "_blank" : undefined}
               rel={sponsor.url ? "noopener noreferrer" : undefined}
@@ -60,7 +53,7 @@ export default function Sponsors() {
             >
               {sponsor.logo ? (
                 <img
-                  src={`/images/sponsors/${sponsor.logo}`}
+                  src={urlFor(sponsor.logo).width(120).url()}
                   alt={sponsor.name}
                   className="h-14 w-14 rounded-lg object-cover"
                 />

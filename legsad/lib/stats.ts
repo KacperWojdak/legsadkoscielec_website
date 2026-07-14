@@ -1,37 +1,22 @@
-import matchesRaw from "../data/matches.json";
-
-type Scorer = { name: string; minute: number; assist: string | null };
-type Card = { name: string; minute: number };
-type Substitution = { out: string; in: string; minute: number };
-type LineupPlayer = { number: number; name: string };
-
-type MatchWithReport = {
-  id: number;
+export type SanityMatch = {
+  _id: string;
   date: string;
-  time: string;
-  home: string;
-  away: string;
   homeIsLegsad: boolean;
-  opponentLogo: string;
+  status: string;
   scoreHome: number | null;
   scoreAway: number | null;
-  status: string;
-  season: string;
-  round: string;
-  league: string;
-  report?: {
-    scorers: { home: Scorer[]; away: Scorer[] };
-    yellowCards: { home: Card[]; away: Card[] };
-    redCards: { home: Card[]; away: Card[] };
-    lineupHome: LineupPlayer[];
-    lineupAway: LineupPlayer[];
-    substitutions?: { home: Substitution[]; away: Substitution[] };
-    coachHome?: string;
-    coachAway?: string;
-  };
+  opponent?: { name: string };
+  reportScorersHome?: { name: string; minute: number; assist?: string }[];
+  reportScorersAway?: { name: string; minute: number; assist?: string }[];
+  reportYellowCardsHome?: { name: string; minute: number }[];
+  reportYellowCardsAway?: { name: string; minute: number }[];
+  reportRedCardsHome?: { name: string; minute: number; isSecondYellow?: boolean }[];
+  reportRedCardsAway?: { name: string; minute: number; isSecondYellow?: boolean }[];
+  reportLineupHome?: { number: number; name: string }[];
+  reportLineupAway?: { number: number; name: string }[];
+  reportSubstitutionsHome?: { out: string; in: string; minute: number }[];
+  reportSubstitutionsAway?: { out: string; in: string; minute: number }[];
 };
-
-const matchesData = matchesRaw as unknown as MatchWithReport[];
 
 export type PlayerStats = {
   name: string;
@@ -57,7 +42,7 @@ function emptyStats(name: string): PlayerStats {
   };
 }
 
-export function computePlayerStats(): Record<string, PlayerStats> {
+export function computePlayerStats(matches: SanityMatch[]): Record<string, PlayerStats> {
   const stats: Record<string, PlayerStats> = {};
 
   const getOrCreate = (name: string) => {
@@ -65,53 +50,73 @@ export function computePlayerStats(): Record<string, PlayerStats> {
     return stats[name];
   };
 
-  const finishedMatches = matchesData.filter(
-    (m) => m.status === "finished" && m.report
-  );
+  const finishedMatches = matches.filter((m) => m.status === "finished");
 
   for (const match of finishedMatches) {
-    const report = match.report!;
     const legsadSide = match.homeIsLegsad ? "home" : "away";
 
-    // Gole i asysty
-    for (const g of report.scorers[legsadSide]) {
+    const scorers =
+      legsadSide === "home" ? match.reportScorersHome : match.reportScorersAway;
+    for (const g of scorers ?? []) {
       getOrCreate(g.name).gole += 1;
       if (g.assist) getOrCreate(g.assist).asysty += 1;
     }
 
-    // Kartki
-    for (const c of report.yellowCards[legsadSide]) {
+    const yellowCards =
+      legsadSide === "home" ? match.reportYellowCardsHome : match.reportYellowCardsAway;
+    for (const c of yellowCards ?? []) {
       getOrCreate(c.name).zolteKartki += 1;
     }
-    for (const c of report.redCards[legsadSide]) {
+
+    const redCards =
+      legsadSide === "home" ? match.reportRedCardsHome : match.reportRedCardsAway;
+    for (const c of redCards ?? []) {
       getOrCreate(c.name).czerwoneKartki += 1;
+      if (c.isSecondYellow) {
+        getOrCreate(c.name).zolteKartki += 1;
+      }
     }
 
-    // Skład podstawowy — domyślnie 90 minut, mecz rozegrany
-    const lineup = legsadSide === "home" ? report.lineupHome : report.lineupAway;
-    for (const p of lineup) {
+    const lineup =
+      legsadSide === "home" ? match.reportLineupHome : match.reportLineupAway;
+    const subs =
+      legsadSide === "home" ? match.reportSubstitutionsHome : match.reportSubstitutionsAway;
+
+    const redCardMinuteByName = new Map<string, number>();
+    for (const c of redCards ?? []) {
+      redCardMinuteByName.set(c.name, c.minute);
+    }
+
+    for (const p of lineup ?? []) {
       const s = getOrCreate(p.name);
       s.mecze += 1;
-      s.minuty += 90;
+
+      const redMinute = redCardMinuteByName.get(p.name);
+      if (redMinute !== undefined) {
+        s.minuty += redMinute;
+      } else {
+        s.minuty += 90;
+      }
     }
 
-    // Zmiany — korygujemy minuty obu zawodników
-    const subs = report.substitutions?.[legsadSide] ?? [];
-    for (const sub of subs) {
+    for (const sub of subs ?? []) {
       const outPlayer = getOrCreate(sub.out);
       outPlayer.minuty -= 90 - sub.minute;
 
       const inPlayer = getOrCreate(sub.in);
       inPlayer.mecze += 1;
-      inPlayer.minuty += 90 - sub.minute;
+
+      const redMinute = redCardMinuteByName.get(sub.in);
+      if (redMinute !== undefined) {
+        inPlayer.minuty += redMinute - sub.minute;
+      } else {
+        inPlayer.minuty += 90 - sub.minute;
+      }
     }
 
-    // Czyste konto dla bramkarza
     const opponentScore = match.homeIsLegsad ? match.scoreAway : match.scoreHome;
-    if (opponentScore === 0) {
-      const goalkeeper = lineup.find(
-        (p) => p.number === 1 || p.number === 99
-      );
+    if (opponentScore === 0 && lineup) {
+      const goalkeeper = lineup.find((p) => p.number === 1 || p.number === 99);
       if (goalkeeper) getOrCreate(goalkeeper.name).czysteKonta += 1;
     }
   }
@@ -132,8 +137,8 @@ export function getTopByStat(
   return { names: topPlayers, value: maxValue };
 }
 
-export function computeSeasonStats() {
-  const finished = matchesData.filter((m) => m.status === "finished");
+export function computeSeasonStats(matches: SanityMatch[]) {
+  const finished = matches.filter((m) => m.status === "finished");
 
   let wins = 0, draws = 0, losses = 0, goalsFor = 0, goalsAgainst = 0;
   let homeWins = 0, homeDraws = 0, homeLosses = 0, homeGF = 0, homeGA = 0;

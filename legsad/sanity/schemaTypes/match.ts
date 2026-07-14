@@ -29,6 +29,30 @@ const cardField = defineField({
   },
 });
 
+const redCardField = defineField({
+  name: "redCard",
+  title: "Czerwona kartka",
+  type: "object",
+  fields: [
+    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({ name: "minute", title: "Minuta", type: "number", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "isSecondYellow",
+      title: "Czerwona po dwóch żółtych",
+      type: "boolean",
+      description: "Zaznacz, jeśli to czerwona kartka wynikająca z drugiej żółtej (doliczy dodatkową żółtą do statystyk)",
+      initialValue: false,
+    }),
+  ],
+  preview: {
+    select: { title: "name", subtitle: "minute", isSecondYellow: "isSecondYellow" },
+    prepare: ({ title, subtitle, isSecondYellow }) => ({
+      title,
+      subtitle: isSecondYellow ? `${subtitle}' · 2. żółta → czerwona` : `${subtitle}'`,
+    }),
+  },
+});
+
 const lineupPlayerField = defineField({
   name: "lineupPlayer",
   title: "Zawodnik w składzie",
@@ -165,19 +189,19 @@ export default defineType({
       hidden: ({ document }) => document?.status !== "finished",
     }),
     defineField({
-      name: "reportRedCardsHome",
-      title: "Czerwone kartki — gospodarz",
-      type: "array",
-      of: [cardField],
-      hidden: ({ document }) => document?.status !== "finished",
-    }),
-    defineField({
-      name: "reportRedCardsAway",
-      title: "Czerwone kartki — gość",
-      type: "array",
-      of: [cardField],
-      hidden: ({ document }) => document?.status !== "finished",
-    }),
+    name: "reportRedCardsHome",
+    title: "Czerwone kartki — gospodarz",
+    type: "array",
+    of: [redCardField],
+    hidden: ({ document }) => document?.status !== "finished",
+  }),
+  defineField({
+    name: "reportRedCardsAway",
+    title: "Czerwone kartki — gość",
+    type: "array",
+    of: [redCardField],
+    hidden: ({ document }) => document?.status !== "finished",
+  }),
     defineField({
       name: "reportLineupHome",
       title: "Skład — gospodarz",

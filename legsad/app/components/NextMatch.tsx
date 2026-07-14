@@ -1,12 +1,5 @@
-import matches from "../../data/matches.json";
-
-function getNextMatch() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return matches
-    .filter((m) => new Date(m.date) >= today && m.status === "upcoming")
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
-}
+import { getMatchesBySeason, getSeasons } from "../../lib/queries";
+import { urlFor } from "../../lib/sanity";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -17,19 +10,29 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function NextMatch() {
-  const match = getNextMatch();
+export default async function NextMatch() {
+  const seasons = await getSeasons();
+  const currentSeason = seasons.find((s: any) => s.isCurrent);
+  if (!currentSeason) return null;
+
+  const matches = await getMatchesBySeason(currentSeason._id);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const match = matches
+    .filter((m: any) => new Date(m.date) >= today && m.status === "upcoming")
+    .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
 
   if (!match) return null;
 
-  const home = match.homeIsLegsad ? "Legsad Kościelec" : match.home;
-  const away = match.homeIsLegsad ? match.away : "Legsad Kościelec";
+  const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
+  const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
 
   return (
     <section className="border-b border-brand-border bg-brand-black py-10">
       <div className="mx-auto max-w-5xl px-6">
 
-        {/* NAGŁÓWEK */}
         <div className="mb-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-brand-border" />
           <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
@@ -38,10 +41,8 @@ export default function NextMatch() {
           <div className="h-px flex-1 bg-brand-border" />
         </div>
 
-        {/* KARTA MECZU */}
         <div className="rounded-2xl border border-brand-pink/50 bg-brand-surface p-6 md:p-10">
 
-          {/* DATA I LIGA */}
           <div className="mb-6 flex flex-wrap items-center justify-center md:justify-between gap-2">
             <span className="text-sm text-white/50 capitalize">
               {formatDate(match.date)} · {match.time}
@@ -51,16 +52,18 @@ export default function NextMatch() {
             </span>
           </div>
 
-          {/* DRUŻYNY */}
           <div className="flex items-center justify-between gap-4">
 
-            {/* GOSPODARZ */}
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {match.homeIsLegsad ? (
                   <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
                 ) : (
-                  <img src={`/images/clubs/${match.opponentLogo}`} alt={home} className="h-12 w-12 object-contain" />
+                  <img
+                    src={match.opponent.logoUrl ?? "/images/logo-white.png"}
+                    alt={home}
+                    className="h-12 w-12 object-contain"
+                  />
                 )}
               </div>
               <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
@@ -71,18 +74,20 @@ export default function NextMatch() {
               </span>
             </div>
 
-            {/* VS */}
             <div className="flex flex-col items-center gap-1">
               <span className="font-bebas text-5xl text-brand-border">VS</span>
             </div>
 
-            {/* GOŚĆ */}
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {!match.homeIsLegsad ? (
                   <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
                 ) : (
-                  <img src={`/images/clubs/${match.opponentLogo}`} alt={away} className="h-12 w-12 object-contain" />
+                  <img
+                    src={match.opponent.logoUrl ?? "/images/logo-white.png"}
+                    alt={away}
+                    className="h-12 w-12 object-contain"
+                  />
                 )}
               </div>
               <span className="font-bebas text-xl leading-tight text-white md:text-2xl">

@@ -6,8 +6,6 @@ export default function Footer() {
       <div className="mx-auto max-w-5xl px-6 py-10">
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 text-center md:text-left">
-
-          {/* KOLUMNA 1 — logo i opis */}
           <div className="flex flex-col items-center md:items-start gap-4">
             <div className="flex items-center gap-3">
               <img
@@ -86,7 +84,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* KOLUMNA 2 — nawigacja */}
           <div className="flex flex-col items-center md:items-start gap-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
               Nawigacja
@@ -107,7 +104,6 @@ export default function Footer() {
             ))}
           </div>
 
-          {/* KOLUMNA 3 — kontakt */}
           <div className="flex flex-col items-center md:items-start gap-3">
             <p className="text-xs font-semibold uppercase tracking-widest text-brand-red">
               Kontakt
@@ -128,7 +124,6 @@ export default function Footer() {
 
         </div>
 
-        {/* DOLNA BELKA */}
         <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-brand-border pt-6 pb-16 md:pb-6 md:flex-row">
           <p className="text-xs text-brand-muted">
             © {year} GKS Legsad Kościelec. Wszelkie prawa zastrzeżone.

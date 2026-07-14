@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import matchesData from "../../data/matches.json"
+import { useState, type ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 const links = [
@@ -11,14 +10,6 @@ const links = [
   { label: "Drużyna", href: "/druzyna" },
   { label: "O klubie", href: "/o-klubie" },
 ];
-
-function getNextMatch() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return matchesData
-    .filter((m) => new Date(m.date) >= today && m.status === "upcoming")
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
-}
 
 function scrollToSponsors(router: ReturnType<typeof useRouter>, pathname: string) {
   if (pathname === "/") {
@@ -31,7 +22,7 @@ function scrollToSponsors(router: ReturnType<typeof useRouter>, pathname: string
   }
 }
 
-export default function Navbar() {
+export default function Navbar({ matchPill }: { matchPill: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -41,14 +32,15 @@ export default function Navbar() {
       <nav className="relative w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-lg">
         <div className="flex items-center justify-between">
 
-          <Link 
-          href="/" 
-          onClick={() => {
-          if (pathname === "/") {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-          }}
-          className="flex items-center gap-3">
+          <Link
+            href="/"
+            onClick={() => {
+              if (pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
+            className="flex items-center gap-3"
+          >
             <img
               src="/images/logo-pink.png"
               alt="GKS Legsad Kościelec"
@@ -61,7 +53,6 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* DESKTOP LINKS */}
           <ul className="hidden items-center gap-6 lg:flex">
             {links.map((link) => (
               <li key={link.href}>
@@ -83,7 +74,6 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* HAMBURGER */}
           <button
             className="flex flex-col gap-1.5 lg:hidden cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
@@ -96,48 +86,33 @@ export default function Navbar() {
 
         </div>
 
-        {/* MOBILE MENU */}
         {menuOpen && (
-            <div className="mt-4 flex flex-col items-center gap-4 border-t border-white/10 pt-4 lg:hidden">
-              {links.map((link) => (
+          <div className="mt-4 flex flex-col items-center gap-4 border-t border-white/10 pt-4 lg:hidden">
+            {links.map((link) => (
               <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-sm uppercase tracking-wide text-white/60 hover:text-white"
-                  onClick={() => setMenuOpen(false)}
+                key={link.href}
+                href={link.href}
+                className="text-sm uppercase tracking-wide text-white/60 hover:text-white"
+                onClick={() => setMenuOpen(false)}
               >
-                  {link.label}
+                {link.label}
               </Link>
-              ))}
-              <button
-                onClick={() => {
-                  scrollToSponsors(router, pathname);
-                  setMenuOpen(false);
-                }}
-                className="text-sm uppercase tracking-wide text-white/60 hover:text-white text-left"
-              >
-                Sponsorzy
-              </button>
-            </div>
+            ))}
+            <button
+              onClick={() => {
+                scrollToSponsors(router, pathname);
+                setMenuOpen(false);
+              }}
+              className="text-sm uppercase tracking-wide text-white/60 hover:text-white text-left"
+            >
+              Sponsorzy
+            </button>
+          </div>
         )}
 
-        {/* NEXT MATCH PILL — desktop */}
-          <div className={`absolute left-1/2 -translate-x-1/2 items-center gap-1.5 rounded-full border border-brand-border bg-brand-black/80 px-2.5 py-1 lg:gap-2 lg:px-4 lg:py-1.5 ${menuOpen ? "hidden" : "flex"} lg:flex`}>
-            {(() => {
-              const next = getNextMatch();
-              if (!next) return null;
-              const opponent = next.homeIsLegsad ? next.away : next.home;
-              const date = new Date(next.date).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
-              return (
-                <>
-                  <span className="text-[9px] lg:text-[10px]">{next.homeIsLegsad ? "🏠" : "🚌"}</span>
-                  <span className="text-[9px] uppercase tracking-wide text-white/70 lg:text-[11px]">
-                    {date} · vs {opponent}
-                  </span>
-                </>
-              );
-            })()}
-          </div>
+        <div className={`absolute left-1/2 -translate-x-1/2 items-center gap-1.5 rounded-full border border-brand-border bg-brand-black/80 px-2.5 py-1 lg:gap-2 lg:px-4 lg:py-1.5 ${menuOpen ? "hidden" : "flex"} lg:flex`}>
+          {matchPill}
+        </div>
 
       </nav>
     </div>

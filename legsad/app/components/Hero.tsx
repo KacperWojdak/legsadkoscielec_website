@@ -3,8 +3,6 @@ import Link from "next/link";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-brand-black pt-24 min-h-screen flex items-center">
-
-      {/* WATERMARK — białe logo w tle */}
       <div className="absolute inset-0 flex items-center justify-center translate-y-16 opacity-[0.05] pointer-events-none">
         <img
           src="/images/logo-white.png"
@@ -13,7 +11,6 @@ export default function Hero() {
         />
       </div>
 
-      {/* BRUSH CORNERS */}
       <img
         src="/images/effects/brush-top-left.png"
         alt=""
@@ -25,7 +22,6 @@ export default function Hero() {
         className="pointer-events-none absolute -bottom-12 -right-18 h-56 w-56 opacity-60 md:h-80 md:w-80"
       />
 
-      {/* BRUSH DIAGONAL*/}
       <img
         src="/images/effects/brush-diagonal.png"
         alt=""
@@ -33,19 +29,17 @@ export default function Hero() {
         style={{ objectPosition: "right center" }}
       />
 
-      {/* GRADIENT tło */}
       <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/20 via-brand-red/5 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
 
       <div className="relative z-10 w-full flex flex-col md:flex-row items-center md:items-center justify-center md:justify-between gap-8 px-6 md:pl-8 md:pr-16 text-center md:text-left">
 
-        {/* LEWA STRONA */}
         <div className="flex-1 flex flex-col items-center md:items-start">
           <h1 className="font-bebas text-8xl leading-none text-white md:text-9xl">
-            Gramy
+            Jeden klub
           </h1>
           <h2 className="font-bebas text-8xl leading-none text-brand-red md:text-9xl">
-            O wszystko
+            Jedna rodzina
           </h2>
 
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/50">
@@ -69,7 +63,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* PRAWA STRONA — herb */}
         <div className="hidden md:flex shrink-0 items-center justify-end pr-8">
           <img
             src="/images/logo-pink.png"

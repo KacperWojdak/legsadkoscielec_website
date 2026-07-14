@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 import ConditionalChrome from "./components/ConditionalChrome";
+import NextMatchPill from "./components/NextMatchPill";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body className={`${bebasNeue.variable} ${inter.variable} antialiased`}>
-        <ConditionalChrome>{children}</ConditionalChrome>
+        <ConditionalChrome matchPill={<NextMatchPill />}>
+          {children}
+        </ConditionalChrome>
       </body>
     </html>
   );
