@@ -3,6 +3,7 @@ import { Bebas_Neue, Inter } from "next/font/google";
 import "./globals.css";
 import ConditionalChrome from "./components/ConditionalChrome";
 import NextMatchPill from "./components/NextMatchPill";
+import { SITE_URL } from "../lib/constants";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -16,8 +17,28 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "GKS Legsad Kościelec",
-  description: "Oficjalna strona GKS Legsad Kościelec",
+  title: "GKS Legsad Kościelec — Oficjalna strona klubu",
+  description: "Oficjalna strona GKS Legsad Kościelec. Wyniki, terminarz, skład drużyny i aktualności klubu piłkarskiego z Kościelca, Klasa A Legnica gr. 3.",
+  openGraph: {
+    title: "GKS Legsad Kościelec",
+    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec. Wyniki, terminarz, skład i aktualności.",
+    url: SITE_URL,
+    siteName: "GKS Legsad Kościelec",
+    locale: "pl_PL",
+    type: "website",
+    images: [
+      {
+        url: "https://gkslegsadkoscielec.netlify.app/images/logo-pink.png",
+        width: 800,
+        height: 800,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "GKS Legsad Kościelec",
+    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec.",
+  },
 };
 
 export default function RootLayout({

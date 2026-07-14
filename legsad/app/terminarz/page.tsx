@@ -2,6 +2,22 @@ import PageHeaderAccent from "../components/PageHeaderAccent";
 import { getSeasons, getMatchesBySeason } from "../../lib/queries";
 import ScheduleClient from "./ScheduleClient";
 import FadeInSection from "../components/FadeInSection";
+import type { Metadata } from "next";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const seasons = await getSeasons();
+  const currentSeason = seasons.find((s: any) => s.isCurrent);
+
+  return {
+    title: `Terminarz ${currentSeason?.label ?? ""} | GKS Legsad Kościelec`,
+    description: `Terminarz meczów GKS Legsad Kościelec — ${currentSeason?.league ?? "sezon 2026/2027"}. Sprawdź wyniki i nadchodzące spotkania.`,
+    openGraph: {
+      title: `Terminarz | GKS Legsad Kościelec`,
+      description: `Terminarz meczów GKS Legsad Kościelec — ${currentSeason?.league ?? ""}.`,
+      type: "website",
+    },
+  };
+}
 
 export default async function TerminarzPage() {
   const seasons = await getSeasons();

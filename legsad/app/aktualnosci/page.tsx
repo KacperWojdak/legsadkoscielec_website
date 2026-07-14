@@ -2,6 +2,17 @@ import { getNews } from "../../lib/queries";
 import PageHeaderAccent from "../components/PageHeaderAccent";
 import NewsClient from "./NewsClient";
 import FadeInSection from "../components/FadeInSection";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Aktualności | GKS Legsad Kościelec",
+  description: "Najnowsze wiadomości i aktualności GKS Legsad Kościelec — transfery, wyniki, zapowiedzi meczów i wydarzenia klubowe.",
+  openGraph: {
+    title: "Aktualności | GKS Legsad Kościelec",
+    description: "Najnowsze wiadomości z życia klubu GKS Legsad Kościelec.",
+    type: "website",
+  },
+};
 
 export default async function AktualnosciPage() {
   const news = await getNews();

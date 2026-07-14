@@ -5,6 +5,7 @@ import FadeInSection from "@/app/components/FadeInSection";
 import { getMatchById, getPlayers, getAllMatches } from "../../../lib/queries";
 import { computePlayerStats } from "../../../lib/stats";
 import MatchClient from "./MatchClient";
+import type { Metadata } from "next";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -13,6 +14,33 @@ function formatDate(dateStr: string) {
     month: "long",
     year: "numeric",
   });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const match = await getMatchById(id);
+
+  if (!match) {
+    return { title: "Mecz nie znaleziony | GKS Legsad Kościelec" };
+  }
+
+  const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
+  const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
+  const scoreText = match.status === "finished" ? ` ${match.scoreHome}:${match.scoreAway}` : "";
+
+  return {
+    title: `${home} vs ${away}${scoreText} | GKS Legsad Kościelec`,
+    description: `Raport meczowy: ${home} - ${away}, ${match.league}, kolejka ${match.round}. Strzelcy, kartki, składy i przebieg spotkania.`,
+    openGraph: {
+      title: `${home} vs ${away}${scoreText}`,
+      description: `${match.league} · Kolejka ${match.round}`,
+      type: "website",
+    },
+  };
 }
 
 export default async function MatchPage({

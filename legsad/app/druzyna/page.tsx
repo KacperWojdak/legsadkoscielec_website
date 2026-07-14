@@ -3,6 +3,17 @@ import { getPlayers, getStaff, getAllMatches } from "../../lib/queries";
 import { computePlayerStats } from "../../lib/stats";
 import RosterClient from "./RosterClient";
 import FadeInSection from "../components/FadeInSection";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Drużyna | GKS Legsad Kościelec",
+  description: "Poznaj skład GKS Legsad Kościelec — sztab szkoleniowy, bramkarze, obrońcy, pomocnicy i napastnicy na sezon 2026/2027.",
+  openGraph: {
+    title: "Drużyna | GKS Legsad Kościelec",
+    description: "Poznaj skład GKS Legsad Kościelec na sezon 2026/2027.",
+    type: "website",
+  },
+};
 
 export default async function DruzynaPage() {
   const players = await getPlayers();

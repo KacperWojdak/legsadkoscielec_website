@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
 import { getNewsBySlug } from "../../../lib/queries";
 import { urlFor } from "../../../lib/sanity";
@@ -30,6 +31,41 @@ const portableTextComponents = {
     ),
   },
 };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const article = await getNewsBySlug(slug);
+
+  if (!article) {
+    return {
+      title: "Aktualność nie znaleziona | GKS Legsad Kościelec",
+    };
+  }
+
+  const imageUrl = article.mainImage ? urlFor(article.mainImage).width(1200).height(630).url() : undefined;
+
+  return {
+    title: `${article.title} | GKS Legsad Kościelec`,
+    description: article.lead,
+    openGraph: {
+      title: article.title,
+      description: article.lead,
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : undefined,
+      type: "article",
+      publishedTime: article.publishedAt,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.lead,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  };
+}
 
 export default async function NewsDetailPage({
   params,
