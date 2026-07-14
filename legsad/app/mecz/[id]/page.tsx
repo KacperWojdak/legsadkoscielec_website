@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeaderAccent from "@/app/components/PageHeaderAccent";
+import FadeInSection from "@/app/components/FadeInSection";
 import { getMatchById, getPlayers, getAllMatches } from "../../../lib/queries";
 import { computePlayerStats } from "../../../lib/stats";
 import MatchClient from "./MatchClient";
@@ -45,54 +46,56 @@ export default async function MatchPage({
           ← Wróć do terminarza
         </Link>
 
-        <div className="mb-8 rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-10">
+        <FadeInSection>
+          <div className="mb-8 rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-10">
 
-          <div className="mb-6 flex flex-wrap items-center justify-center gap-2 text-center">
-            <span className="rounded-md border border-brand-border px-3 py-1 text-xs uppercase tracking-widest text-brand-muted">
-              {match.league} · Kolejka {match.round}
-            </span>
-          </div>
+            <div className="mb-6 flex flex-wrap items-center justify-center gap-2 text-center">
+              <span className="rounded-md border border-brand-border px-3 py-1 text-xs uppercase tracking-widest text-brand-muted">
+                {match.league} · Kolejka {match.round}
+              </span>
+            </div>
 
-          <p className="mb-6 text-center text-sm text-white/50 capitalize">
-            {formatDate(match.date)} · {match.time}
-          </p>
+            <p className="mb-6 text-center text-sm text-white/50 capitalize">
+              {formatDate(match.date)} · {match.time}
+            </p>
 
-          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center justify-between gap-4">
 
-            <div className="flex flex-1 flex-col items-center gap-3 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
-                {match.homeIsLegsad ? (
-                  <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
-                ) : (
-                  <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
-                )}
+              <div className="flex flex-1 flex-col items-center gap-3 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
+                  {match.homeIsLegsad ? (
+                    <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
+                  ) : (
+                    <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
+                  )}
+                </div>
+                <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
+                  {home}
+                </span>
               </div>
-              <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
-                {home}
-              </span>
-            </div>
 
-            <div className="shrink-0">
-              <span className="font-bebas text-5xl text-brand-red md:text-6xl">
-                {match.scoreHome} : {match.scoreAway}
-              </span>
-            </div>
-
-            <div className="flex flex-1 flex-col items-center gap-3 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
-                {!match.homeIsLegsad ? (
-                  <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
-                ) : (
-                  <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
-                )}
+              <div className="shrink-0">
+                <span className="font-bebas text-5xl text-brand-red md:text-6xl">
+                  {match.scoreHome} : {match.scoreAway}
+                </span>
               </div>
-              <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
-                {away}
-              </span>
-            </div>
 
+              <div className="flex flex-1 flex-col items-center gap-3 text-center">
+                <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
+                  {!match.homeIsLegsad ? (
+                    <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
+                  ) : (
+                    <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
+                  )}
+                </div>
+                <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
+                  {away}
+                </span>
+              </div>
+
+            </div>
           </div>
-        </div>
+        </FadeInSection>
 
         <MatchClient
           match={match}

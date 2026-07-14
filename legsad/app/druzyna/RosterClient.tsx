@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import PlayerModal from "../components/PlayerModal";
 import { urlFor } from "../../lib/sanity";
 import type { PlayerStats } from "../../lib/stats";
@@ -99,13 +100,20 @@ export default function RosterClient({
           <div className="h-px w-8 bg-brand-border" />
         </div>
         <div className="mx-auto grid max-w-md grid-cols-2 gap-4">
-          {staff.map((member) => (
-            <PlayerCard
+          {staff.map((member, index) => (
+            <motion.div
               key={member._id}
-              name={member.name}
-              photo={member.photo}
-              role={member.role}
-            />
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+            >
+              <PlayerCard
+                name={member.name}
+                photo={member.photo}
+                role={member.role}
+              />
+            </motion.div>
           ))}
         </div>
       </div>
@@ -124,9 +132,13 @@ export default function RosterClient({
               <div className="h-px w-8 bg-brand-border" />
             </div>
             <div className="flex flex-wrap justify-center gap-4">
-              {group.map((player) => (
-                <div
+              {group.map((player, index) => (
+                <motion.div
                   key={player._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.4, delay: (index % 4) * 0.08, ease: "easeOut" }}
                   className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] md:w-[calc(25%-0.75rem)]"
                 >
                   <PlayerCard
@@ -135,15 +147,17 @@ export default function RosterClient({
                     number={player.number}
                     onClick={() => setSelectedPlayer(player)}
                   />
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         );
       })}
 
+      <AnimatePresence>
       {selectedPlayer && (
         <PlayerModal
+          key={selectedPlayer._id}
           player={selectedPlayer}
           stats={
             allPlayerStats[selectedPlayer.name] ?? {
@@ -160,6 +174,7 @@ export default function RosterClient({
           onClose={() => setSelectedPlayer(null)}
         />
       )}
+    </AnimatePresence>
     </>
   );
 }

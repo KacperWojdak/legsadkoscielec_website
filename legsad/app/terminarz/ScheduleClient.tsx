@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -71,15 +72,19 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
 
       {filtered.length > 0 ? (
         <div className="flex flex-col divide-y divide-white/15 overflow-hidden rounded-2xl border border-white/15 bg-brand-surface">
-          {filtered.map((match) => {
+          {filtered.map((match, index) => {
             const result = getResult(match);
             const isFinished = match.status === "finished";
             const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
             const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
 
             return (
-              <div
+              <motion.div
                 key={match._id}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4), ease: "easeOut" }}
                 className="flex flex-col gap-3 px-6 py-5 md:flex-row md:items-center md:gap-4"
               >
 
@@ -155,7 +160,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                   )}
                 </div>
 
-              </div>
+              </motion.div>
             );
           })}
         </div>

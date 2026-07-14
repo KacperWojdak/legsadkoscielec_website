@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 import NewsCard from "../components/NewsCard";
 
 const PER_PAGE = 9;
@@ -18,8 +19,16 @@ export default function NewsClient({ news }: { news: any[] }) {
   return (
     <>
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {paginated.map((article) => (
-          <NewsCard key={article._id} {...article} />
+        {paginated.map((article, index) => (
+          <motion.div
+            key={article._id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: "easeOut" }}
+          >
+            <NewsCard {...article} />
+          </motion.div>
         ))}
       </div>
 

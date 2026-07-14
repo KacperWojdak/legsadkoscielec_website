@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import PlayerModal from "../../components/PlayerModal";
 import type { PlayerStats } from "../../../lib/stats";
 
@@ -60,7 +61,13 @@ export default function MatchClient({
   return (
     <>
       {/* STRZELCY */}
-      <div className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
+        className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6"
+      >
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
           Strzelcy
         </p>
@@ -98,52 +105,64 @@ export default function MatchClient({
             <span className="text-center text-sm text-brand-muted">Brak strzelców</span>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* KARTKI */}
-      <div className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+        className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6"
+      >
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
           Kartki
         </p>
         <div className="flex flex-col gap-3">
           {[
-          ...yellowHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
-          ...yellowAway.map((c: any) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "yellow" as const })),
-          ...redHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "red" as const })),
-          ...redAway.map((c: any) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "red" as const })),
-        ]
-          .sort((a, b) => a.minute - b.minute)
-          .map((c, i) => (
-            <div key={i} className="flex items-center gap-3 text-sm">
-              <span className="w-8 shrink-0 text-right text-brand-muted">{c.minute}&apos;</span>
+            ...yellowHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
+            ...yellowAway.map((c: any) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "yellow" as const })),
+            ...redHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "red" as const })),
+            ...redAway.map((c: any) => ({ ...c, team: away, isLegsad: !match.homeIsLegsad, type: "red" as const })),
+          ]
+            .sort((a, b) => a.minute - b.minute)
+            .map((c, i) => (
+              <div key={i} className="flex items-center gap-3 text-sm">
+                <span className="w-8 shrink-0 text-right text-brand-muted">{c.minute}&apos;</span>
 
-              {c.type === "red" && c.isSecondYellow ? (
-                <div className="relative h-3.5 w-4 shrink-0">
-                  <span className="absolute left-0 top-0 h-3.5 w-3 rounded-xs bg-yellow-400" />
-                  <span className="absolute left-1 top-0.5 h-3.5 w-3 rounded-xs bg-red-500" />
-                </div>
-              ) : (
-                <span
-                  className={`h-3.5 w-3 shrink-0 rounded-sm ${
-                    c.type === "yellow" ? "bg-yellow-400" : "bg-red-500"
-                  }`}
-                />
-              )}
+                {c.type === "red" && c.isSecondYellow ? (
+                  <div className="relative h-3.5 w-4 shrink-0">
+                    <span className="absolute left-0 top-0 h-3.5 w-3 rounded-xs bg-yellow-400" />
+                    <span className="absolute left-1 top-0.5 h-3.5 w-3 rounded-xs bg-red-500" />
+                  </div>
+                ) : (
+                  <span
+                    className={`h-3.5 w-3 shrink-0 rounded-sm ${
+                      c.type === "yellow" ? "bg-yellow-400" : "bg-red-500"
+                    }`}
+                  />
+                )}
 
-              <div className="min-w-0 flex-1">{renderName(c.name, c.isLegsad)}</div>
-              <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
-                {c.team}
-              </span>
-            </div>
-          ))}
+                <div className="min-w-0 flex-1">{renderName(c.name, c.isLegsad)}</div>
+                <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
+                  {c.team}
+                </span>
+              </div>
+            ))}
           {yellowHome.length === 0 && yellowAway.length === 0 && redHome.length === 0 && redAway.length === 0 && (
             <span className="text-center text-sm text-brand-muted">Brak kartek</span>
           )}
         </div>
-      </div>
+      </motion.div>
 
       {/* SKŁADY */}
-      <div className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+        className="mb-6 rounded-2xl border border-brand-border bg-brand-surface p-6"
+      >
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
           Składy wyjściowe
         </p>
@@ -210,11 +229,17 @@ export default function MatchClient({
           </div>
 
         </div>
-      </div>
+      </motion.div>
 
       {/* ZMIANY */}
       {(subsHome.length > 0 || subsAway.length > 0) && (
-        <div className="rounded-2xl border border-brand-border bg-brand-surface p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+          className="rounded-2xl border border-brand-border bg-brand-surface p-6"
+        >
           <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
             Zmiany
           </p>
@@ -243,27 +268,30 @@ export default function MatchClient({
                 </div>
               ))}
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {selectedPlayer && (
-        <PlayerModal
-          player={selectedPlayer}
-          stats={
-            allPlayerStats[selectedPlayer.name] ?? {
-              name: selectedPlayer.name,
-              mecze: 0,
-              gole: 0,
-              asysty: 0,
-              minuty: 0,
-              zolteKartki: 0,
-              czerwoneKartki: 0,
-              czysteKonta: 0,
+      <AnimatePresence>
+        {selectedPlayer && (
+          <PlayerModal
+            key={selectedPlayer._id}
+            player={selectedPlayer}
+            stats={
+              allPlayerStats[selectedPlayer.name] ?? {
+                name: selectedPlayer.name,
+                mecze: 0,
+                gole: 0,
+                asysty: 0,
+                minuty: 0,
+                zolteKartki: 0,
+                czerwoneKartki: 0,
+                czysteKonta: 0,
+              }
             }
-          }
-          onClose={() => setSelectedPlayerName(null)}
-        />
-      )}
+            onClose={() => setSelectedPlayerName(null)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

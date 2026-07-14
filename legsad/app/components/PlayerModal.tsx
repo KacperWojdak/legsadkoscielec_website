@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import type { PlayerStats } from "../../lib/stats";
 import { urlFor } from "../../lib/sanity";
 
@@ -27,11 +28,19 @@ export default function PlayerModal({
   const imageUrl = imageSource ? urlFor(imageSource).width(400).url() : "/images/logo-white.png";
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
       className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 p-4"
       onClick={onClose}
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 12 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
         className="relative w-full max-w-sm rounded-2xl border border-brand-border bg-brand-surface"
         onClick={(e) => e.stopPropagation()}
       >
@@ -48,7 +57,7 @@ export default function PlayerModal({
             <img src="/images/logo-white.png" alt="" className="h-40 w-40 object-contain" />
           </div>
           {player.number && (
-            <span className="absolute right-4 top-4 z-10 font-bebas text-4xl text-brand-red">
+            <span className="absolute right-4 bottom-1 z-10 font-bebas text-4xl text-brand-red">
               {player.number}
             </span>
           )}
@@ -102,7 +111,7 @@ export default function PlayerModal({
           </div>
         )}
 
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

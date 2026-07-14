@@ -4,6 +4,7 @@ import { PortableText } from "@portabletext/react";
 import { getNewsBySlug } from "../../../lib/queries";
 import { urlFor } from "../../../lib/sanity";
 import PageHeaderAccent from "@/app/components/PageHeaderAccent";
+import FadeInSection from "@/app/components/FadeInSection";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -52,26 +53,30 @@ export default async function NewsDetailPage({
           ← Wróć do aktualności
         </Link>
 
-        <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
-          <img
-            src={urlFor(article.mainImage).width(1200).url()}
-            alt={article.title}
-            className="h-full w-full object-cover"
-          />
-        </div>
-
-        <div className="mb-6">
-          <div className="mb-3 flex items-center gap-3">
-            <span className="text-xs text-brand-muted">{formatDate(article.publishedAt)}</span>
+        <FadeInSection>
+          <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
+            <img
+              src={urlFor(article.mainImage).width(1200).url()}
+              alt={article.title}
+              className="h-full w-full object-cover"
+            />
           </div>
-          <h1 className="font-bebas text-4xl leading-tight text-white md:text-5xl">
-            {article.title}
-          </h1>
-        </div>
 
-        <div className="flex flex-col gap-4 border-t border-brand-border pt-6">
-          <PortableText value={article.body} components={portableTextComponents} />
-        </div>
+          <div className="mb-6">
+            <div className="mb-3 flex items-center gap-3">
+              <span className="text-xs text-brand-muted">{formatDate(article.publishedAt)}</span>
+            </div>
+            <h1 className="font-bebas text-4xl leading-tight text-white md:text-5xl">
+              {article.title}
+            </h1>
+          </div>
+        </FadeInSection>
+
+        <FadeInSection delay={0.15}>
+          <div className="flex flex-col gap-4 border-t border-brand-border pt-6">
+            <PortableText value={article.body} components={portableTextComponents} />
+          </div>
+        </FadeInSection>
 
       </div>
     </main>
