@@ -6,6 +6,7 @@ import { getMatchById, getPlayers, getAllMatches } from "../../../lib/queries";
 import { computePlayerStats } from "../../../lib/stats";
 import MatchClient from "./MatchClient";
 import type { Metadata } from "next";
+import { SITE_URL } from "../../../lib/constants";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -38,6 +39,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${home} vs ${away}${scoreText}`,
       description: `${match.league} · Kolejka ${match.round}`,
+      url: `${SITE_URL}/mecz/${id}`,
       type: "website",
     },
   };

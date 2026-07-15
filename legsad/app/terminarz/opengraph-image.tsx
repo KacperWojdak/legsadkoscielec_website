@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
+import { getSeasons } from "../../lib/queries";
 
-export const alt = "GKS Legsad Kościelec";
+export const alt = "Terminarz — GKS Legsad Kościelec";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const logoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-legsad.png";
+  const seasons = await getSeasons();
+  const currentSeason = seasons.find((s: any) => s.isCurrent);
+
+  const logoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-pink.png";
 
   return new ImageResponse(
     (
@@ -24,35 +28,28 @@ export default async function Image() {
         <div
           style={{
             display: "flex",
-            width: 220,
-            height: 220,
+            width: 180,
+            height: 180,
             borderRadius: "50%",
             backgroundColor: "white",
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 40,
+            marginBottom: 30,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={logoUrl}
-            width={170}
-            height={170}
-            style={{ objectFit: "contain" }}
-          />
+          <img src={logoUrl} width={140} height={140} style={{ objectFit: "contain" }} />
         </div>
 
         <div
           style={{
             display: "flex",
-            fontSize: 64,
+            fontSize: 56,
             color: "white",
             fontWeight: 900,
-            textAlign: "center",
-            letterSpacing: 2,
           }}
         >
-          GKS Legsad Kościelec
+          Terminarz
         </div>
 
         <div
@@ -61,17 +58,14 @@ export default async function Image() {
             fontSize: 26,
             color: "#c0132a",
             textTransform: "uppercase",
-            letterSpacing: 4,
+            letterSpacing: 3,
             marginTop: 16,
           }}
         >
-          Oficjalna strona klubu
+          {currentSeason?.league ?? "GKS Legsad Kościelec"}
         </div>
       </div>
     ),
-    {
-      width: 1200,
-      height: 630,
-    }
+    { width: 1200, height: 630 }
   );
 }
