@@ -5,7 +5,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
-  const logoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-hero.png";
+  const logoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-hero.jpg";
 
   return new ImageResponse(
     (
