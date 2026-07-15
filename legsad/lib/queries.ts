@@ -1,5 +1,60 @@
 import { client } from "./sanity";
 
+const matchReportFields = `
+  reportScorersHome[] {
+    ...,
+    player-> { _id, name, number },
+    assistPlayer-> { _id, name, number }
+  },
+  reportScorersAway[] {
+    ...,
+    player-> { _id, name, number },
+    assistPlayer-> { _id, name, number }
+  },
+  reportYellowCardsHome[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportYellowCardsAway[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportRedCardsHome[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportRedCardsAway[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportLineupHome[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportLineupAway[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportBenchHome[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportBenchAway[] {
+    ...,
+    player-> { _id, name, number }
+  },
+  reportSubstitutionsHome[] {
+    ...,
+    inPlayer-> { _id, name, number },
+    outPlayer-> { _id, name, number }
+  },
+  reportSubstitutionsAway[] {
+    ...,
+    inPlayer-> { _id, name, number },
+    outPlayer-> { _id, name, number }
+  }
+`;
+
 // SEZONY
 export async function getSeasons() {
   return client.fetch(`
@@ -29,18 +84,7 @@ export async function getMatchesBySeason(seasonId: string) {
       scoreHome,
       scoreAway,
       opponent-> { _id, name, "logoUrl": logo.asset->url },
-      reportScorersHome,
-      reportScorersAway,
-      reportYellowCardsHome,
-      reportYellowCardsAway,
-      reportRedCardsHome,
-      reportRedCardsAway,
-      reportLineupHome,
-      reportLineupAway,
-      reportBenchHome,
-      reportBenchAway,
-      reportSubstitutionsHome,
-      reportSubstitutionsAway,
+      ${matchReportFields},
       coachHome,
       coachAway
     }
@@ -49,7 +93,7 @@ export async function getMatchesBySeason(seasonId: string) {
   );
 }
 
-// MECZ po ID (do /mecz/[id])
+// MECZ po ID
 export async function getMatchById(id: string) {
   return client.fetch(
     `
@@ -64,18 +108,7 @@ export async function getMatchById(id: string) {
       scoreHome,
       scoreAway,
       opponent-> { _id, name, "logoUrl": logo.asset->url },
-      reportScorersHome,
-      reportScorersAway,
-      reportYellowCardsHome,
-      reportYellowCardsAway,
-      reportRedCardsHome,
-      reportRedCardsAway,
-      reportLineupHome,
-      reportLineupAway,
-      reportBenchHome,
-      reportBenchAway,
-      reportSubstitutionsHome,
-      reportSubstitutionsAway,
+      ${matchReportFields},
       coachHome,
       coachAway
     }
@@ -84,7 +117,7 @@ export async function getMatchById(id: string) {
   );
 }
 
-// WSZYSTKIE MECZE (do liczenia statystyk zawodników — lib/stats.ts)
+// WSZYSTKIE MECZE (do liczenia statystyk zawodników)
 export async function getAllMatches() {
   return client.fetch(`
     *[_type == "match"] {
@@ -95,16 +128,7 @@ export async function getAllMatches() {
       scoreHome,
       scoreAway,
       opponent-> { name },
-      reportScorersHome,
-      reportScorersAway,
-      reportYellowCardsHome,
-      reportYellowCardsAway,
-      reportRedCardsHome,
-      reportRedCardsAway,
-      reportLineupHome,
-      reportLineupAway,
-      reportSubstitutionsHome,
-      reportSubstitutionsAway
+      ${matchReportFields}
     }
   `);
 }
@@ -148,7 +172,7 @@ export async function getSponsors() {
   `);
 }
 
-// AKTUALNOŚCI — lista
+// AKTUALNOŚCI
 export async function getNews() {
   return client.fetch(`
     *[_type == "news"] | order(publishedAt desc) {
@@ -163,7 +187,7 @@ export async function getNews() {
   `);
 }
 
-// AKTUALNOŚĆ — pojedyncza (po slug)
+// AKTUALNOŚĆ
 export async function getNewsBySlug(slug: string) {
   return client.fetch(
     `

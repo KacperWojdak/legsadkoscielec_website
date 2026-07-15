@@ -14,6 +14,8 @@ type Player = {
   photoModal: any;
 };
 
+type PlayerRef = { _id: string; name: string; number?: number } | null;
+
 export default function MatchClient({
   match,
   players,
@@ -27,22 +29,39 @@ export default function MatchClient({
   home: string;
   away: string;
 }) {
-  const [selectedPlayerName, setSelectedPlayerName] = useState<string | null>(null);
-  const selectedPlayer = players.find((p) => p.name === selectedPlayerName);
+  const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
+  const selectedPlayer = players.find((p) => p._id === selectedPlayerId);
+  const renderEntry = (entry: { name?: string; player?: PlayerRef }, isLegsad: boolean) => {
+    const displayName = entry.player?.name ?? entry.name ?? "Nieznany zawodnik";
 
-  const renderName = (name: string, isLegsad: boolean) => {
-    const isKnownPlayer = players.some((p) => p.name === name);
-    if (isLegsad && isKnownPlayer) {
+    if (isLegsad && entry.player) {
       return (
         <button
-          onClick={() => setSelectedPlayerName(name)}
+          onClick={() => setSelectedPlayerId(entry.player!._id)}
           className="cursor-pointer text-white transition-colors hover:text-brand-red"
         >
-          {name}
+          {displayName}
         </button>
       );
     }
-    return <span className={isLegsad ? "text-white" : "text-white/60"}>{name}</span>;
+    return <span className={isLegsad ? "text-white" : "text-white/60"}>{displayName}</span>;
+  };
+
+  const renderAssist = (entry: { assist?: string; assistPlayer?: PlayerRef }) => {
+    const assistName = entry.assistPlayer?.name ?? entry.assist;
+    if (!assistName) return null;
+
+    if (entry.assistPlayer) {
+      return (
+        <button
+          onClick={() => setSelectedPlayerId(entry.assistPlayer!._id)}
+          className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
+        >
+          {assistName}
+        </button>
+      );
+    }
+    return <span className="text-brand-muted">{assistName}</span>;
   };
 
   const scorersHome = match.reportScorersHome ?? [];
@@ -72,9 +91,9 @@ export default function MatchClient({
           Strzelcy
         </p>
 
-        {/* DESKTOP */}
+        {/* DESKTOP — dwie kolumny */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-6">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col items-start gap-3">
             {scorersHome
               .slice()
               .sort((a: any, b: any) => a.minute - b.minute)
@@ -83,16 +102,10 @@ export default function MatchClient({
                   <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
                   <span className="shrink-0">⚽</span>
                   <div className="min-w-0 flex-1">
-                    {renderName(g.name, match.homeIsLegsad)}
-                    {g.assist && (
+                    {renderEntry(g, match.homeIsLegsad)}
+                    {(g.assist || g.assistPlayer) && (
                       <div className="text-xs text-brand-muted">
-                        Asysta:{" "}
-                        <button
-                          onClick={() => setSelectedPlayerName(g.assist)}
-                          className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
-                        >
-                          {g.assist}
-                        </button>
+                        Asysta: {renderAssist(g)}
                       </div>
                     )}
                   </div>
@@ -109,16 +122,10 @@ export default function MatchClient({
               .map((g: any, i: number) => (
                 <div key={i} className="flex items-start gap-2 text-sm">
                   <div className="min-w-0 flex-1 text-right">
-                    {renderName(g.name, !match.homeIsLegsad)}
-                    {g.assist && (
+                    {renderEntry(g, !match.homeIsLegsad)}
+                    {(g.assist || g.assistPlayer) && (
                       <div className="text-xs text-brand-muted">
-                        Asysta:{" "}
-                        <button
-                          onClick={() => setSelectedPlayerName(g.assist)}
-                          className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
-                        >
-                          {g.assist}
-                        </button>
+                        Asysta: {renderAssist(g)}
                       </div>
                     )}
                   </div>
@@ -132,7 +139,7 @@ export default function MatchClient({
           </div>
         </div>
 
-        {/* MOBILE */}
+        {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
         <div className="flex flex-col gap-3 md:hidden">
           {[
             ...scorersHome.map((g: any) => ({ ...g, team: home, isLegsad: match.homeIsLegsad })),
@@ -145,17 +152,11 @@ export default function MatchClient({
                 <span className="shrink-0">⚽</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-baseline gap-x-1">
-                    {renderName(g.name, g.isLegsad)}
+                    {renderEntry(g, g.isLegsad)}
                   </div>
-                  {g.assist && (
+                  {(g.assist || g.assistPlayer) && (
                     <div className="text-xs text-brand-muted">
-                      Asysta:{" "}
-                      <button
-                        onClick={() => setSelectedPlayerName(g.assist)}
-                        className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
-                      >
-                        {g.assist}
-                      </button>
+                      Asysta: {renderAssist(g)}
                     </div>
                   )}
                 </div>
@@ -182,7 +183,7 @@ export default function MatchClient({
           Kartki
         </p>
 
-        {/* DESKTOP */}
+        {/* DESKTOP — dwie kolumny */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-6">
           {[
             { cards: [...yellowHome.map((c: any) => ({ ...c, type: "yellow" as const })), ...redHome.map((c: any) => ({ ...c, type: "red" as const }))], isLegsad: match.homeIsLegsad },
@@ -195,7 +196,7 @@ export default function MatchClient({
                 .map((c: any, i: number) =>
                   sideIndex === 1 ? (
                     <div key={i} className="flex items-center gap-3 text-sm">
-                      <div className="min-w-0 flex-1 text-right">{renderName(c.name, side.isLegsad)}</div>
+                      <div className="min-w-0 flex-1 text-right">{renderEntry(c, side.isLegsad)}</div>
                       {c.type === "red" && c.isSecondYellow ? (
                         <div className="relative h-3.5 w-4 shrink-0">
                           <span className="absolute left-0 top-0 h-3.5 w-3 rounded-xs bg-yellow-400" />
@@ -225,7 +226,7 @@ export default function MatchClient({
                           }`}
                         />
                       )}
-                      <div className="min-w-0 flex-1">{renderName(c.name, side.isLegsad)}</div>
+                      <div className="min-w-0 flex-1">{renderEntry(c, side.isLegsad)}</div>
                     </div>
                   )
                 )}
@@ -236,7 +237,7 @@ export default function MatchClient({
           ))}
         </div>
 
-        {/* MOBILE */}
+        {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
         <div className="flex flex-col gap-3 md:hidden">
           {[
             ...yellowHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
@@ -262,7 +263,7 @@ export default function MatchClient({
                   />
                 )}
 
-                <div className="min-w-0 flex-1">{renderName(c.name, c.isLegsad)}</div>
+                <div className="min-w-0 flex-1">{renderEntry(c, c.isLegsad)}</div>
                 <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
                   {c.team}
                 </span>
@@ -287,13 +288,13 @@ export default function MatchClient({
         </p>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 
-          <div className="text-center">
+          <div>
             <p className="mb-3 font-bebas text-lg text-white">{home}</p>
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-start gap-1.5">
               {lineupHome.map((p: any, i: number) => (
                 <div key={i} className="flex items-center gap-2 text-sm">
-                  <span className="text-brand-red">{p.number}</span>
-                  {renderName(p.name, match.homeIsLegsad)}
+                  <span className="w-6 text-brand-red">{p.number}</span>
+                  {renderEntry(p, match.homeIsLegsad)}
                 </div>
               ))}
             </div>
@@ -303,11 +304,11 @@ export default function MatchClient({
                 <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
                   Ławka rezerwowych
                 </p>
-                <div className="flex flex-col items-center gap-1.5">
+                <div className="flex flex-col items-start gap-1.5">
                   {benchHome.map((p: any, i: number) => (
-                    <div key={i} className="flex items-center gap-3 text-sm text-white/40">
+                    <div key={i} className="flex items-center gap-2 text-sm text-white/40">
                       <span className="w-6 text-brand-muted">{p.number}</span>
-                      <span>{p.name}</span>
+                      <span>{p.player?.name ?? p.name}</span>
                     </div>
                   ))}
                 </div>
@@ -317,13 +318,13 @@ export default function MatchClient({
             <p className="mt-3 text-xs text-brand-muted">Trener: {match.coachHome}</p>
           </div>
 
-          <div className="text-center">
+          <div className="md:text-right">
             <p className="mb-3 font-bebas text-lg text-white">{away}</p>
-            <div className="flex flex-col items-center gap-1.5">
+            <div className="flex flex-col items-start gap-1.5 md:items-end">
               {lineupAway.map((p: any, i: number) => (
-                <div key={i} className="flex gap-2 items-center text-sm">
-                  <span className="text-brand-red">{p.number}</span>
-                  {renderName(p.name, !match.homeIsLegsad)}
+                <div key={i} className="flex items-center gap-2 text-sm">
+                  <span className="w-6 text-brand-red md:order-2">{p.number}</span>
+                  <span className="md:order-1">{renderEntry(p, !match.homeIsLegsad)}</span>
                 </div>
               ))}
             </div>
@@ -333,11 +334,11 @@ export default function MatchClient({
                 <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
                   Ławka rezerwowych
                 </p>
-                <div className="flex flex-col gap-1.5">
+                <div className="flex flex-col items-start gap-1.5 md:items-end">
                   {benchAway.map((p: any, i: number) => (
-                    <div key={i} className="flex items-center gap-3 text-sm text-white/40">
-                      <span className="text-brand-muted">{p.number}</span>
-                      <span>{p.name}</span>
+                    <div key={i} className="flex items-center gap-2 text-sm text-white/40">
+                      <span className="w-6 text-brand-muted md:order-2">{p.number}</span>
+                      <span className="md:order-1">{p.player?.name ?? p.name}</span>
                     </div>
                   ))}
                 </div>
@@ -346,6 +347,7 @@ export default function MatchClient({
 
             <p className="mt-3 text-xs text-brand-muted">Trener: {match.coachAway}</p>
           </div>
+
         </div>
       </motion.div>
 
@@ -362,7 +364,7 @@ export default function MatchClient({
             Zmiany
           </p>
 
-          {/* DESKTOP */}
+          {/* DESKTOP — dwie kolumny */}
           <div className="hidden md:grid md:grid-cols-2 md:gap-6">
             <div className="flex flex-col items-start gap-4">
               {subsHome
@@ -374,11 +376,11 @@ export default function MatchClient({
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="shrink-0 text-green-400">↑</span>
-                        {renderName(s.in, match.homeIsLegsad)}
+                        {renderEntry({ name: s.in, player: s.inPlayer }, match.homeIsLegsad)}
                       </div>
                       <div className="mt-0.5 flex items-center gap-2">
                         <span className="shrink-0 text-red-500">↓</span>
-                        <span className="text-brand-muted">{s.out}</span>
+                        <span className="text-brand-muted">{s.outPlayer?.name ?? s.out}</span>
                       </div>
                     </div>
                   </div>
@@ -395,11 +397,11 @@ export default function MatchClient({
                   <div key={i} className="flex items-center gap-3 text-sm">
                     <div className="min-w-0 flex-1 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {renderName(s.in, !match.homeIsLegsad)}
+                        {renderEntry({ name: s.in, player: s.inPlayer }, !match.homeIsLegsad)}
                         <span className="shrink-0 text-green-400">↑</span>
                       </div>
                       <div className="mt-0.5 flex items-center justify-end gap-2">
-                        <span className="text-brand-muted">{s.out}</span>
+                        <span className="text-brand-muted">{s.outPlayer?.name ?? s.out}</span>
                         <span className="shrink-0 text-red-500">↓</span>
                       </div>
                     </div>
@@ -412,7 +414,7 @@ export default function MatchClient({
             </div>
           </div>
 
-          {/* MOBILE */}
+          {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
           <div className="flex flex-col gap-4 md:hidden">
             {[
               ...subsHome.map((s: any) => ({ ...s, team: home, isLegsad: match.homeIsLegsad })),
@@ -425,11 +427,11 @@ export default function MatchClient({
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="shrink-0 text-green-400">↑</span>
-                      {renderName(s.in, s.isLegsad)}
+                      {renderEntry({ name: s.in, player: s.inPlayer }, s.isLegsad)}
                     </div>
                     <div className="mt-0.5 flex items-center gap-2">
                       <span className="shrink-0 text-red-500">↓</span>
-                      <span className="text-brand-muted">{s.out}</span>
+                      <span className="text-brand-muted">{s.outPlayer?.name ?? s.out}</span>
                     </div>
                   </div>
                   <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
@@ -458,7 +460,7 @@ export default function MatchClient({
                 czysteKonta: 0,
               }
             }
-            onClose={() => setSelectedPlayerName(null)}
+            onClose={() => setSelectedPlayerId(null)}
           />
         )}
       </AnimatePresence>

@@ -1,3 +1,5 @@
+type PlayerRef = { _id: string; name: string; number?: number } | null;
+
 export type SanityMatch = {
   _id: string;
   date: string;
@@ -6,17 +8,21 @@ export type SanityMatch = {
   scoreHome: number | null;
   scoreAway: number | null;
   opponent?: { name: string };
-  reportScorersHome?: { name: string; minute: number; assist?: string }[];
-  reportScorersAway?: { name: string; minute: number; assist?: string }[];
-  reportYellowCardsHome?: { name: string; minute: number }[];
-  reportYellowCardsAway?: { name: string; minute: number }[];
-  reportRedCardsHome?: { name: string; minute: number; isSecondYellow?: boolean }[];
-  reportRedCardsAway?: { name: string; minute: number; isSecondYellow?: boolean }[];
-  reportLineupHome?: { number: number; name: string }[];
-  reportLineupAway?: { number: number; name: string }[];
-  reportSubstitutionsHome?: { out: string; in: string; minute: number }[];
-  reportSubstitutionsAway?: { out: string; in: string; minute: number }[];
+  reportScorersHome?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
+  reportScorersAway?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
+  reportYellowCardsHome?: { name?: string; player?: PlayerRef; minute: number }[];
+  reportYellowCardsAway?: { name?: string; player?: PlayerRef; minute: number }[];
+  reportRedCardsHome?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
+  reportRedCardsAway?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
+  reportLineupHome?: { number: number; name?: string; player?: PlayerRef }[];
+  reportLineupAway?: { number: number; name?: string; player?: PlayerRef }[];
+  reportSubstitutionsHome?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
+  reportSubstitutionsAway?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
 };
+
+function resolveName(entry: { name?: string; player?: PlayerRef }): string {
+  return entry.player?.name ?? entry.name ?? "Nieznany zawodnik";
+}
 
 export type PlayerStats = {
   name: string;
@@ -58,22 +64,26 @@ export function computePlayerStats(matches: SanityMatch[]): Record<string, Playe
     const scorers =
       legsadSide === "home" ? match.reportScorersHome : match.reportScorersAway;
     for (const g of scorers ?? []) {
-      getOrCreate(g.name).gole += 1;
-      if (g.assist) getOrCreate(g.assist).asysty += 1;
+      const scorerName = resolveName(g);
+      getOrCreate(scorerName).gole += 1;
+
+      const assistName = g.assistPlayer?.name ?? g.assist;
+      if (assistName) getOrCreate(assistName).asysty += 1;
     }
 
     const yellowCards =
       legsadSide === "home" ? match.reportYellowCardsHome : match.reportYellowCardsAway;
     for (const c of yellowCards ?? []) {
-      getOrCreate(c.name).zolteKartki += 1;
+      getOrCreate(resolveName(c)).zolteKartki += 1;
     }
 
     const redCards =
       legsadSide === "home" ? match.reportRedCardsHome : match.reportRedCardsAway;
     for (const c of redCards ?? []) {
-      getOrCreate(c.name).czerwoneKartki += 1;
+      const name = resolveName(c);
+      getOrCreate(name).czerwoneKartki += 1;
       if (c.isSecondYellow) {
-        getOrCreate(c.name).zolteKartki += 1;
+        getOrCreate(name).zolteKartki += 1;
       }
     }
 
@@ -84,14 +94,15 @@ export function computePlayerStats(matches: SanityMatch[]): Record<string, Playe
 
     const redCardMinuteByName = new Map<string, number>();
     for (const c of redCards ?? []) {
-      redCardMinuteByName.set(c.name, c.minute);
+      redCardMinuteByName.set(resolveName(c), c.minute);
     }
 
     for (const p of lineup ?? []) {
-      const s = getOrCreate(p.name);
+      const name = resolveName(p);
+      const s = getOrCreate(name);
       s.mecze += 1;
 
-      const redMinute = redCardMinuteByName.get(p.name);
+      const redMinute = redCardMinuteByName.get(name);
       if (redMinute !== undefined) {
         s.minuty += redMinute;
       } else {
@@ -100,24 +111,27 @@ export function computePlayerStats(matches: SanityMatch[]): Record<string, Playe
     }
 
     for (const sub of subs ?? []) {
-      const outPlayer = getOrCreate(sub.out);
-      outPlayer.minuty -= 90 - sub.minute;
+      const outName = sub.outPlayer?.name ?? sub.out ?? "Nieznany zawodnik";
+      const inName = sub.inPlayer?.name ?? sub.in ?? "Nieznany zawodnik";
 
-      const inPlayer = getOrCreate(sub.in);
-      inPlayer.mecze += 1;
+      const outPlayerStats = getOrCreate(outName);
+      outPlayerStats.minuty -= 90 - sub.minute;
 
-      const redMinute = redCardMinuteByName.get(sub.in);
+      const inPlayerStats = getOrCreate(inName);
+      inPlayerStats.mecze += 1;
+
+      const redMinute = redCardMinuteByName.get(inName);
       if (redMinute !== undefined) {
-        inPlayer.minuty += redMinute - sub.minute;
+        inPlayerStats.minuty += redMinute - sub.minute;
       } else {
-        inPlayer.minuty += 90 - sub.minute;
+        inPlayerStats.minuty += 90 - sub.minute;
       }
     }
 
     const opponentScore = match.homeIsLegsad ? match.scoreAway : match.scoreHome;
     if (opponentScore === 0 && lineup) {
       const goalkeeper = lineup.find((p) => p.number === 1 || p.number === 99);
-      if (goalkeeper) getOrCreate(goalkeeper.name).czysteKonta += 1;
+      if (goalkeeper) getOrCreate(resolveName(goalkeeper)).czysteKonta += 1;
     }
   }
 

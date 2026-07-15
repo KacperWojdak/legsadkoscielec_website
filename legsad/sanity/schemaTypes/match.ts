@@ -1,17 +1,43 @@
 import { defineField, defineType } from "sanity";
+import { AutoFillNumberInput } from "../components/AutoFillNumberInput";
 
 const scorerField = defineField({
   name: "scorer",
   title: "Strzelec",
   type: "object",
   fields: [
-    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "player",
+      title: "Zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+      description: "Wybierz, jeśli strzelcem jest zawodnik Legsadu",
+    }),
+    defineField({
+      name: "name",
+      title: "Imię i nazwisko (jeśli przeciwnik lub brak na liście)",
+      type: "string",
+      description: "Wypełnij tylko, jeśli nie wybrałeś zawodnika powyżej",
+    }),
     defineField({ name: "minute", title: "Minuta", type: "number", validation: (Rule) => Rule.required() }),
-    defineField({ name: "assist", title: "Asysta (opcjonalnie)", type: "string" }),
+    defineField({
+      name: "assistPlayer",
+      title: "Asysta — zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+    }),
+    defineField({
+      name: "assist",
+      title: "Asysta — imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
   ],
   preview: {
-    select: { title: "name", subtitle: "minute" },
-    prepare: ({ title, subtitle }) => ({ title, subtitle: `${subtitle}'` }),
+    select: { title: "name", playerName: "player.name", subtitle: "minute" },
+    prepare: ({ title, playerName, subtitle }) => ({
+      title: playerName ?? title,
+      subtitle: `${subtitle}'`,
+    }),
   },
 });
 
@@ -20,12 +46,25 @@ const cardField = defineField({
   title: "Kartka",
   type: "object",
   fields: [
-    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "player",
+      title: "Zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+    }),
+    defineField({
+      name: "name",
+      title: "Imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
     defineField({ name: "minute", title: "Minuta", type: "number", validation: (Rule) => Rule.required() }),
   ],
   preview: {
-    select: { title: "name", subtitle: "minute" },
-    prepare: ({ title, subtitle }) => ({ title, subtitle: `${subtitle}'` }),
+    select: { title: "name", playerName: "player.name", subtitle: "minute" },
+    prepare: ({ title, playerName, subtitle }) => ({
+      title: playerName ?? title,
+      subtitle: `${subtitle}'`,
+    }),
   },
 });
 
@@ -34,7 +73,17 @@ const redCardField = defineField({
   title: "Czerwona kartka",
   type: "object",
   fields: [
-    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "player",
+      title: "Zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+    }),
+    defineField({
+      name: "name",
+      title: "Imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
     defineField({ name: "minute", title: "Minuta", type: "number", validation: (Rule) => Rule.required() }),
     defineField({
       name: "isSecondYellow",
@@ -45,9 +94,9 @@ const redCardField = defineField({
     }),
   ],
   preview: {
-    select: { title: "name", subtitle: "minute", isSecondYellow: "isSecondYellow" },
-    prepare: ({ title, subtitle, isSecondYellow }) => ({
-      title,
+    select: { title: "name", playerName: "player.name", subtitle: "minute", isSecondYellow: "isSecondYellow" },
+    prepare: ({ title, playerName, subtitle, isSecondYellow }) => ({
+      title: playerName ?? title,
       subtitle: isSecondYellow ? `${subtitle}' · 2. żółta → czerwona` : `${subtitle}'`,
     }),
   },
@@ -58,12 +107,58 @@ const lineupPlayerField = defineField({
   title: "Zawodnik w składzie",
   type: "object",
   fields: [
-    defineField({ name: "number", title: "Numer", type: "number", validation: (Rule) => Rule.required() }),
-    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "player",
+      title: "Zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+      options: {
+        filter: ({ document, parentPath }) => {
+          const pathStr = JSON.stringify(parentPath);
+          const isHome = pathStr.includes("Home");
+
+          const lineupField = isHome ? "reportLineupHome" : "reportLineupAway";
+          const benchField = isHome ? "reportBenchHome" : "reportBenchAway";
+
+          const usedIds = [
+            ...((document?.[lineupField] as any[]) ?? []),
+            ...((document?.[benchField] as any[]) ?? []),
+          ]
+            .map((entry) => entry?.player?._ref)
+            .filter(Boolean);
+
+          if (usedIds.length === 0) {
+            return { filter: "true" };
+          }
+
+          return {
+            filter: "!(_id in $usedIds)",
+            params: { usedIds },
+          };
+        },
+      },
+    }),
+    defineField({
+      name: "name",
+      title: "Imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
+    defineField({
+      name: "number",
+      title: "Numer",
+      type: "number",
+      validation: (Rule) => Rule.required(),
+      components: {
+        input: AutoFillNumberInput,
+      },
+    }),
   ],
   preview: {
-    select: { title: "name", subtitle: "number" },
-    prepare: ({ title, subtitle }) => ({ title, subtitle: `#${subtitle}` }),
+    select: { title: "name", playerName: "player.name", subtitle: "number" },
+    prepare: ({ title, playerName, subtitle }) => ({
+      title: playerName ?? title,
+      subtitle: `#${subtitle}`,
+    }),
   },
 });
 
@@ -73,12 +168,35 @@ const substitutionField = defineField({
   type: "object",
   fields: [
     defineField({ name: "minute", title: "Minuta", type: "number", validation: (Rule) => Rule.required() }),
-    defineField({ name: "in", title: "Wchodzi", type: "string", validation: (Rule) => Rule.required() }),
-    defineField({ name: "out", title: "Schodzi", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({
+      name: "inPlayer",
+      title: "Wchodzi — zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+    }),
+    defineField({
+      name: "in",
+      title: "Wchodzi — imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
+    defineField({
+      name: "outPlayer",
+      title: "Schodzi — zawodnik Legsadu (wybierz z listy)",
+      type: "reference",
+      to: [{ type: "player" }],
+    }),
+    defineField({
+      name: "out",
+      title: "Schodzi — imię i nazwisko (jeśli przeciwnik)",
+      type: "string",
+    }),
   ],
   preview: {
-    select: { title: "in", subtitle: "minute" },
-    prepare: ({ title, subtitle }) => ({ title: `↑ ${title}`, subtitle: `${subtitle}'` }),
+    select: { title: "in", playerName: "inPlayer.name", subtitle: "minute" },
+    prepare: ({ title, playerName, subtitle }) => ({
+      title: `↑ ${playerName ?? title}`,
+      subtitle: `${subtitle}'`,
+    }),
   },
 });
 
@@ -127,11 +245,11 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-    name: "opponent",
-    title: "Przeciwnik",
-    type: "reference",
-    to: [{ type: "club" }],
-    validation: (Rule) => Rule.required(),
+      name: "opponent",
+      title: "Przeciwnik",
+      type: "reference",
+      to: [{ type: "club" }],
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "status",
@@ -159,7 +277,6 @@ export default defineType({
       hidden: ({ document }) => document?.status !== "finished",
     }),
 
-    // RAPORT MECZOWY — widoczny tylko dla zakończonych meczów
     defineField({
       name: "reportScorersHome",
       title: "Strzelcy — gospodarz",
@@ -189,19 +306,19 @@ export default defineType({
       hidden: ({ document }) => document?.status !== "finished",
     }),
     defineField({
-    name: "reportRedCardsHome",
-    title: "Czerwone kartki — gospodarz",
-    type: "array",
-    of: [redCardField],
-    hidden: ({ document }) => document?.status !== "finished",
-  }),
-  defineField({
-    name: "reportRedCardsAway",
-    title: "Czerwone kartki — gość",
-    type: "array",
-    of: [redCardField],
-    hidden: ({ document }) => document?.status !== "finished",
-  }),
+      name: "reportRedCardsHome",
+      title: "Czerwone kartki — gospodarz",
+      type: "array",
+      of: [redCardField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "reportRedCardsAway",
+      title: "Czerwone kartki — gość",
+      type: "array",
+      of: [redCardField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
     defineField({
       name: "reportLineupHome",
       title: "Skład — gospodarz",
