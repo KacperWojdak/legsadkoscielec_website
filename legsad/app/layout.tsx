@@ -26,13 +26,6 @@ export const metadata: Metadata = {
     siteName: "GKS Legsad Kościelec",
     locale: "pl_PL",
     type: "website",
-    images: [
-      {
-        url: "https://gkslegsadkoscielec.netlify.app/images/logo-pink.png",
-        width: 800,
-        height: 800,
-      },
-    ],
   },
   twitter: {
     card: "summary",

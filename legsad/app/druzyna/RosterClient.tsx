@@ -53,26 +53,26 @@ function PlayerCard({
       }`}
     >
       <div className="absolute right-0 top-0 opacity-10">
-        <img src="/images/logo-white.png" alt="" className="h-36 w-36 object-contain" />
+        <img src="/images/logo-white.png" alt="" className="h-40 w-40 object-contain" />
       </div>
 
       {number && (
-        <span className="absolute right-3 top-3 z-10 font-bebas text-3xl text-brand-red">
+        <span className="absolute right-3 top-3 z-10 font-bebas text-4xl text-brand-red">
           {number}
         </span>
       )}
 
-      <div className="relative z-10 flex h-48 items-end justify-center overflow-hidden">
+      <div className="relative z-10 flex h-56 items-end justify-center overflow-hidden">
         <img
           src={imageUrl}
           alt={name}
-          className="h-48 w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
+          className="h-56 w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
-      <div className="relative z-10 border-t border-brand-border bg-brand-black/60 px-4 py-3 text-center">
-        <p className="font-bebas text-lg leading-tight text-white">{name}</p>
-        {role && <p className="text-[10px] uppercase tracking-widest text-brand-muted">{role}</p>}
+      <div className="relative z-10 border-t border-brand-border bg-brand-black/60 px-4 py-4 text-center">
+        <p className="font-bebas text-xl leading-tight text-white">{name}</p>
+        {role && <p className="text-[11px] uppercase tracking-widest text-brand-muted">{role}</p>}
       </div>
     </div>
   );

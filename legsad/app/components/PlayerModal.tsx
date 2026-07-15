@@ -41,7 +41,7 @@ export default function PlayerModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: 12 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
-        className="relative w-full max-w-sm rounded-2xl border border-brand-border bg-brand-surface"
+        className="relative w-full max-w-md rounded-2xl border border-brand-border bg-brand-surface"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -54,24 +54,24 @@ export default function PlayerModal({
 
         <div className="relative overflow-hidden rounded-t-2xl bg-brand-black">
           <div className="absolute right-0 top-0 opacity-10">
-            <img src="/images/logo-white.png" alt="" className="h-40 w-40 object-contain" />
+            <img src="/images/logo-white.png" alt="" className="h-44 w-44 object-contain" />
           </div>
           {player.number && (
-            <span className="absolute right-4 bottom-1 z-10 font-bebas text-4xl text-brand-red">
+            <span className="absolute right-4 bottom-1 z-10 font-bebas text-5xl text-brand-red">
               {player.number}
             </span>
           )}
-          <div className="relative z-10 flex h-56 items-end justify-center">
+          <div className="relative z-10 flex h-64 items-end justify-center">
             <img
               src={imageUrl}
               alt={player.name}
-              className="h-56 w-auto object-contain object-bottom"
+              className="h-64 w-auto object-contain object-bottom"
             />
           </div>
         </div>
 
-        <div className="border-b border-brand-border px-6 py-4 text-center">
-          <p className="font-bebas text-2xl text-white">{player.name}</p>
+        <div className="border-b border-brand-border px-6 py-5 text-center">
+          <p className="font-bebas text-3xl text-white">{player.name}</p>
           <p className="text-xs uppercase tracking-widest text-brand-muted">{player.position}</p>
         </div>
 
@@ -81,24 +81,24 @@ export default function PlayerModal({
             { value: s.gole, label: "Gole" },
             { value: s.asysty, label: "Asysty" },
           ].map((stat) => (
-            <div key={stat.label} className="flex flex-col items-center py-4">
-              <span className="font-bebas text-3xl text-brand-red">{stat.value}</span>
-              <span className="text-[10px] uppercase tracking-widest text-brand-muted">{stat.label}</span>
+            <div key={stat.label} className="flex flex-col items-center py-5">
+              <span className="font-bebas text-4xl text-brand-red">{stat.value}</span>
+              <span className="text-[11px] uppercase tracking-widest text-brand-muted">{stat.label}</span>
             </div>
           ))}
         </div>
         <div className="grid grid-cols-3 divide-x divide-brand-border border-t border-brand-border">
-          <div className="flex flex-col items-center py-4">
-            <span className="font-bebas text-2xl text-white">{s.minuty}&apos;</span>
-            <span className="text-[10px] uppercase tracking-widest text-brand-muted">Minuty</span>
+          <div className="flex flex-col items-center py-5">
+            <span className="font-bebas text-3xl text-white">{s.minuty}&apos;</span>
+            <span className="text-[11px] uppercase tracking-widest text-brand-muted">Minuty</span>
           </div>
-          <div className="flex flex-col items-center py-4">
-            <span className="font-bebas text-2xl text-yellow-400">{s.zolteKartki}</span>
-            <span className="text-[10px] uppercase tracking-widest text-brand-muted">Żółte kartki</span>
+          <div className="flex flex-col items-center py-5">
+            <span className="font-bebas text-3xl text-yellow-400">{s.zolteKartki}</span>
+            <span className="text-[11px] uppercase tracking-widest text-brand-muted">Żółte kartki</span>
           </div>
-          <div className="flex flex-col items-center py-4">
-            <span className="font-bebas text-2xl text-red-500">{s.czerwoneKartki}</span>
-            <span className="text-[8px] uppercase tracking-widest text-brand-muted">Czerwone kartki</span>
+          <div className="flex flex-col items-center py-5">
+            <span className="font-bebas text-3xl text-red-500">{s.czerwoneKartki}</span>
+            <span className="text-[9px] uppercase tracking-widest text-brand-muted">Czerwone kartki</span>
           </div>
         </div>
 
