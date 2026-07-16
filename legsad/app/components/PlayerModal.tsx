@@ -1,17 +1,8 @@
 "use client";
 
 import { motion } from "motion/react";
-import type { PlayerStats } from "../../lib/stats";
+import type { PlayerStats, Player } from "../../lib/types";
 import { urlFor } from "../../lib/sanity";
-
-type Player = {
-  _id: string;
-  name: string;
-  position: string;
-  number: number;
-  photoCard?: any;
-  photoModal?: any;
-};
 
 export default function PlayerModal({
   player,

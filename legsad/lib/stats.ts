@@ -1,39 +1,9 @@
-type PlayerRef = { _id: string; name: string; number?: number } | null;
-
-export type SanityMatch = {
-  _id: string;
-  date: string;
-  homeIsLegsad: boolean;
-  status: string;
-  scoreHome: number | null;
-  scoreAway: number | null;
-  opponent?: { name: string };
-  reportScorersHome?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
-  reportScorersAway?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
-  reportYellowCardsHome?: { name?: string; player?: PlayerRef; minute: number }[];
-  reportYellowCardsAway?: { name?: string; player?: PlayerRef; minute: number }[];
-  reportRedCardsHome?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
-  reportRedCardsAway?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
-  reportLineupHome?: { number: number; name?: string; player?: PlayerRef }[];
-  reportLineupAway?: { number: number; name?: string; player?: PlayerRef }[];
-  reportSubstitutionsHome?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
-  reportSubstitutionsAway?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
-};
+import type { PlayerRef, SanityMatch, PlayerStats } from "./types";
+export type { PlayerStats, SanityMatch }
 
 function resolveName(entry: { name?: string; player?: PlayerRef }): string {
   return entry.player?.name ?? entry.name ?? "Nieznany zawodnik";
 }
-
-export type PlayerStats = {
-  name: string;
-  mecze: number;
-  gole: number;
-  asysty: number;
-  minuty: number;
-  zolteKartki: number;
-  czerwoneKartki: number;
-  czysteKonta: number;
-};
 
 function emptyStats(name: string): PlayerStats {
   return {

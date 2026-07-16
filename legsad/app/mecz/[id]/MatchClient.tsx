@@ -3,18 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import PlayerModal from "../../components/PlayerModal";
-import type { PlayerStats } from "../../../lib/stats";
-
-type Player = {
-  _id: string;
-  name: string;
-  position: string;
-  number: number;
-  photoCard: any;
-  photoModal: any;
-};
-
-type PlayerRef = { _id: string; name: string; number?: number } | null;
+import type { PlayerStats, Player, PlayerRef } from "../../../lib/types";
 
 export default function MatchClient({
   match,

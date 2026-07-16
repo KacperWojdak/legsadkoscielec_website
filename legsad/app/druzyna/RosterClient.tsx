@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import PlayerModal from "../components/PlayerModal";
+import PlayerStatsTable from "./PlayerStatsTable";
 import { urlFor } from "../../lib/sanity";
-import type { PlayerStats } from "../../lib/stats";
+import type { PlayerStats, Player, StaffMember } from "../../lib/types";
 
 const positionOrder = ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"];
 const positionLabel: Record<string, string> = {
@@ -12,22 +13,6 @@ const positionLabel: Record<string, string> = {
   "Obrońca": "Obrońcy",
   "Pomocnik": "Pomocnicy",
   "Napastnik": "Napastnicy",
-};
-
-type Player = {
-  _id: string;
-  name: string;
-  position: string;
-  number: number;
-  photoCard?: any;
-  photoModal?: any;
-};
-
-type StaffMember = {
-  _id: string;
-  name: string;
-  role: string;
-  photo?: any;
 };
 
 function PlayerCard({
@@ -88,6 +73,7 @@ export default function RosterClient({
   allPlayerStats: Record<string, PlayerStats>;
 }) {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [view, setView] = useState<"cards" | "table">("cards");
 
   return (
     <>
@@ -118,63 +104,104 @@ export default function RosterClient({
         </div>
       </div>
 
-      {positionOrder.map((position) => {
-        const group = players.filter((p) => p.position === position);
-        if (group.length === 0) return null;
+      {/* PRZEŁĄCZNIK WIDOKU */}
+      <div className="mb-8 flex items-center justify-center gap-3">
+        <div className="h-px w-8 bg-brand-border" />
+        <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+          Skład drużyny
+        </span>
+        <div className="h-px w-8 bg-brand-border" />
+      </div>
+      <div className="mb-10 flex justify-center gap-2">
+        <button
+          onClick={() => setView("cards")}
+          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+            view === "cards"
+              ? "bg-brand-red text-white"
+              : "border border-brand-border text-brand-muted hover:text-white"
+          }`}
+        >
+          Zawodnicy
+        </button>
+        <button
+          onClick={() => setView("table")}
+          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+            view === "table"
+              ? "bg-brand-red text-white"
+              : "border border-brand-border text-brand-muted hover:text-white"
+          }`}
+        >
+          Tabela statystyk
+        </button>
+      </div>
 
-        return (
-          <div key={position} className="mb-14">
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <div className="h-px w-8 bg-brand-border" />
-              <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
-                {positionLabel[position]}
-              </span>
-              <div className="h-px w-8 bg-brand-border" />
+      {view === "table" ? (
+        <div className="mb-14">
+          <PlayerStatsTable
+            players={players}
+            allPlayerStats={allPlayerStats}
+            onSelectPlayer={setSelectedPlayer}
+          />
+        </div>
+      ) : (
+        positionOrder.map((position) => {
+          const group = players.filter((p) => p.position === position);
+          if (group.length === 0) return null;
+
+          return (
+            <div key={position} className="mb-14">
+              <div className="mb-6 flex items-center justify-center gap-3">
+                <div className="h-px w-8 bg-brand-border" />
+                <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+                  {positionLabel[position]}
+                </span>
+                <div className="h-px w-8 bg-brand-border" />
+              </div>
+              <div className="flex flex-wrap justify-center gap-4">
+                {group.map((player, index) => (
+                  <motion.div
+                    key={player._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.4, delay: (index % 4) * 0.08, ease: "easeOut" }}
+                    className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] md:w-[calc(25%-0.75rem)]"
+                  >
+                    <PlayerCard
+                      name={player.name}
+                      photo={player.photoCard}
+                      number={player.number}
+                      onClick={() => setSelectedPlayer(player)}
+                    />
+                  </motion.div>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap justify-center gap-4">
-              {group.map((player, index) => (
-                <motion.div
-                  key={player._id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.4, delay: (index % 4) * 0.08, ease: "easeOut" }}
-                  className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)] md:w-[calc(25%-0.75rem)]"
-                >
-                  <PlayerCard
-                    name={player.name}
-                    photo={player.photoCard}
-                    number={player.number}
-                    onClick={() => setSelectedPlayer(player)}
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
 
       <AnimatePresence>
-      {selectedPlayer && (
-        <PlayerModal
-          key={selectedPlayer._id}
-          player={selectedPlayer}
-          stats={
-            allPlayerStats[selectedPlayer.name] ?? {
-              name: selectedPlayer.name,
-              mecze: 0,
-              gole: 0,
-              asysty: 0,
-              minuty: 0,
-              zolteKartki: 0,
-              czerwoneKartki: 0,
-              czysteKonta: 0,
+        {selectedPlayer && (
+          <PlayerModal
+            key={selectedPlayer._id}
+            player={selectedPlayer}
+            stats={
+              allPlayerStats[selectedPlayer.name] ?? {
+                name: selectedPlayer.name,
+                mecze: 0,
+                gole: 0,
+                asysty: 0,
+                minuty: 0,
+                zolteKartki: 0,
+                czerwoneKartki: 0,
+                czysteKonta: 0,
+              }
             }
-          }
-          onClose={() => setSelectedPlayer(null)}
-        />
-      )}
-    </AnimatePresence>
+            onClose={() => setSelectedPlayer(null)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }
