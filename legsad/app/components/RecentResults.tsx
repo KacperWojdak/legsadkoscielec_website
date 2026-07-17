@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getSeasons, getMatchesBySeason } from "../../lib/queries";
 
 function getResult(match: any) {
@@ -100,11 +101,15 @@ export default async function RecentResults() {
                   {result}
                 </div>
 
-                <img
-                  src={match.opponent.logoUrl ?? "/images/logo-white.png"}
-                  alt={opponent}
-                  className="h-8 w-8 object-contain shrink-0"
-                />
+                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
+                  <Image
+                    src={match.opponent.logoUrl ?? "/images/logo-white.png"}
+                    alt={opponent}
+                    width={24}
+                    height={24}
+                    className="object-contain"
+                  />
+                </div>
 
                 <div className="flex-1 min-w-0">
                   <p className="truncate text-sm font-medium text-white">
