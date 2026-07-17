@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getSponsors } from "../../lib/queries";
 import { urlFor } from "../../lib/sanity";
 
@@ -28,11 +29,15 @@ export default async function Sponsors() {
             <span className="text-[10px] uppercase tracking-widest text-brand-red md:hidden">
               Sponsor główny
             </span>
-            <img
-              src={featured.logo ? urlFor(featured.logo).width(200).url() : "/images/logo-white.png"}
-              alt={featured.name}
-              className="h-20 w-20 rounded-xl object-cover md:h-24 md:w-24"
-            />
+            <div className="relative h-20 w-20 overflow-hidden rounded-xl md:h-24 md:w-24">
+              <Image
+                src={featured.logo ? urlFor(featured.logo).width(200).url() : "/images/logo-white.png"}
+                alt={featured.name}
+                fill
+                sizes="96px"
+                className="object-cover"
+              />
+            </div>
             <div className="text-center md:text-left">
               <span className="hidden text-[10px] uppercase tracking-widest text-brand-red md:block">
                 Sponsor główny
@@ -52,11 +57,15 @@ export default async function Sponsors() {
               className="flex flex-col items-center justify-center gap-3 rounded-xl border border-brand-border bg-brand-surface px-4 py-6 transition-colors hover:border-brand-red"
             >
               {sponsor.logo ? (
-                <img
-                  src={urlFor(sponsor.logo).width(120).url()}
-                  alt={sponsor.name}
-                  className="h-14 w-14 rounded-lg object-cover"
-                />
+                <div className="relative h-14 w-14 overflow-hidden rounded-lg">
+                  <Image
+                    src={urlFor(sponsor.logo).width(120).url()}
+                    alt={sponsor.name}
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                </div>
               ) : (
                 <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-brand-black">
                   <span className="font-bebas text-xl text-brand-muted">

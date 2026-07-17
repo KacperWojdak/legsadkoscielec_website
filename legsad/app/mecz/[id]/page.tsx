@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import PageHeaderAccent from "@/app/components/PageHeaderAccent";
 import FadeInSection from "@/app/components/FadeInSection";
@@ -65,7 +66,7 @@ export default async function MatchPage({
   const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-brand-black pt-32 pb-20">
+    <main className="relative min-h-screen overflow-hidden bg-linear-to-br from-brand-crimson/40 via-brand-black to-black pt-32 pb-20">
       <PageHeaderAccent />
       <div className="mx-auto max-w-5xl px-6">
 
@@ -94,9 +95,9 @@ export default async function MatchPage({
               <div className="flex flex-1 flex-col items-center gap-3 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                   {match.homeIsLegsad ? (
-                    <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
+                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="object-contain" />
                   ) : (
-                    <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
+                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="object-contain" />
                   )}
                 </div>
                 <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
@@ -113,9 +114,9 @@ export default async function MatchPage({
               <div className="flex flex-1 flex-col items-center gap-3 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                   {!match.homeIsLegsad ? (
-                    <img src="/images/logo-pink.png" alt="" className="h-12 w-12 object-contain" />
+                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="object-contain" />
                   ) : (
-                    <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-12 w-12 object-contain" />
+                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="object-contain" />
                   )}
                 </div>
                 <span className="font-bebas text-xl leading-tight text-white md:text-2xl">

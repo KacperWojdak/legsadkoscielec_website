@@ -28,7 +28,7 @@ export default async function TerminarzPage() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-brand-crimson/15 to-brand-black pt-32 pb-20">
       <PageHeaderAccent />
-      <div className="relative mx-auto max-w-5xl px-6">
+      <div className="relative mx-auto max-w-6xl px-6">
 
         <FadeInSection>
           <div className="mb-10 text-center">

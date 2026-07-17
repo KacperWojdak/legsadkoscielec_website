@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import PlayerModal from "../components/PlayerModal";
 import PlayerStatsTable from "./PlayerStatsTable";
 import { urlFor } from "../../lib/sanity";
@@ -38,7 +39,7 @@ function PlayerCard({
       }`}
     >
       <div className="absolute right-0 top-0 opacity-10">
-        <img src="/images/logo-white.png" alt="" className="h-40 w-40 object-contain" />
+        <Image src="/images/logo-white.png" alt="" width={140} height={140} className="object-contain" />
       </div>
 
       {number && (
@@ -47,11 +48,13 @@ function PlayerCard({
         </span>
       )}
 
-      <div className="relative z-10 flex h-56 items-end justify-center overflow-hidden">
-        <img
+      <div className="relative z-10 h-56 w-full overflow-hidden">
+        <Image
           src={imageUrl}
           alt={name}
-          className="h-56 w-auto object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+          className="object-contain object-bottom transition-transform duration-300 group-hover:scale-105"
         />
       </div>
 
@@ -104,7 +107,6 @@ export default function RosterClient({
         </div>
       </div>
 
-      {/* PRZEŁĄCZNIK WIDOKU */}
       <div className="mb-8 flex items-center justify-center gap-3">
         <div className="h-px w-8 bg-brand-border" />
         <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
@@ -115,7 +117,7 @@ export default function RosterClient({
       <div className="mb-10 flex justify-center gap-2">
         <button
           onClick={() => setView("cards")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
             view === "cards"
               ? "bg-brand-red text-white"
               : "border border-brand-border text-brand-muted hover:text-white"
@@ -125,7 +127,7 @@ export default function RosterClient({
         </button>
         <button
           onClick={() => setView("table")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors ${
+          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
             view === "table"
               ? "bg-brand-red text-white"
               : "border border-brand-border text-brand-muted hover:text-white"

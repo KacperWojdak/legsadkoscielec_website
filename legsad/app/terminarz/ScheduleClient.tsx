@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "motion/react";
+import Image from "next/image";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -103,11 +104,13 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                     <span className={`text-sm font-medium ${match.homeIsLegsad ? "text-white" : "text-white/60"} text-right`}>
                       {home}
                     </span>
-                    {match.homeIsLegsad ? (
-                      <img src="/images/logo-pink.png" alt="" className="h-7 w-7 shrink-0 object-contain" />
-                    ) : (
-                      <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-7 w-7 shrink-0 object-contain" />
-                    )}
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
+                      {match.homeIsLegsad ? (
+                        <Image src="/images/logo-pink.png" alt="" width={22} height={22} className="object-contain" />
+                      ) : (
+                        <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={22} height={22} className="object-contain" />
+                      )}
+                    </div>
                   </div>
 
                   <div className="shrink-0 px-2 text-center">
@@ -120,16 +123,18 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                     )}
                   </div>
 
-                  <div className="flex flex-1 items-center gap-2">
+                 <div className="flex flex-1 items-center gap-2">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
                     {!match.homeIsLegsad ? (
-                      <img src="/images/logo-pink.png" alt="" className="h-7 w-7 shrink-0 object-contain" />
+                      <Image src="/images/logo-pink.png" alt="" width={22} height={22} className="object-contain" />
                     ) : (
-                      <img src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" className="h-7 w-7 shrink-0 object-contain" />
+                      <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={22} height={22} className="object-contain" />
                     )}
-                    <span className={`text-sm font-medium ${!match.homeIsLegsad ? "text-white" : "text-white/60"}`}>
-                      {away}
-                    </span>
                   </div>
+                  <span className={`text-sm font-medium ${!match.homeIsLegsad ? "text-white" : "text-white/60"}`}>
+                    {away}
+                  </span>
+                </div>
 
                 </div>
 

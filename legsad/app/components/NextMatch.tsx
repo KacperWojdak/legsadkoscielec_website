@@ -1,5 +1,5 @@
+import Image from "next/image";
 import { getMatchesBySeason, getSeasons } from "../../lib/queries";
-import { urlFor } from "../../lib/sanity";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -57,12 +57,14 @@ export default async function NextMatch() {
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {match.homeIsLegsad ? (
-                  <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
+                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="object-contain" />
                 ) : (
-                  <img
+                  <Image
                     src={match.opponent.logoUrl ?? "/images/logo-white.png"}
                     alt={home}
-                    className="h-12 w-12 object-contain"
+                    width={48}
+                    height={48}
+                    className="object-contain"
                   />
                 )}
               </div>
@@ -81,12 +83,14 @@ export default async function NextMatch() {
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {!match.homeIsLegsad ? (
-                  <img src="/images/logo-pink.png" alt="Legsad Kościelec" className="h-12 w-12 object-contain" />
+                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="object-contain" />
                 ) : (
-                  <img
+                  <Image
                     src={match.opponent.logoUrl ?? "/images/logo-white.png"}
                     alt={away}
-                    className="h-12 w-12 object-contain"
+                    width={48}
+                    height={48}
+                    className="object-contain"
                   />
                 )}
               </div>

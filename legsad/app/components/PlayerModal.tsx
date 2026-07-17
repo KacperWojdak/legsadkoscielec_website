@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 import type { PlayerStats, Player } from "../../lib/types";
 import { urlFor } from "../../lib/sanity";
 
@@ -45,7 +46,7 @@ export default function PlayerModal({
 
         <div className="relative overflow-hidden rounded-t-2xl bg-brand-black">
           <div className="absolute right-0 top-0 opacity-10">
-            <img src="/images/logo-white.png" alt="" className="h-44 w-44 object-contain" />
+            <Image src="/images/logo-white.png" alt="" width={140} height={140} className="object-contain" />
           </div>
           {player.number && (
             <span className="absolute right-4 bottom-1 z-10 font-bebas text-5xl text-brand-red">
@@ -53,11 +54,15 @@ export default function PlayerModal({
             </span>
           )}
           <div className="relative z-10 flex h-64 items-end justify-center">
-            <img
-              src={imageUrl}
-              alt={player.name}
-              className="h-64 w-auto object-contain object-bottom"
-            />
+            <div className="relative h-64 w-64">
+              <Image
+                src={imageUrl}
+                alt={player.name}
+                fill
+                sizes="256px"
+                className="object-contain object-bottom"
+              />
+            </div>
           </div>
         </div>
 

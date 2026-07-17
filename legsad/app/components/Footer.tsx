@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -8,10 +10,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-3 text-center md:text-left">
           <div className="flex flex-col items-center md:items-start gap-4">
             <div className="flex items-center gap-3">
-              <img
+              <Image
                 src="/images/logo-white.png"
                 alt="GKS Legsad Kościelec"
-                className="h-10 w-10 object-contain"
+                width={35}
+                height={35}
+                className="object-contain"
               />
               <span className="font-bebas text-lg tracking-wider text-white">
                 GKS Legsad Kościelec

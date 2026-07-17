@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
@@ -23,11 +24,15 @@ const portableTextComponents = {
   },
   types: {
     image: ({ value }: any) => (
-      <img
-        src={urlFor(value).width(800).url()}
-        alt=""
-        className="my-4 w-full rounded-xl border border-brand-border"
-      />
+      <div className="relative my-4 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
+        <Image
+          src={urlFor(value).width(800).url()}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 100vw, 800px"
+          className="object-cover"
+        />
+      </div>
     ),
   },
 };
@@ -90,11 +95,14 @@ export default async function NewsDetailPage({
         </Link>
 
         <FadeInSection>
-          <div className="mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
-            <img
+          <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
+            <Image
               src={urlFor(article.mainImage).width(1200).url()}
               alt={article.title}
-              className="h-full w-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 1024px"
+              priority
+              className="object-cover"
             />
           </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, type ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
@@ -41,12 +42,13 @@ export default function Navbar({ matchPill }: { matchPill: ReactNode }) {
             }}
             className="flex items-center gap-3"
           >
-            <img
+            <Image
               src="/images/logo-pink.png"
               alt="GKS Legsad Kościelec"
               width={40}
               height={40}
               className="object-contain"
+              priority
             />
             <span className="font-bebas text-lg tracking-wider text-white">
               GKS Legsad Kościelec

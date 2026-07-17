@@ -1,36 +1,51 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-brand-black pt-24 min-h-screen flex items-center">
       <div className="absolute inset-0 flex items-center justify-center translate-y-16 opacity-[0.05] pointer-events-none">
-        <img
-          src="/images/logo-white.png"
+        <div className="relative h-125 w-125 md:h-162.5 md:w-162.5">
+          <Image
+            src="/images/logo-white.png"
+            alt=""
+            fill
+            className="object-contain"
+          />
+        </div>
+      </div>
+
+      <div className="pointer-events-none absolute -left-12 -top-12 h-56 w-56 md:h-80 md:w-80">
+        <Image
+          src="/images/effects/brush-top-left.png"
           alt=""
-          className="h-125 w-125 object-contain md:h-162.5 md:w-162.5"
+          fill
+          className="object-contain opacity-60"
+        />
+      </div>
+      <div className="pointer-events-none absolute -bottom-12 -right-18 h-56 w-56 md:h-80 md:w-80">
+        <Image
+          src="/images/effects/brush-bottom-right.png"
+          alt=""
+          fill
+          className="object-contain opacity-60"
         />
       </div>
 
-      <img
-        src="/images/effects/brush-top-left.png"
-        alt=""
-        className="pointer-events-none absolute -left-12 -top-12 h-56 w-56 opacity-60 md:h-80 md:w-80"
-      />
-      <img
-        src="/images/effects/brush-bottom-right.png"
-        alt=""
-        className="pointer-events-none absolute -bottom-12 -right-18 h-56 w-56 opacity-60 md:h-80 md:w-80"
-      />
-
-      <img
-        src="/images/effects/brush-diagonal.png"
-        alt=""
-        className="pointer-events-none absolute right-0 top-0 hidden h-[160%] w-[60%] object-cover opacity-30 md:block"
-        style={{ objectPosition: "right center" }}
-      />
+      <div
+        className="pointer-events-none absolute right-0 top-0 hidden h-[160%] w-[60%] md:block"
+      >
+        <Image
+          src="/images/effects/brush-diagonal.png"
+          alt=""
+          fill
+          className="object-cover opacity-30"
+          style={{ objectPosition: "right center" }}
+        />
+      </div>
 
       <div className="absolute inset-0 bg-linear-to-br from-brand-crimson/20 via-brand-red/5 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
@@ -94,11 +109,14 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="hidden md:flex shrink-0 items-center justify-end pr-8"
         >
-          <img
-            src="/images/logo-pink.png"
-            alt="GKS Legsad Kościelec"
-            className="relative z-10 h-52 w-52 object-contain scale-125"
-          />
+          <div className="relative z-10 h-52 w-52 scale-125">
+            <Image
+              src="/images/logo-pink.png"
+              alt="GKS Legsad Kościelec"
+              fill
+              className="object-contain"
+            />
+          </div>
         </motion.div>
 
       </div>

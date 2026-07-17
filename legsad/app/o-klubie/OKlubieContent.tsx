@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 
 const zarzad = [
   { name: "Jarosław Małysa", role: "Prezes" },
@@ -9,11 +10,6 @@ const zarzad = [
   { name: "Joanna Mańkowska", role: "Kierowniczka I drużyny, Fotografka" },
   { name: "Marcin Strugała", role: "Koordynator" },
   { name: "Mateusz Wanielista", role: "Sekretarz" },
-];
-
-const infoCards = [
-  { label: "Pełna nazwa", value: "Gminny Klub Sportowy Legsad Kościelec", accent: false },
-  { label: "Rok założenia", value: "1993", accent: true },
 ];
 
 export default function OKlubieContent() {
@@ -27,10 +23,12 @@ export default function OKlubieContent() {
           className="mb-10 text-center"
         >
           <div className="mb-6 flex justify-center">
-            <img
+            <Image
               src="/images/logo-pink.png"
               alt="GKS Legsad Kościelec"
-              className="h-24 w-24 object-contain"
+              width={96}
+              height={96}
+              className="object-contain"
             />
           </div>
           <h1 className="font-bebas text-5xl text-white md:text-6xl">
