@@ -52,7 +52,9 @@ const matchReportFields = `
     ...,
     inPlayer-> { _id, name, number },
     outPlayer-> { _id, name, number }
-  }
+  },
+  additionalStaffHome,
+  additionalStaffAway
 `;
 
 // SEZONY
@@ -86,7 +88,10 @@ export async function getMatchesBySeason(seasonId: string) {
       opponent-> { _id, name, "logoUrl": logo.asset->url },
       ${matchReportFields},
       coachHome,
-      coachAway
+      coachAway,
+      refereeMain,
+      refereeAssistant1,
+      refereeAssistant2,
     }
   `,
     { seasonId }
@@ -110,7 +115,10 @@ export async function getMatchById(id: string) {
       opponent-> { _id, name, "logoUrl": logo.asset->url },
       ${matchReportFields},
       coachHome,
-      coachAway
+      coachAway,
+      refereeMain,
+      refereeAssistant1,
+      refereeAssistant2
     }
   `,
     { id }

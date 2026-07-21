@@ -200,6 +200,19 @@ const substitutionField = defineField({
   },
 });
 
+const staffMemberField = defineField({
+  name: "staffMember",
+  title: "Członek sztabu",
+  type: "object",
+  fields: [
+    defineField({ name: "name", title: "Imię i nazwisko", type: "string", validation: (Rule) => Rule.required() }),
+    defineField({ name: "role", title: "Rola", type: "string", description: "Np. Trener II, Kierownik, Masażysta, Koordynator", validation: (Rule) => Rule.required() }),
+  ],
+  preview: {
+    select: { title: "name", subtitle: "role" },
+  },
+});
+
 export default defineType({
   name: "match",
   title: "Mecz",
@@ -368,8 +381,40 @@ export default defineType({
       hidden: ({ document }) => document?.status !== "finished",
     }),
     defineField({
+      name: "additionalStaffHome",
+      title: "Dodatkowy sztab — gospodarz",
+      type: "array",
+      of: [staffMemberField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
       name: "coachAway",
       title: "Trener — gość",
+      type: "string",
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "additionalStaffAway",
+      title: "Dodatkowy sztab — gość",
+      type: "array",
+      of: [staffMemberField],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "refereeMain",
+      title: "Sędzia główny",
+      type: "string",
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "refereeAssistant1",
+      title: "Sędzia asystent I",
+      type: "string",
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "refereeAssistant2",
+      title: "Sędzia asystent II",
       type: "string",
       hidden: ({ document }) => document?.status !== "finished",
     }),

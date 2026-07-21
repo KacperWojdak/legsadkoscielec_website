@@ -95,9 +95,9 @@ export default async function MatchPage({
               <div className="flex flex-1 flex-col items-center gap-3 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                   {match.homeIsLegsad ? (
-                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="object-contain" />
+                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="h-12 w-12 object-contain" />
                   ) : (
-                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="object-contain" />
+                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="h-12 w-12 object-contain" />
                   )}
                 </div>
                 <span className="font-bebas text-xl leading-tight text-white md:text-2xl">
@@ -114,9 +114,9 @@ export default async function MatchPage({
               <div className="flex flex-1 flex-col items-center gap-3 text-center">
                 <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                   {!match.homeIsLegsad ? (
-                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="object-contain" />
+                    <Image src="/images/logo-pink.png" alt="" width={48} height={48} className="h-12 w-12 object-contain" />
                   ) : (
-                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="object-contain" />
+                    <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={48} height={48} className="h-12 w-12 object-contain" />
                   )}
                 </div>
                 <span className="font-bebas text-xl leading-tight text-white md:text-2xl">

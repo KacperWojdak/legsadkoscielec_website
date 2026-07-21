@@ -66,6 +66,11 @@ export default function MatchClient({
   const subsHome = match.reportSubstitutionsHome ?? [];
   const subsAway = match.reportSubstitutionsAway ?? [];
 
+  function isLongName(name: string | undefined): boolean {
+    if (!name) return false;
+    return name.length > 18;
+  }
+
   return (
     <>
       {/* STRZELCY */}
@@ -80,7 +85,7 @@ export default function MatchClient({
           Strzelcy
         </p>
 
-        {/* DESKTOP — dwie kolumny */}
+        {/* DESKTOP — strzelcy */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-6">
           <div className="flex flex-col items-start gap-3">
             {scorersHome
@@ -128,7 +133,7 @@ export default function MatchClient({
           </div>
         </div>
 
-        {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
+        {/* MOBILE — strzelcy */}
         <div className="flex flex-col gap-3 md:hidden">
           {[
             ...scorersHome.map((g: any) => ({ ...g, team: home, isLegsad: match.homeIsLegsad })),
@@ -140,7 +145,7 @@ export default function MatchClient({
                 <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
                 <span className="shrink-0">⚽</span>
                 <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-baseline gap-x-1">
+                  <div className={`flex flex-wrap items-baseline gap-x-1 ${isLongName(g.player?.name ?? g.name) ? "text-xs" : ""}`}>
                     {renderEntry(g, g.isLegsad)}
                   </div>
                   {(g.assist || g.assistPlayer) && (
@@ -172,7 +177,7 @@ export default function MatchClient({
           Kartki
         </p>
 
-        {/* DESKTOP — dwie kolumny */}
+        {/* DESKTOP — kartki */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-6">
           {[
             { cards: [...yellowHome.map((c: any) => ({ ...c, type: "yellow" as const })), ...redHome.map((c: any) => ({ ...c, type: "red" as const }))], isLegsad: match.homeIsLegsad },
@@ -226,7 +231,7 @@ export default function MatchClient({
           ))}
         </div>
 
-        {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
+        {/* MOBILE — kartki */}
         <div className="flex flex-col gap-3 md:hidden">
           {[
             ...yellowHome.map((c: any) => ({ ...c, team: home, isLegsad: match.homeIsLegsad, type: "yellow" as const })),
@@ -236,26 +241,28 @@ export default function MatchClient({
           ]
             .sort((a, b) => a.minute - b.minute)
             .map((c, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="w-8 shrink-0 text-right text-brand-muted">{c.minute}&apos;</span>
+              <div key={i} className="flex items-start gap-3 text-sm">
+                <span className="w-8 shrink-0 pt-0.5 text-right text-brand-muted">{c.minute}&apos;</span>
 
                 {c.type === "red" && c.isSecondYellow ? (
-                  <div className="relative h-3.5 w-4 shrink-0">
+                  <div className="relative mt-1 h-3.5 w-4 shrink-0">
                     <span className="absolute left-0 top-0 h-3.5 w-3 rounded-xs bg-yellow-400" />
                     <span className="absolute left-1 top-0.5 h-3.5 w-3 rounded-xs bg-red-500" />
                   </div>
                 ) : (
                   <span
-                    className={`h-3.5 w-3 shrink-0 rounded-sm ${
+                    className={`mt-1 h-3.5 w-3 shrink-0 rounded-sm ${
                       c.type === "yellow" ? "bg-yellow-400" : "bg-red-500"
                     }`}
                   />
                 )}
 
-                <div className="min-w-0 flex-1">{renderEntry(c, c.isLegsad)}</div>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
-                  {c.team}
-                </span>
+                <div className="min-w-0 flex-1">
+                  {renderEntry(c, c.isLegsad)}
+                  <div className="text-[10px] uppercase tracking-wide text-brand-muted">
+                    {c.team}
+                  </div>
+                </div>
               </div>
             ))}
           {yellowHome.length === 0 && yellowAway.length === 0 && redHome.length === 0 && redAway.length === 0 && (
@@ -304,7 +311,16 @@ export default function MatchClient({
               </>
             )}
 
-            <p className="mt-3 text-xs text-brand-muted">Trener: {match.coachHome}</p>
+            <p className="mt-3 text-xs text-brand">Trener: {match.coachHome}</p>
+              {match.additionalStaffHome && match.additionalStaffHome.length > 0 && (
+                <div className="mt-1 flex flex-col gap-0.5">
+                  {match.additionalStaffHome.map((member: any, i: number) => (
+                    <p key={i} className="text-xs text-brand-muted">
+                      {member.role}: {member.name}
+                    </p>
+                  ))}
+                </div>
+              )}
           </div>
 
           <div className="md:text-right">
@@ -334,7 +350,16 @@ export default function MatchClient({
               </>
             )}
 
-            <p className="mt-3 text-xs text-brand-muted">Trener: {match.coachAway}</p>
+            <p className="mt-3 text-xs text-brand">Trener: {match.coachAway}</p>
+              {match.additionalStaffAway && match.additionalStaffAway.length > 0 && (
+                <div className="mt-1 flex flex-col gap-0.5">
+                  {match.additionalStaffAway.map((member: any, i: number) => (
+                    <p key={i} className="text-xs text-brand-muted">
+                      {member.role}: {member.name}
+                    </p>
+                  ))}
+                </div>
+              )}
           </div>
 
         </div>
@@ -353,7 +378,7 @@ export default function MatchClient({
             Zmiany
           </p>
 
-          {/* DESKTOP — dwie kolumny */}
+          {/* DESKTOP — zmiany */}
           <div className="hidden md:grid md:grid-cols-2 md:gap-6">
             <div className="flex flex-col items-start gap-4">
               {subsHome
@@ -403,7 +428,7 @@ export default function MatchClient({
             </div>
           </div>
 
-          {/* MOBILE — jedna kolumna chronologiczna z etykietą drużyny */}
+          {/* MOBILE — zmiany */}
           <div className="flex flex-col gap-4 md:hidden">
             {[
               ...subsHome.map((s: any) => ({ ...s, team: home, isLegsad: match.homeIsLegsad })),
@@ -414,11 +439,11 @@ export default function MatchClient({
                 <div key={i} className="flex items-center gap-3 text-sm">
                   <span className="w-8 shrink-0 text-right text-brand-muted">{s.minute}&apos;</span>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className={`flex items-center gap-2 ${isLongName(s.inPlayer?.name ?? s.in) ? "text-xs" : ""}`}>
                       <span className="shrink-0 text-green-400">↑</span>
                       {renderEntry({ name: s.in, player: s.inPlayer }, s.isLegsad)}
                     </div>
-                    <div className="mt-0.5 flex items-center gap-2">
+                    <div className={`mt-0.5 flex items-center gap-2 ${isLongName(s.outPlayer?.name ?? s.out) ? "text-xs" : ""}`}>
                       <span className="shrink-0 text-red-500">↓</span>
                       <span className="text-brand-muted">{s.outPlayer?.name ?? s.out}</span>
                     </div>
@@ -428,6 +453,57 @@ export default function MatchClient({
                   </span>
                 </div>
               ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* SKŁAD SĘDZIOWSKI */}
+      {(match.refereeMain || match.refereeAssistant1 || match.refereeAssistant2) && (
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+          className="mt-6 rounded-2xl border border-brand-border bg-brand-surface p-6"
+        >
+          <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+            Skład sędziowski
+          </p>
+
+          {/* DESKTOP sędziowie */}
+          <div className="hidden md:block">
+            <div className="mx-auto flex max-w-xs flex-col items-center gap-6">
+              <div className="text-center">
+                <p className="text-[11px] uppercase tracking-widest text-brand-muted">Sędzia główny</p>
+                <p className="mt-1 font-bebas text-xl text-white">{match.refereeMain ?? "—"}</p>
+              </div>
+              <div className="flex w-full items-start justify-between">
+                <div className="text-center">
+                  <p className="text-[11px] uppercase tracking-widest text-brand-muted">Asystent I</p>
+                  <p className="mt-1 font-bebas text-lg text-white">{match.refereeAssistant1 ?? "—"}</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-[11px] uppercase tracking-widest text-brand-muted">Asystent II</p>
+                  <p className="mt-1 font-bebas text-lg text-white">{match.refereeAssistant2 ?? "—"}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* MOBILE sędziowie */}
+          <div className="flex flex-col gap-3 md:hidden">
+            <div className="flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-brand-muted">Sędzia główny</span>
+              <span className="font-bebas text-lg text-white">{match.refereeMain ?? "—"}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-brand-muted">Asystent I</span>
+              <span className="font-bebas text-lg text-white">{match.refereeAssistant1 ?? "—"}</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-brand-muted">Asystent II</span>
+              <span className="font-bebas text-lg text-white">{match.refereeAssistant2 ?? "—"}</span>
+            </div>
           </div>
         </motion.div>
       )}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "motion/react";
 import Image from "next/image";
 
@@ -33,6 +34,7 @@ function hasReport(match: any) {
 
 export default function ScheduleClient({ matches }: { matches: any[] }) {
   const [search, setSearch] = useState("");
+  const router = useRouter();
 
   const sorted = [...matches].sort(
     (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -78,6 +80,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
             const isFinished = match.status === "finished";
             const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
             const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
+            const clickable = hasReport(match);
 
             return (
               <motion.div
@@ -86,10 +89,13 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4), ease: "easeOut" }}
-                className="flex flex-col gap-3 px-6 py-5 md:flex-row md:items-center md:gap-4"
+                onClick={clickable ? () => router.push(`/mecz/${match._id}`) : undefined}
+                className={`flex flex-col gap-3 px-6 py-6 transition-colors md:flex-row md:items-center md:gap-5 ${
+                  clickable ? "cursor-pointer hover:bg-brand-black/40" : ""
+                }`}
               >
 
-                <div className="flex items-center gap-3 md:w-40 shrink-0">
+                <div className="flex items-center gap-3 md:w-44 shrink-0">
                   <span className="text-xs uppercase text-brand-muted">
                     {formatDate(match.date)}
                   </span>
@@ -106,9 +112,9 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                     </span>
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
                       {match.homeIsLegsad ? (
-                        <Image src="/images/logo-pink.png" alt="" width={22} height={22} className="object-contain" />
+                        <Image src="/images/logo-pink.png" alt="" width={28} height={28} className="h-7 w-7 object-contain" />
                       ) : (
-                        <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={22} height={22} className="object-contain" />
+                        <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
                       )}
                     </div>
                   </div>
@@ -119,29 +125,29 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                         {match.scoreHome}:{match.scoreAway}
                       </span>
                     ) : (
-                      <span className="font-bebas text-lg text-brand-muted">VS</span>
+                      <span className="font-bebas text-xl text-brand-muted">VS</span>
                     )}
                   </div>
 
-                 <div className="flex flex-1 items-center gap-2">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
-                    {!match.homeIsLegsad ? (
-                      <Image src="/images/logo-pink.png" alt="" width={22} height={22} className="object-contain" />
-                    ) : (
-                      <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={22} height={22} className="object-contain" />
-                    )}
+                  <div className="flex flex-1 items-center gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white">
+                      {!match.homeIsLegsad ? (
+                        <Image src="/images/logo-pink.png" alt="" width={28} height={28} className="h-7 w-7 object-contain" />
+                      ) : (
+                        <Image src={match.opponent.logoUrl ?? "/images/logo-white.png"} alt="" width={28} height={28} className="h-7 w-7 object-contain" />
+                      )}
+                    </div>
+                    <span className={`text-sm font-medium ${!match.homeIsLegsad ? "text-white" : "text-white/60"}`}>
+                      {away}
+                    </span>
                   </div>
-                  <span className={`text-sm font-medium ${!match.homeIsLegsad ? "text-white" : "text-white/60"}`}>
-                    {away}
-                  </span>
-                </div>
 
                 </div>
 
                 <div className="flex items-center justify-center gap-2 md:w-40 shrink-0 md:justify-end">
                   {isFinished && result && (
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md font-bebas text-xs ${
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md font-bebas text-sm ${
                         result === "W"
                           ? "bg-green-900/50 text-green-400"
                           : result === "P"
@@ -155,10 +161,11 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                   <span className="shrink-0 whitespace-nowrap text-[10px] uppercase tracking-widest text-brand-muted">
                     Kolejka {match.round}
                   </span>
-                  {hasReport(match) && (
+                  {clickable && (
                     <a
                       href={`/mecz/${match._id}`}
-                      className="shrink-0 whitespace-nowrap rounded-md border border-brand-red px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                      onClick={(e) => e.stopPropagation()}
+                      className="shrink-0 whitespace-nowrap rounded-md border border-brand-red px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
                     >
                       Raport
                     </a>
@@ -176,7 +183,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
       )}
 
       <p className="mt-6 text-center text-xs text-brand-muted">
-        Godzina meczu może ulec zmianie
+        Termin oraz godzina meczu może ulec zmianie
       </p>
     </>
   );

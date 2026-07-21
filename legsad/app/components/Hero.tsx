@@ -13,6 +13,7 @@ export default function Hero() {
             src="/images/logo-white.png"
             alt=""
             fill
+            sizes="(max-width: 768px) 500px, 650px"
             className="object-contain"
           />
         </div>
@@ -23,6 +24,7 @@ export default function Hero() {
           src="/images/effects/brush-top-left.png"
           alt=""
           fill
+          sizes="(max-width: 768px) 224px, 320px"
           className="object-contain opacity-60"
         />
       </div>
@@ -31,6 +33,7 @@ export default function Hero() {
           src="/images/effects/brush-bottom-right.png"
           alt=""
           fill
+          sizes="(max-width: 768px) 224px, 320px"
           className="object-contain opacity-60"
         />
       </div>
@@ -42,6 +45,7 @@ export default function Hero() {
           src="/images/effects/brush-diagonal.png"
           alt=""
           fill
+          sizes="60vw"
           className="object-cover opacity-30"
           style={{ objectPosition: "right center" }}
         />
@@ -114,6 +118,7 @@ export default function Hero() {
               src="/images/logo-pink.png"
               alt="GKS Legsad Kościelec"
               fill
+              sizes="208px"
               className="object-contain"
             />
           </div>
