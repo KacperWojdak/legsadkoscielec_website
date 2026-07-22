@@ -38,7 +38,7 @@ export default function NewsClient({ news }: { news: any[] }) {
             <button
               key={p}
               onClick={() => setPage(p)}
-              className={`flex h-9 w-9 items-center justify-center rounded-lg border text-sm transition-colors ${
+              className={`flex h-12 w-12 items-center justify-center rounded-lg border text-sm transition-colors ${
                 p === page
                   ? "border-brand-red bg-brand-red text-white"
                   : "border-brand-border text-white/60 hover:border-white/40 hover:text-white"

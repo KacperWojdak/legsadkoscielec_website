@@ -75,14 +75,14 @@ export default function Footer() {
                 },
             ].map((social) => (
                 <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-lg border border-brand-border p-2 text-brand-muted transition-colors hover:border-brand-red hover:text-brand-red"
-                aria-label={social.label}
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-12 w-12 items-center justify-center rounded-lg border border-brand-border text-brand-muted transition-colors hover:border-brand-red hover:text-brand-red"
+                  aria-label={social.label}
                 >
-                {social.icon}
+                  {social.icon}
                 </a>
             ))}
             </div>

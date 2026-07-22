@@ -64,7 +64,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-muted hover:text-white"
+              className="absolute right-1 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center text-brand-muted hover:text-white"
               aria-label="Wyczyść wyszukiwanie"
             >
               ✕
@@ -165,7 +165,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                     <a
                       href={`/mecz/${match._id}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="shrink-0 whitespace-nowrap rounded-md border border-brand-red px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                      className="flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-md border border-brand-red px-3 text-xs font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
                     >
                       Raport
                     </a>

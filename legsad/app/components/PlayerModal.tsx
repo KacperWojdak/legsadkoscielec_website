@@ -38,7 +38,7 @@ export default function PlayerModal({
       >
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-brand-border bg-brand-black/60 text-white/60 hover:text-white"
+          className="absolute right-2 top-2 z-20 flex h-12 w-12 items-center justify-center rounded-full border border-brand-border bg-brand-black/60 text-white/60 hover:text-white"
           aria-label="Zamknij"
         >
           ✕

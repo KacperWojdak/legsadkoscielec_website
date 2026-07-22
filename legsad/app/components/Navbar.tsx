@@ -77,7 +77,7 @@ export default function Navbar({ matchPill }: { matchPill: ReactNode }) {
           </ul>
 
           <button
-            className="flex flex-col gap-1.5 lg:hidden cursor-pointer"
+            className="flex h-12 w-12 flex-col items-center justify-center gap-1.5 lg:hidden cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Menu"
           >

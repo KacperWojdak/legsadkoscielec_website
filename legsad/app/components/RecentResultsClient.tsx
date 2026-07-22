@@ -87,7 +87,7 @@ export default function RecentResultsClient({ results }: { results: any[] }) {
                 <a
                   href={`/mecz/${match._id}`}
                   onClick={(e) => e.stopPropagation()}
-                  className="rounded-md border border-brand-red px-2 py-1 text-[9px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
+                  className="flex min-h-10 shrink-0 items-center whitespace-nowrap rounded-md border border-brand-red px-3 text-[9px] font-bold uppercase tracking-wide text-brand-red transition-colors hover:bg-brand-red hover:text-white"
                 >
                   Raport
                 </a>

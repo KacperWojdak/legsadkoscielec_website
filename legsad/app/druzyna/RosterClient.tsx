@@ -117,7 +117,7 @@ export default function RosterClient({
       <div className="mb-10 flex justify-center gap-2">
         <button
           onClick={() => setView("cards")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
+          className={`flex min-h-12 items-center rounded-lg px-5 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
             view === "cards"
               ? "bg-brand-red text-white"
               : "border border-brand-border text-brand-muted hover:text-white"
@@ -127,7 +127,7 @@ export default function RosterClient({
         </button>
         <button
           onClick={() => setView("table")}
-          className={`rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
+          className={`flex min-h-12 items-center rounded-lg px-5 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
             view === "table"
               ? "bg-brand-red text-white"
               : "border border-brand-border text-brand-muted hover:text-white"

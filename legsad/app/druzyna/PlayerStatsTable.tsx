@@ -98,7 +98,7 @@ export default function PlayerStatsTable({
               <th
                 key={col.key}
                 onClick={() => handleSort(col.key)}
-                className="cursor-pointer whitespace-nowrap px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-widest text-brand-muted transition-colors hover:text-white"
+                className="min-h-12 cursor-pointer whitespace-nowrap px-4 py-4 text-left text-[11px] font-semibold uppercase tracking-widest text-brand-muted transition-colors hover:text-white"
               >
                 <div className="flex items-center gap-1">
                   {col.label}
