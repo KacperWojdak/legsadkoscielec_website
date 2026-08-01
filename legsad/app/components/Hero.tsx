@@ -3,8 +3,45 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
+import { useEffect, useState } from "react";
+
+const phrases = ["Jedna rodzina", "Jedna drużyna", "Jeden cel", "Jedna pasja"];
+
+function useTypewriter(words: string[], typingSpeed = 90, deletingSpeed = 60, pauseTime = 1200) {
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting && text === currentWord) {
+      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+    } else if (isDeleting && text === "") {
+      setIsDeleting(false);
+      setWordIndex((prev) => (prev + 1) % words.length);
+    } else {
+      const nextText = isDeleting
+        ? currentWord.substring(0, text.length - 1)
+        : currentWord.substring(0, text.length + 1);
+
+      timeout = setTimeout(
+        () => setText(nextText),
+        isDeleting ? deletingSpeed : typingSpeed
+      );
+    }
+
+    return () => clearTimeout(timeout);
+  }, [text, isDeleting, wordIndex, words, typingSpeed, deletingSpeed, pauseTime]);
+
+  return text;
+}
 
 export default function Hero() {
+  const animatedText = useTypewriter(phrases);
+
   return (
     <section className="relative overflow-hidden bg-brand-black pt-24 min-h-screen flex items-center">
       <div className="absolute inset-0 flex items-center justify-center translate-y-16 opacity-[0.05] pointer-events-none">
@@ -71,9 +108,12 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.25, ease: "easeOut" }}
-            className="font-bebas text-8xl leading-none text-brand-red md:text-9xl"
+            className="font-bebas text-8xl leading-none text-brand-red md:text-9xl min-h-[2.1em] md:min-h-[1em] flex items-start"
           >
-            Jedna rodzina
+            <span>
+              {animatedText}
+              <span className="animate-pulse">|</span>
+            </span>
           </motion.h2>
 
           <motion.p

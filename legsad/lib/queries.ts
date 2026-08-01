@@ -150,7 +150,18 @@ export async function getPlayers() {
       position,
       number,
       photoCard,
-      photoModal
+      photoModal,
+      birthDate,
+      height,
+      weight,
+      nationality,
+      careerHistory[]{
+        club,
+        season,
+        league
+      },
+      memberSince,
+      badges
     }
   `);
 }

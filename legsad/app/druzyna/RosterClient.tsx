@@ -15,18 +15,30 @@ const positionLabel: Record<string, string> = {
   "Pomocnik": "Pomocnicy",
   "Napastnik": "Napastnicy",
 };
+const badgeColors: Record<string, string> = {
+  red: "bg-red-900/40 text-red-400 border-red-800/60",
+  yellow: "bg-yellow-900/40 text-yellow-400 border-yellow-800/60",
+  green: "bg-green-900/40 text-green-400 border-green-800/60",
+  blue: "bg-blue-900/40 text-blue-400 border-blue-800/60",
+  purple: "bg-purple-900/40 text-purple-400 border-purple-800/60",
+  gray: "bg-white/10 text-white/60 border-white/20",
+};
 
 function PlayerCard({
   name,
   photo,
   number,
   role,
+  nationality,
+  badges,
   onClick,
 }: {
   name: string;
   photo: any;
   number?: number;
   role?: string;
+  nationality?: string;
+  badges?: { label: string; color: string }[];
   onClick?: () => void;
 }) {
   const imageUrl = photo ? urlFor(photo).width(300).url() : "/images/logo-white.png";
@@ -34,16 +46,23 @@ function PlayerCard({
   return (
     <div
       onClick={onClick}
-      className={`group relative overflow-hidden rounded-2xl border border-brand-border bg-brand-surface ${
-        onClick ? "cursor-pointer transition-colors hover:border-brand-red" : ""
+      className={`group relative overflow-hidden rounded-2xl border border-brand-border bg-brand-surface transition-all duration-300 ${
+        onClick ? "cursor-pointer hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-red/20" : ""
       }`}
     >
-      <div className="absolute right-0 top-0 opacity-10">
-        <Image src="/images/logo-white.png" alt="" width={140} height={140} className="object-contain" />
+      {/* RAMKA HOVER */}
+      <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl border-2 border-brand-red opacity-0 transition-all duration-800 ease-out [clip-path:circle(0%_at_50%_0%)] group-hover:opacity-100 group-hover:[clip-path:circle(150%_at_50%_0%)]" />
+
+      {/* WATERMARK */}
+      <div className="absolute right-0 top-0 h-36 w-36 opacity-10">
+        <img src="/images/logo-white.png" alt="" className="h-full w-full object-contain" />
+      </div>
+      <div className="absolute right-0 top-0 h-36 w-36 opacity-0 transition-all duration-800 ease-out [clip-path:circle(0%_at_50%_50%)] group-hover:opacity-60 group-hover:[clip-path:circle(75%_at_50%_50%)]">
+        <img src="/images/logo-pink.png" alt="" className="h-full w-full object-contain" />
       </div>
 
       {number && (
-        <span className="absolute right-3 top-3 z-10 font-bebas text-4xl text-brand-red">
+        <span className="absolute right-3 top-3 z-10 font-bebas text-3xl text-brand-red">
           {number}
         </span>
       )}
@@ -58,8 +77,27 @@ function PlayerCard({
         />
       </div>
 
+      {/* ODZNAKI */}
+      {badges && badges.length > 0 && (
+        <div className="relative z-10 flex flex-wrap items-center justify-center gap-1 border-t border-brand-border bg-brand-black/60 px-2 py-1.5">
+          {badges.map((badge, i) => (
+            <span
+              key={i}
+              className={`rounded-md border px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-wide ${badgeColors[badge.color] ?? badgeColors.gray}`}
+            >
+              {badge.label}
+            </span>
+          ))}
+        </div>
+      )}
+
       <div className="relative z-10 border-t border-brand-border bg-brand-black/60 px-4 py-4 text-center">
-        <p className="font-bebas text-xl leading-tight text-white">{name}</p>
+        <div className="flex items-center justify-center gap-1.5">
+          {nationality && (
+            <span className={`fi fi-${nationality.toLowerCase()} shrink-0 rounded-xs`} style={{ fontSize: "0.85em" }} />
+          )}
+          <p className="font-bebas text-xl leading-tight text-white">{name}</p>
+        </div>
         {role && <p className="text-[11px] uppercase tracking-widest text-brand-muted">{role}</p>}
       </div>
     </div>
@@ -77,6 +115,10 @@ export default function RosterClient({
 }) {
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
   const [view, setView] = useState<"cards" | "table">("cards");
+  const [positionFilter, setPositionFilter] = useState<string>("Wszyscy");
+
+  const filteredPositions =
+    positionFilter === "Wszyscy" ? positionOrder : [positionFilter];
 
   return (
     <>
@@ -114,7 +156,7 @@ export default function RosterClient({
         </span>
         <div className="h-px w-8 bg-brand-border" />
       </div>
-      <div className="mb-10 flex justify-center gap-2">
+      <div className="mb-6 flex justify-center gap-2">
         <button
           onClick={() => setView("cards")}
           className={`flex min-h-12 items-center rounded-lg px-5 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
@@ -137,6 +179,24 @@ export default function RosterClient({
         </button>
       </div>
 
+      {view === "cards" && (
+        <div className="mb-10 flex flex-wrap justify-center gap-2">
+          {["Wszyscy", ...positionOrder].map((pos) => (
+            <button
+              key={pos}
+              onClick={() => setPositionFilter(pos)}
+              className={`flex min-h-10 items-center rounded-lg px-4 text-xs font-medium uppercase tracking-wide transition-colors cursor-pointer ${
+                positionFilter === pos
+                  ? "bg-brand-red text-white"
+                  : "border border-brand-border text-brand-muted hover:text-white"
+              }`}
+            >
+              {pos === "Wszyscy" ? "Wszyscy" : positionLabel[pos]}
+            </button>
+          ))}
+        </div>
+      )}
+
       {view === "table" ? (
         <div className="mb-14">
           <PlayerStatsTable
@@ -146,7 +206,7 @@ export default function RosterClient({
           />
         </div>
       ) : (
-        positionOrder.map((position) => {
+        filteredPositions.map((position) => {
           const group = players.filter((p) => p.position === position);
           if (group.length === 0) return null;
 
@@ -173,6 +233,8 @@ export default function RosterClient({
                       name={player.name}
                       photo={player.photoCard}
                       number={player.number}
+                      nationality={player.nationality}
+                      badges={player.badges}
                       onClick={() => setSelectedPlayer(player)}
                     />
                   </motion.div>

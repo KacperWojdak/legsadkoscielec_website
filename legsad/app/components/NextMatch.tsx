@@ -77,7 +77,7 @@ export default async function NextMatch() {
             </div>
 
             <div className="flex flex-col items-center gap-1">
-              <span className="font-bebas text-5xl text-brand-border">VS</span>
+              <span className="font-bebas text-5xl text-white">VS</span>
             </div>
 
             <div className="flex flex-1 flex-col items-center gap-3 text-center">

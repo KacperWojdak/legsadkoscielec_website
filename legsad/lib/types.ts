@@ -5,6 +5,17 @@ export type SanityImage = {
 } | null | undefined;
 
 // ===== ZAWODNICY I SZTAB =====
+export type PlayerBadge = {
+  label: string;
+  color: "red" | "yellow" | "green" | "blue" | "purple" | "gray";
+};
+
+export type CareerEntry = {
+  club: string;
+  season: string;
+  league?: string;
+};
+
 export type Player = {
   _id: string;
   name: string;
@@ -12,6 +23,13 @@ export type Player = {
   number: number;
   photoCard?: SanityImage;
   photoModal?: SanityImage;
+  birthDate?: string;
+  height?: number;
+  weight?: number;
+  nationality?: string;
+  careerHistory?: CareerEntry[];
+  memberSince?: string;
+  badges?: PlayerBadge[];
 };
 
 export type StaffMember = {
