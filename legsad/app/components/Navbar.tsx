@@ -9,6 +9,7 @@ const links = [
   { label: "Aktualności", href: "/aktualnosci" },
   { label: "Terminarz", href: "/terminarz" },
   { label: "Drużyna", href: "/druzyna" },
+  { label: "Galeria", href: "/galeria" },
   { label: "O klubie", href: "/o-klubie" },
 ];
 

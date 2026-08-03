@@ -92,6 +92,7 @@ export async function getMatchesBySeason(seasonId: string) {
       refereeMain,
       refereeAssistant1,
       refereeAssistant2,
+      photos,
     }
   `,
     { seasonId }
@@ -118,7 +119,8 @@ export async function getMatchById(id: string) {
       coachAway,
       refereeMain,
       refereeAssistant1,
-      refereeAssistant2
+      refereeAssistant2,
+      photos,
     }
   `,
     { id }
@@ -222,4 +224,31 @@ export async function getNewsBySlug(slug: string) {
   `,
     { slug }
   );
+}
+
+// SAMODZIELNE GALERIE
+export async function getStandaloneGalleries() {
+  return client.fetch(`
+    *[_type == "gallery"] | order(date desc) {
+      _id,
+      title,
+      date,
+      photos
+    }
+  `);
+}
+
+// ZDJĘCIA Z MECZÓW (tylko te mecze, które mają zdjęcia)
+export async function getMatchesWithPhotos() {
+  return client.fetch(`
+    *[_type == "match" && status == "finished" && count(photos) > 0] | order(date desc) {
+      _id,
+      date,
+      league,
+      round,
+      opponent-> { name },
+      homeIsLegsad,
+      photos
+    }
+  `);
 }

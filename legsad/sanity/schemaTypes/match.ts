@@ -418,6 +418,18 @@ export default defineType({
       type: "string",
       hidden: ({ document }) => document?.status !== "finished",
     }),
+    defineField({
+      name: "photos",
+      title: "Galeria zdjęć z meczu",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
   ],
   preview: {
     select: {

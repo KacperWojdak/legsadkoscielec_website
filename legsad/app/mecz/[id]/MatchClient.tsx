@@ -3,7 +3,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import PlayerModal from "../../components/PlayerModal";
-import type { PlayerStats, Player, PlayerRef } from "../../../lib/types";
+import PhotoGrid from "../../components/PhotoGrid";
+import type { PlayerStats } from "../../../lib/stats";
+
+type Player = {
+  _id: string;
+  name: string;
+  position: string;
+  number: number;
+  photoCard: any;
+  photoModal: any;
+};
+
+type PlayerRef = { _id: string; name: string; number?: number } | null;
 
 export default function MatchClient({
   match,
@@ -18,8 +30,12 @@ export default function MatchClient({
   home: string;
   away: string;
 }) {
+  const [tab, setTab] = useState<"report" | "gallery">("report");
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
   const selectedPlayer = players.find((p) => p._id === selectedPlayerId);
+
+  const hasPhotos = match.photos && match.photos.length > 0;
+
   const renderEntry = (entry: { name?: string; player?: PlayerRef }, isLegsad: boolean) => {
     const displayName = entry.player?.name ?? entry.name ?? "Nieznany zawodnik";
 
@@ -73,6 +89,36 @@ export default function MatchClient({
 
   return (
     <>
+      {/* PRZEŁĄCZNIK RAPORT / GALERIA */}
+      {hasPhotos && (
+        <div className="mb-6 flex justify-center gap-2">
+          <button
+            onClick={() => setTab("report")}
+            className={`flex min-h-12 items-center rounded-lg px-5 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
+              tab === "report"
+                ? "bg-brand-red text-white"
+                : "border border-brand-border text-brand-muted hover:text-white"
+            }`}
+          >
+            Raport
+          </button>
+          <button
+            onClick={() => setTab("gallery")}
+            className={`flex min-h-12 items-center rounded-lg px-5 text-xs font-bold uppercase tracking-wide transition-colors cursor-pointer ${
+              tab === "gallery"
+                ? "bg-brand-red text-white"
+                : "border border-brand-border text-brand-muted hover:text-white"
+            }`}
+          >
+            Galeria ({match.photos.length})
+          </button>
+        </div>
+      )}
+
+      {tab === "gallery" && hasPhotos ? (
+        <PhotoGrid photos={match.photos} title={`${home} vs ${away}`} />
+      ) : (
+        <>
       {/* STRZELCY */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -506,6 +552,8 @@ export default function MatchClient({
             </div>
           </div>
         </motion.div>
+      )}
+</>
       )}
 
       <AnimatePresence>

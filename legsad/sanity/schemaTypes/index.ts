@@ -6,7 +6,8 @@ import sponsor from './sponsor'
 import player from './player'
 import staff from './staff'
 import news from './news'
+import gallery from './gallery'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [season, club, match, sponsor, player, staff, news],
+  types: [season, club, match, sponsor, player, staff, news, gallery],
 }

@@ -96,7 +96,8 @@ export default function Footer() {
               { label: "Aktualności", href: "/aktualnosci" },
               { label: "Terminarz", href: "/terminarz" },
               { label: "Drużyna", href: "/druzyna" },
-              { label: "O klubie", href: "/o-klubie" }
+              { label: "Galeria", href: "/galeria" },
+              { label: "O klubie", href: "/o-klubie" },
             ].map((link) => (
               <a
                 key={link.href}
