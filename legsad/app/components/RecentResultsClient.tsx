@@ -82,6 +82,11 @@ export default function RecentResultsClient({ results }: { results: any[] }) {
             <div className="shrink-0 flex items-center gap-2 text-right">
               <span className="font-bebas text-2xl text-white">
                 {legsadScore}:{opponentScore}
+                {match.isWalkover && (
+                  <span className="ml-1 text-[10px] font-sans uppercase tracking-wide text-brand-muted">
+                    w.o.
+                  </span>
+                )}
               </span>
               {clickable && (
                 <a

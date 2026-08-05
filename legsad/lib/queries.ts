@@ -85,6 +85,12 @@ export async function getMatchesBySeason(seasonId: string) {
       status,
       scoreHome,
       scoreAway,
+      isWalkover,
+      walkoverReceiver,
+      actualScoreHome,
+      actualScoreAway,
+      scoreHomeHalftime,
+      scoreAwayHalftime,
       opponent-> { _id, name, "logoUrl": logo.asset->url },
       ${matchReportFields},
       coachHome,
@@ -113,6 +119,12 @@ export async function getMatchById(id: string) {
       status,
       scoreHome,
       scoreAway,
+      isWalkover,
+      walkoverReceiver,
+      actualScoreHome,
+      actualScoreAway,
+      scoreHomeHalftime,
+      scoreAwayHalftime,
       opponent-> { _id, name, "logoUrl": logo.asset->url },
       ${matchReportFields},
       coachHome,
@@ -127,7 +139,7 @@ export async function getMatchById(id: string) {
   );
 }
 
-// WSZYSTKIE MECZE (do liczenia statystyk zawodników)
+// WSZYSTKIE MECZE (do liczenia statystyk)
 export async function getAllMatches() {
   return client.fetch(`
     *[_type == "match"] {
@@ -137,6 +149,12 @@ export async function getAllMatches() {
       status,
       scoreHome,
       scoreAway,
+      isWalkover,
+      walkoverReceiver,
+      actualScoreHome,
+      actualScoreAway,
+      scoreHomeHalftime,
+      scoreAwayHalftime,
       opponent-> { name },
       ${matchReportFields}
     }

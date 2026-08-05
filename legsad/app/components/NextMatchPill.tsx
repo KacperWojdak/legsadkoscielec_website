@@ -11,13 +11,25 @@ export default async function NextMatchPill() {
   today.setHours(0, 0, 0, 0);
 
   const next = matches
-    .filter((m: any) => new Date(m.date) >= today && m.status === "upcoming")
+    .filter((m: any) => new Date(m.date) >= today && (m.status === "upcoming" || m.status === "bye"))
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
 
   if (!next) return null;
 
-  const opponent = next.opponent.name;
   const date = new Date(next.date).toLocaleDateString("pl-PL", { day: "numeric", month: "short" });
+
+  if (next.status === "bye") {
+    return (
+      <>
+        <span className="text-[9px] lg:text-[10px]">⏸</span>
+        <span className="text-[9px] uppercase tracking-wide text-white/70 lg:text-[11px]">
+          {date} · Pauza
+        </span>
+      </>
+    );
+  }
+
+  const opponent = next.opponent.name;
 
   return (
     <>

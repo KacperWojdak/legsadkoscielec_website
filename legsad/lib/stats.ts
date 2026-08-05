@@ -31,14 +31,16 @@ export function computePlayerStats(matches: SanityMatch[]): Record<string, Playe
   for (const match of finishedMatches) {
     const legsadSide = match.homeIsLegsad ? "home" : "away";
 
-    const scorers =
-      legsadSide === "home" ? match.reportScorersHome : match.reportScorersAway;
-    for (const g of scorers ?? []) {
-      const scorerName = resolveName(g);
-      getOrCreate(scorerName).gole += 1;
+    if (!match.isWalkover) {
+      const scorers =
+        legsadSide === "home" ? match.reportScorersHome : match.reportScorersAway;
+      for (const g of scorers ?? []) {
+        const scorerName = resolveName(g);
+        getOrCreate(scorerName).gole += 1;
 
-      const assistName = g.assistPlayer?.name ?? g.assist;
-      if (assistName) getOrCreate(assistName).asysty += 1;
+        const assistName = g.assistPlayer?.name ?? g.assist;
+        if (assistName) getOrCreate(assistName).asysty += 1;
+      }
     }
 
     const yellowCards =

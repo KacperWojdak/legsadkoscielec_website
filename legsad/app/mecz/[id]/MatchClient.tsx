@@ -130,6 +130,11 @@ export default function MatchClient({
         <p className="mb-4 text-center text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
           Strzelcy
         </p>
+        {match.isWalkover && (
+          <p className="mb-4 text-center text-xs text-brand-muted">
+            Mecz zakończony walkowerem — bramki nie są klasyfikowane w statystykach.
+          </p>
+        )}
 
         {/* DESKTOP — strzelcy */}
         <div className="hidden md:grid md:grid-cols-2 md:gap-6">

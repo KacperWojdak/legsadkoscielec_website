@@ -21,10 +21,47 @@ export default async function NextMatch() {
   today.setHours(0, 0, 0, 0);
 
   const match = matches
-    .filter((m: any) => new Date(m.date) >= today && m.status === "upcoming")
+    .filter((m: any) => new Date(m.date) >= today && (m.status === "upcoming" || m.status === "bye"))
     .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
 
   if (!match) return null;
+
+  if (match.status === "bye") {
+    return (
+      <section className="border-b border-brand-border bg-brand-black py-10">
+        <div className="mx-auto max-w-5xl px-6">
+
+          <div className="mb-6 flex items-center gap-3">
+            <div className="h-px flex-1 bg-brand-border" />
+            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-brand-red">
+              Najbliższy termin
+            </span>
+            <div className="h-px flex-1 bg-brand-border" />
+          </div>
+
+          <div className="rounded-2xl border border-brand-pink/50 bg-brand-surface p-6 md:p-10">
+            <div className="mb-6 flex flex-wrap items-center justify-center md:justify-between gap-2">
+              <span className="text-sm text-white/50 capitalize">
+                {formatDate(match.date)}
+              </span>
+              <span className="rounded-md border border-brand-border px-3 py-1 text-xs uppercase tracking-widest text-brand-muted">
+                {match.league} · Kolejka {match.round}
+              </span>
+            </div>
+
+            <div className="flex flex-col items-center gap-3 py-6 text-center">
+              <span className="font-bebas text-5xl text-brand-red md:text-6xl">
+                Pauza
+              </span>
+              <p className="max-w-sm text-sm text-brand-muted">
+                W tej kolejce drużyna ma wolny termin — brak przeciwnika.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
   const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
@@ -57,14 +94,14 @@ export default async function NextMatch() {
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {match.homeIsLegsad ? (
-                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="object-contain" />
+                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="h-12 w-12 object-contain" />
                 ) : (
                   <Image
                     src={match.opponent.logoUrl ?? "/images/logo-white.png"}
                     alt={home}
                     width={48}
                     height={48}
-                    className="object-contain"
+                    className="h-12 w-12 object-contain"
                   />
                 )}
               </div>
@@ -83,14 +120,14 @@ export default async function NextMatch() {
             <div className="flex flex-1 flex-col items-center gap-3 text-center">
               <div className="flex h-16 w-16 items-center justify-center rounded-full border border-brand-border bg-white">
                 {!match.homeIsLegsad ? (
-                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="object-contain" />
+                  <Image src="/images/logo-pink.png" alt="Legsad Kościelec" width={48} height={48} className="h-12 w-12 object-contain" />
                 ) : (
                   <Image
                     src={match.opponent.logoUrl ?? "/images/logo-white.png"}
                     alt={away}
                     width={48}
                     height={48}
-                    className="object-contain"
+                    className="h-12 w-12 object-contain"
                   />
                 )}
               </div>

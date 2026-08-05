@@ -96,28 +96,23 @@ export type Opponent = {
 export type SanityMatch = {
   _id: string;
   date: string;
-  time?: string;
-  round?: string;
-  league?: string;
   homeIsLegsad: boolean;
   status: string;
   scoreHome: number | null;
   scoreAway: number | null;
-  opponent?: Opponent;
-  reportScorersHome?: Scorer[];
-  reportScorersAway?: Scorer[];
-  reportYellowCardsHome?: Card[];
-  reportYellowCardsAway?: Card[];
-  reportRedCardsHome?: RedCard[];
-  reportRedCardsAway?: RedCard[];
-  reportLineupHome?: LineupPlayer[];
-  reportLineupAway?: LineupPlayer[];
-  reportBenchHome?: LineupPlayer[];
-  reportBenchAway?: LineupPlayer[];
-  reportSubstitutionsHome?: Substitution[];
-  reportSubstitutionsAway?: Substitution[];
-  coachHome?: string;
-  coachAway?: string;
+  isWalkover?: boolean;
+  walkoverReceiver?: "home" | "away";
+  opponent?: { name: string };
+  reportScorersHome?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
+  reportScorersAway?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef }[];
+  reportYellowCardsHome?: { name?: string; player?: PlayerRef; minute: number }[];
+  reportYellowCardsAway?: { name?: string; player?: PlayerRef; minute: number }[];
+  reportRedCardsHome?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
+  reportRedCardsAway?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];
+  reportLineupHome?: { number: number; name?: string; player?: PlayerRef }[];
+  reportLineupAway?: { number: number; name?: string; player?: PlayerRef }[];
+  reportSubstitutionsHome?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
+  reportSubstitutionsAway?: { out?: string; outPlayer?: PlayerRef; in?: string; inPlayer?: PlayerRef; minute: number }[];
 };
 
 // ===== SEZONY =====

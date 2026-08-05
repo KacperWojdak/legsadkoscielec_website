@@ -262,7 +262,13 @@ export default defineType({
       title: "Przeciwnik",
       type: "reference",
       to: [{ type: "club" }],
-      validation: (Rule) => Rule.required(),
+      hidden: ({ document }) => document?.status === "bye",
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const doc = context.document as any;
+          if (doc?.status === "bye") return true;
+          return value ? true : "Przeciwnik jest wymagany";
+        }),
     }),
     defineField({
       name: "status",
@@ -272,6 +278,7 @@ export default defineType({
         list: [
           { title: "Nadchodzący", value: "upcoming" },
           { title: "Zakończony", value: "finished" },
+          { title: "Pauza (wolny termin)", value: "bye" },
         ],
       },
       initialValue: "upcoming",
@@ -289,7 +296,53 @@ export default defineType({
       type: "number",
       hidden: ({ document }) => document?.status !== "finished",
     }),
-
+    defineField({
+      name: "isWalkover",
+      title: "Walkower",
+      type: "boolean",
+      description: "Zaznacz, jeśli mecz zakończył się walkowerem",
+      initialValue: false,
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "walkoverReceiver",
+      title: "Walkower — strona otrzymująca zwycięstwo",
+      type: "string",
+      description: "Wybierz drużynę, która otrzymuje walkower na korzyść",
+      options: {
+        list: [
+          { title: "Gospodarz", value: "home" },
+          { title: "Gość", value: "away" },
+        ],
+      },
+      hidden: ({ document }) => document?.status !== "finished" || !document?.isWalkover,
+    }),
+    defineField({
+      name: "actualScoreHome",
+      title: "Wynik na boisku — gospodarz",
+      description: "Rzeczywisty wynik osiągnięty w trakcie gry, przed unieważnieniem",
+      type: "number",
+      hidden: ({ document }) => document?.status !== "finished" || !document?.isWalkover,
+    }),
+    defineField({
+      name: "actualScoreAway",
+      title: "Wynik na boisku — gość",
+      description: "Rzeczywisty wynik osiągnięty w trakcie gry, przed unieważnieniem",
+      type: "number",
+      hidden: ({ document }) => document?.status !== "finished" || !document?.isWalkover,
+    }),
+    defineField({
+      name: "scoreHomeHalftime",
+      title: "Wynik do przerwy — gospodarz",
+      type: "number",
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
+    defineField({
+      name: "scoreAwayHalftime",
+      title: "Wynik do przerwy — gość",
+      type: "number",
+      hidden: ({ document }) => document?.status !== "finished",
+    }),
     defineField({
       name: "reportScorersHome",
       title: "Strzelcy — gospodarz",

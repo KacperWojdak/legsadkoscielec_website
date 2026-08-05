@@ -41,6 +41,7 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
   );
 
   const filtered = sorted.filter((match) => {
+    if (match.status === "bye") return true;
     const query = search.toLowerCase().trim();
     if (!query) return true;
     const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
@@ -78,9 +79,41 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
           {filtered.map((match, index) => {
             const result = getResult(match);
             const isFinished = match.status === "finished";
-            const home = match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
-            const away = match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
-            const clickable = hasReport(match);
+            const isBye = match.status === "bye";
+            const home = isBye ? null : match.homeIsLegsad ? "Legsad Kościelec" : match.opponent.name;
+            const away = isBye ? null : match.homeIsLegsad ? match.opponent.name : "Legsad Kościelec";
+            const clickable = !isBye && hasReport(match);
+
+            if (isBye) {
+              return (
+                <motion.div
+                  key={match._id}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.4), ease: "easeOut" }}
+                  className="flex flex-col gap-3 px-6 py-6 md:flex-row md:items-center md:gap-5"
+                >
+                  <div className="flex items-center gap-3 md:w-44 shrink-0">
+                    <span className="text-xs uppercase text-brand-muted">
+                      {formatDate(match.date)}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-1 items-center justify-center">
+                    <span className="font-bebas text-2xl uppercase tracking-wide text-brand-muted">
+                      Pauza — wolny termin
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2.5 md:w-44 shrink-0 md:justify-end">
+                    <span className="shrink-0 whitespace-nowrap text-[10px] uppercase tracking-widest text-brand-muted">
+                      Kolejka {match.round}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            }
 
             return (
               <motion.div
@@ -123,9 +156,14 @@ export default function ScheduleClient({ matches }: { matches: any[] }) {
                     {isFinished ? (
                       <span className="font-bebas text-xl text-brand-red">
                         {match.scoreHome}:{match.scoreAway}
+                        {match.isWalkover && (
+                          <span className="ml-1 text-[10px] font-sans uppercase tracking-wide text-brand-muted">
+                            w.o.
+                          </span>
+                        )}
                       </span>
                     ) : (
-                      <span className="font-bebas text-xl text-brand-muted">VS</span>
+                      <span className="font-bebas text-xl text-white/60">VS</span>
                     )}
                   </div>
 

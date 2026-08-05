@@ -105,10 +105,25 @@ export default async function MatchPage({
                 </span>
               </div>
 
-              <div className="shrink-0">
+              <div className="shrink-0 text-center">
                 <span className="font-bebas text-5xl text-brand-red md:text-6xl">
                   {match.scoreHome} : {match.scoreAway}
                 </span>
+                {match.isWalkover && (
+                  <span className="ml-2 align-middle rounded-md border border-brand-red/50 bg-brand-red/10 px-2 py-0.5 text-xs uppercase tracking-widest text-brand-red">
+                    W.O.
+                  </span>
+                )}
+                {match.isWalkover && (match.actualScoreHome !== null && match.actualScoreHome !== undefined) && (
+                  <p className="mt-1 text-sm text-brand-muted">
+                    Wynik na boisku: {match.actualScoreHome} : {match.actualScoreAway}
+                  </p>
+                )}
+                {!match.isWalkover && (match.scoreHomeHalftime !== null && match.scoreHomeHalftime !== undefined) && (
+                  <p className="mt-1 text-sm text-brand-muted">
+                    ({match.scoreHomeHalftime} : {match.scoreAwayHalftime})
+                  </p>
+                )}
               </div>
 
               <div className="flex flex-1 flex-col items-center gap-3 text-center">
