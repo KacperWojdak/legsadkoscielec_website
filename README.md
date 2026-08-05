@@ -158,6 +158,4 @@ legsad/
 - Automatyczna rewalidacja treści przez webhooki
 
 **W planach:**
-- Referencje do zawodników w raportach meczowych (zamiast wolnego tekstu) — eliminacja literówek, dropdown w CMS
-- Dynamicznie generowane obrazy Open Graph dla poszczególnych meczów
 - Docelowa domena i migracja hostingu
