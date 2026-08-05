@@ -130,7 +130,7 @@ export default function RosterClient({
           </span>
           <div className="h-px w-8 bg-brand-border" />
         </div>
-        <div className="mx-auto grid max-w-md grid-cols-2 gap-4">
+        <div className="mx-auto flex max-w-2xl flex-wrap justify-center gap-4">
           {staff.map((member, index) => (
             <motion.div
               key={member._id}
@@ -138,6 +138,7 @@ export default function RosterClient({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+              className="w-[calc(50%-0.5rem)] sm:w-[calc(33.333%-0.67rem)]"
             >
               <PlayerCard
                 name={member.name}
