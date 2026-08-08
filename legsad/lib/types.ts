@@ -24,8 +24,6 @@ export type Player = {
   photoCard?: SanityImage;
   photoModal?: SanityImage;
   birthDate?: string;
-  height?: number;
-  weight?: number;
   nationality?: string;
   careerHistory?: CareerEntry[];
   memberSince?: string;

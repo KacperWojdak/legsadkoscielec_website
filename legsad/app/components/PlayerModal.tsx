@@ -210,16 +210,6 @@ export default function PlayerModal({
                     </span>
                   </div>
                 )}
-                {(player.height || player.weight) && (
-                  <div className="flex items-center justify-between px-6 py-3">
-                    <span className="text-xs uppercase tracking-widest text-brand-muted">
-                      Wzrost / Waga
-                    </span>
-                    <span className="text-sm font-medium text-white">
-                      {player.height ? `${player.height} cm` : "—"} / {player.weight ? `${player.weight} kg` : "—"}
-                    </span>
-                  </div>
-                )}
                 {player.careerHistory && player.careerHistory.length > 0 && (
                 <div className="px-6 py-4">
                   <p className="mb-3 text-xs uppercase tracking-widest text-brand-muted">

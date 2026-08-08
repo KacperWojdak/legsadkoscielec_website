@@ -49,16 +49,6 @@ export default defineType({
       type: "date",
     }),
     defineField({
-      name: "height",
-      title: "Wzrost (cm)",
-      type: "number",
-    }),
-    defineField({
-      name: "weight",
-      title: "Waga (kg)",
-      type: "number",
-    }),
-    defineField({
       name: "nationality",
       title: "Narodowość (kod kraju, np. PL, UA, DE)",
       type: "string",

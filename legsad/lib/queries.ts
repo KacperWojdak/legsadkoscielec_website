@@ -172,8 +172,6 @@ export async function getPlayers() {
       photoCard,
       photoModal,
       birthDate,
-      height,
-      weight,
       nationality,
       careerHistory[]{
         club,
