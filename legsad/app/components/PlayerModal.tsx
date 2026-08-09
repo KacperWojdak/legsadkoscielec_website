@@ -79,7 +79,7 @@ export default function PlayerModal({
   }
 
   const hasProfileData =
-    player.birthDate || player.height || player.weight || player.nationality || (player.careerHistory && player.careerHistory.length > 0) || player.memberSince;
+    player.birthDate  || player.nationality || (player.careerHistory && player.careerHistory.length > 0) || player.memberSince;
 
   const handleClose = () => {
     window.history.back();
