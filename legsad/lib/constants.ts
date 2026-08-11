@@ -1,1 +1,1 @@
-export const SITE_URL = "https://gkslegsadkoscielec.netlify.app";
+export const SITE_URL = "https://gkslegsadkoscielec.pl";

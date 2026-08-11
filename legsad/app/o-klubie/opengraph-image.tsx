@@ -10,8 +10,8 @@ export default async function Image() {
   const seasons = await getSeasons();
   const currentSeason = seasons.find((s: any) => s.isCurrent);
 
-  const logoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-pink.png";
-  const brushUrl = "https://gkslegsadkoscielec.netlify.app/images/effects/brush-diagonal.png";
+  const logoUrl = "https://gkslegsadkoscielec.pl/images/logo-pink.png";
+  const brushUrl = "https://gkslegsadkoscielec.pl/images/effects/brush-diagonal.png";
 
   return new ImageResponse(
     (

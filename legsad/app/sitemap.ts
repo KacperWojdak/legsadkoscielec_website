@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getNews, getSeasons, getMatchesBySeason } from "../lib/queries";
 import { getAllGalleryItems } from "../lib/gallery";
 
-const BASE_URL = "https://gkslegsadkoscielec.netlify.app";
+const BASE_URL = "https://gkslegsadkoscielec.pl";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [

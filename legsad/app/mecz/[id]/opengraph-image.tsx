@@ -13,9 +13,9 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   const away = match?.homeIsLegsad ? match?.opponent?.name ?? "?" : "Legsad Kościelec";
   const score = match?.status === "finished" ? `${match.scoreHome} : ${match.scoreAway}` : "VS";
 
-  const legsadLogoUrl = "https://gkslegsadkoscielec.netlify.app/images/logo-pink.png";
+  const legsadLogoUrl = "https://gkslegsadkoscielec.pl/images/logo-pink.png";
   const opponentLogoUrl = match?.opponent?.logoUrl ?? legsadLogoUrl;
-  const brushUrl = "https://gkslegsadkoscielec.netlify.app/images/effects/brush-diagonal.png";
+  const brushUrl = "https://gkslegsadkoscielec.pl/images/effects/brush-diagonal.png";
 
   const homeLogoUrl = match?.homeIsLegsad ? legsadLogoUrl : opponentLogoUrl;
   const awayLogoUrl = match?.homeIsLegsad ? opponentLogoUrl : legsadLogoUrl;

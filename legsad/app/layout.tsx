@@ -19,10 +19,10 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "GKS Legsad Kościelec — Oficjalna strona klubu",
-  description: "Oficjalna strona GKS Legsad Kościelec. Wyniki, terminarz, skład drużyny i aktualności klubu piłkarskiego z Kościelca",
+  description: "Oficjalna strona GKS Legsad Kościelec. Wyniki, terminarz, skład drużyny, aktualności i galerie zdjęć klubu piłkarskiego z Kościelca",
   openGraph: {
     title: "GKS Legsad Kościelec",
-    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec. Wyniki, terminarz, skład i aktualności.",
+    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec. Wyniki, terminarz, skład, aktualności i galerie zdjęć.",
     url: SITE_URL,
     siteName: "GKS Legsad Kościelec",
     locale: "pl_PL",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "GKS Legsad Kościelec",
-    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec.",
+    description: "Oficjalna strona klubu piłkarskiego GKS Legsad Kościelec. Wyniki, terminarz, skład, aktualności i galerie zdjęć.",
   },
 };
 
