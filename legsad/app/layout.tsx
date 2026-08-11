@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import ConditionalChrome from "./components/ConditionalChrome";
 import NextMatchPill from "./components/NextMatchPill";
+import CookieConsent from "./components/CookieConsent";
 import { SITE_URL } from "../lib/constants";
 
 const bebasNeue = Bebas_Neue({
@@ -48,6 +49,7 @@ export default function RootLayout({
           {children}
         </ConditionalChrome>
         <Analytics />
+        <CookieConsent />
       </body>
     </html>
   );
