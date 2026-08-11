@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import ConditionalChrome from "./components/ConditionalChrome";
 import NextMatchPill from "./components/NextMatchPill";
@@ -46,6 +47,7 @@ export default function RootLayout({
         <ConditionalChrome matchPill={<NextMatchPill />}>
           {children}
         </ConditionalChrome>
+        <Analytics />
       </body>
     </html>
   );
