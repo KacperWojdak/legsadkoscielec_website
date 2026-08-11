@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import ConditionalChrome from "./components/ConditionalChrome";
 import NextMatchPill from "./components/NextMatchPill";
@@ -49,6 +50,7 @@ export default function RootLayout({
           {children}
         </ConditionalChrome>
         <Analytics />
+        <SpeedInsights />
         <CookieConsent />
       </body>
     </html>
