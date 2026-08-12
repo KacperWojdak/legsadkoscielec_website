@@ -11,11 +11,24 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const type = body._type;
+    const id = body._id;
 
     const pathsToRevalidate: string[] = ["/"];
 
     if (type === "match") {
-      pathsToRevalidate.push("/terminarz", "/druzyna");
+      pathsToRevalidate.push("/terminarz", "/druzyna", "/galeria");
+      if (id) {
+        const cleanId = id.replace(/^drafts\./, "");
+        pathsToRevalidate.push(`/mecz/${cleanId}`);
+        pathsToRevalidate.push(`/galeria/match-${cleanId}`);
+      }
+    }
+    if (type === "gallery") {
+      pathsToRevalidate.push("/galeria");
+      if (id) {
+        const cleanId = id.replace(/^drafts\./, "");
+        pathsToRevalidate.push(`/galeria/gallery-${cleanId}`);
+      }
     }
     if (type === "player" || type === "staff") {
       pathsToRevalidate.push("/druzyna");
