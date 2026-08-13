@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { PortableText } from "@portabletext/react";
@@ -7,6 +6,8 @@ import { getNewsBySlug } from "../../../lib/queries";
 import { urlFor } from "../../../lib/sanity";
 import PageHeaderAccent from "@/app/components/PageHeaderAccent";
 import FadeInSection from "@/app/components/FadeInSection";
+import NewsImageLightbox from "./NewsImageLightbox";
+import Image from "next/image";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -95,16 +96,7 @@ export default async function NewsDetailPage({
         </Link>
 
         <FadeInSection>
-          <div className="relative mb-6 aspect-video w-full overflow-hidden rounded-xl border border-brand-border">
-            <Image
-              src={urlFor(article.mainImage).width(1200).url()}
-              alt={article.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 1024px"
-              priority
-              className="object-cover"
-            />
-          </div>
+          <NewsImageLightbox image={article.mainImage} title={article.title} />
 
           <div className="mb-6">
             <div className="mb-3 flex items-center gap-3">
