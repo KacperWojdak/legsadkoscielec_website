@@ -131,9 +131,14 @@ export default function PlayerModal({
                 {player.number}
               </span>
             )}
-            <p className="relative z-10 mt-2 text-center font-bebas text-2xl leading-tight text-white">
-              {player.name}
-            </p>
+            <div className="relative z-10 mt-2 flex items-center justify-center gap-2">
+              {player.nationality && (
+                <span className={`fi fi-${player.nationality.toLowerCase()} shrink-0 rounded-[2px]`} style={{ fontSize: "1.1em" }} />
+              )}
+              <p className="text-center font-bebas text-2xl leading-tight text-white">
+                {player.name}
+              </p>
+            </div>
             <p className="relative z-10 text-xs uppercase tracking-widest text-brand-muted">
               {player.position}
             </p>
