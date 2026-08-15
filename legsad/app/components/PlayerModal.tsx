@@ -113,11 +113,11 @@ export default function PlayerModal({
         <div className="flex flex-1 flex-col overflow-y-auto md:flex-row md:overflow-hidden">
 
           {/* LEWA STRONA — zdjęcie + nazwa + numer */}
-          <div className="relative flex shrink-0 flex-col items-center overflow-hidden bg-brand-black px-6 py-8 md:w-72">
+          <div className="relative flex shrink-0 flex-col items-center overflow-hidden bg-brand-black px-6 pt-2 pb-8 md:w-72">
             <div className="absolute right-0 top-0 opacity-10">
               <Image src="/images/logo-white.png" alt="" width={160} height={160} className="h-40 w-40 object-contain" />
             </div>
-            <div className="relative z-10 mb-4 h-80 w-full">
+            <div className="relative z-10 mb-4 h-84 w-full">
               <Image
                 src={imageUrl}
                 alt={player.name}
@@ -133,7 +133,7 @@ export default function PlayerModal({
             )}
             <div className="relative z-10 mt-2 flex items-center justify-center gap-2">
               {player.nationality && (
-                <span className={`fi fi-${player.nationality.toLowerCase()} shrink-0 rounded-[2px]`} style={{ fontSize: "1.1em" }} />
+                <span className={`fi fi-${player.nationality.toLowerCase()} shrink-0 rounded-xs`} style={{ fontSize: "1.1em" }} />
               )}
               <p className="text-center font-bebas text-2xl leading-tight text-white">
                 {player.name}
