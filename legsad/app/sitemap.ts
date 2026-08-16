@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getNews, getSeasons, getMatchesBySeason } from "../lib/queries";
 import { getAllGalleryItems } from "../lib/gallery";
+import { SITE_URL } from "../lib/constants";
 
-const BASE_URL = "https://gkslegsadkoscielec.pl";
+const BASE_URL = SITE_URL;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
