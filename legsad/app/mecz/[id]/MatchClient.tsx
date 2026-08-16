@@ -335,34 +335,37 @@ export default function MatchClient({
         </p>
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
 
-          <div>
-            <p className="mb-3 font-bebas text-lg text-white">{home}</p>
-            <div className="flex flex-col items-start gap-1.5">
-              {lineupHome.map((p: any, i: number) => (
-                <div key={i} className="flex items-center gap-2 text-sm">
-                  <span className="w-6 text-brand-red">{p.number}</span>
-                  {renderEntry(p, match.homeIsLegsad)}
-                </div>
-              ))}
+          <div className="flex flex-col">
+            <div>
+              <p className="mb-3 font-bebas text-lg text-white">{home}</p>
+              <div className="flex flex-col items-start gap-1.5">
+                {lineupHome.map((p: any, i: number) => (
+                  <div key={i} className="flex items-center gap-2 text-sm">
+                    <span className="w-6 text-brand-red">{p.number}</span>
+                    {renderEntry(p, match.homeIsLegsad)}
+                  </div>
+                ))}
+              </div>
+
+              {benchHome.length > 0 && (
+                <>
+                  <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
+                    Ławka rezerwowych
+                  </p>
+                  <div className="flex flex-col items-start gap-1.5">
+                    {benchHome.map((p: any, i: number) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-white/40">
+                        <span className="w-6 text-brand-muted">{p.number}</span>
+                        <span>{p.player?.name ?? p.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
-            {benchHome.length > 0 && (
-              <>
-                <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
-                  Ławka rezerwowych
-                </p>
-                <div className="flex flex-col items-start gap-1.5">
-                  {benchHome.map((p: any, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-white/40">
-                      <span className="w-6 text-brand-muted">{p.number}</span>
-                      <span>{p.player?.name ?? p.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            <p className="mt-3 text-xs text-brand">Trener: {match.coachHome}</p>
+            <div className="mt-auto pt-4">
+              <p className="text-xs text-brand">Trener: {match.coachHome}</p>
               {match.additionalStaffHome && match.additionalStaffHome.length > 0 && (
                 <div className="mt-1 flex flex-col gap-0.5">
                   {match.additionalStaffHome.map((member: any, i: number) => (
@@ -372,36 +375,40 @@ export default function MatchClient({
                   ))}
                 </div>
               )}
+            </div>
           </div>
 
-          <div className="md:text-right">
-            <p className="mb-3 font-bebas text-lg text-white">{away}</p>
-            <div className="flex flex-col items-start gap-1.5 md:items-end">
-              {lineupAway.map((p: any, i: number) => (
-                <div key={i} className="flex items-center gap-2 text-sm">
-                  <span className="w-6 text-brand-red md:order-2">{p.number}</span>
-                  <span className="md:order-1">{renderEntry(p, !match.homeIsLegsad)}</span>
-                </div>
-              ))}
+          <div className="flex flex-col md:text-right">
+            <div>
+              <p className="mb-3 font-bebas text-lg text-white">{away}</p>
+              <div className="flex flex-col items-start gap-1.5 md:items-end">
+                {lineupAway.map((p: any, i: number) => (
+                  <div key={i} className="flex items-center gap-2 text-sm">
+                    <span className="w-6 text-brand-red md:order-2">{p.number}</span>
+                    <span className="md:order-1">{renderEntry(p, !match.homeIsLegsad)}</span>
+                  </div>
+                ))}
+              </div>
+
+              {benchAway.length > 0 && (
+                <>
+                  <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
+                    Ławka rezerwowych
+                  </p>
+                  <div className="flex flex-col items-start gap-1.5 md:items-end">
+                    {benchAway.map((p: any, i: number) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-white/40">
+                        <span className="w-6 text-brand-muted md:order-2">{p.number}</span>
+                        <span className="md:order-1">{p.player?.name ?? p.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
-            {benchAway.length > 0 && (
-              <>
-                <p className="mb-2 mt-4 text-xs uppercase tracking-widest text-brand-muted">
-                  Ławka rezerwowych
-                </p>
-                <div className="flex flex-col items-start gap-1.5 md:items-end">
-                  {benchAway.map((p: any, i: number) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-white/40">
-                      <span className="w-6 text-brand-muted md:order-2">{p.number}</span>
-                      <span className="md:order-1">{p.player?.name ?? p.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-
-            <p className="mt-3 text-xs text-brand">Trener: {match.coachAway}</p>
+            <div className="mt-auto pt-4">
+              <p className="text-xs text-brand">Trener: {match.coachAway}</p>
               {match.additionalStaffAway && match.additionalStaffAway.length > 0 && (
                 <div className="mt-1 flex flex-col gap-0.5">
                   {match.additionalStaffAway.map((member: any, i: number) => (
@@ -411,6 +418,7 @@ export default function MatchClient({
                   ))}
                 </div>
               )}
+            </div>
           </div>
 
         </div>
