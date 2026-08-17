@@ -43,7 +43,7 @@ export default function MatchClient({
       return (
         <button
           onClick={() => setSelectedPlayerId(entry.player!._id)}
-          className="cursor-pointer text-white transition-colors hover:text-brand-red"
+          className="cursor-pointer text-left text-white transition-colors hover:text-brand-red"
         >
           {displayName}
         </button>
@@ -60,7 +60,7 @@ export default function MatchClient({
       return (
         <button
           onClick={() => setSelectedPlayerId(entry.assistPlayer!._id)}
-          className="cursor-pointer text-brand-muted transition-colors hover:text-brand-red"
+          className="cursor-pointer text-left text-brand-muted transition-colors hover:text-brand-red"
         >
           {assistName}
         </button>
@@ -185,29 +185,29 @@ export default function MatchClient({
         </div>
 
         {/* MOBILE — strzelcy */}
-        <div className="flex flex-col gap-3 md:hidden">
+        <div className="flex flex-col divide-y divide-brand-border/90 md:hidden">
           {[
             ...scorersHome.map((g: any) => ({ ...g, team: home, isLegsad: match.homeIsLegsad })),
             ...scorersAway.map((g: any) => ({ ...g, team: away, isLegsad: !match.homeIsLegsad })),
           ]
             .sort((a, b) => a.minute - b.minute)
             .map((g, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm">
-                <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
-                <span className="shrink-0">⚽</span>
+              <div key={i} className="flex items-start gap-3 py-3 text-sm first:pt-0 last:pb-0">
+                <span className="w-8 shrink-0 pt-0.5 text-right text-brand-muted">{g.minute}&apos;</span>
+                <span className="shrink-0 pt-0.5">⚽</span>
                 <div className="min-w-0 flex-1">
                   <div className={`flex flex-wrap items-baseline gap-x-1 ${isLongName(g.player?.name ?? g.name) ? "text-xs" : ""}`}>
                     {renderEntry(g, g.isLegsad)}
                   </div>
                   {(g.assist || g.assistPlayer) && (
-                    <div className="text-xs text-brand-muted">
+                    <div className="mt-0.5 text-xs text-brand-muted">
                       Asysta: {renderAssist(g)}
                     </div>
                   )}
+                  <div className="mt-1 text-[10px] uppercase tracking-wide text-brand-muted/70">
+                    {g.team}
+                  </div>
                 </div>
-                <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
-                  {g.team}
-                </span>
               </div>
             ))}
           {scorersHome.length === 0 && scorersAway.length === 0 && (
@@ -488,15 +488,15 @@ export default function MatchClient({
           </div>
 
           {/* MOBILE — zmiany */}
-          <div className="flex flex-col gap-4 md:hidden">
+          <div className="flex flex-col divide-y divide-brand-border/90 md:hidden">
             {[
               ...subsHome.map((s: any) => ({ ...s, team: home, isLegsad: match.homeIsLegsad })),
               ...subsAway.map((s: any) => ({ ...s, team: away, isLegsad: !match.homeIsLegsad })),
             ]
               .sort((a, b) => a.minute - b.minute)
               .map((s, i) => (
-                <div key={i} className="flex items-center gap-3 text-sm">
-                  <span className="w-8 shrink-0 text-right text-brand-muted">{s.minute}&apos;</span>
+                <div key={i} className="flex items-start gap-3 py-3 text-sm first:pt-0 last:pb-0">
+                  <span className="w-8 shrink-0 pt-0.5 text-right text-brand-muted">{s.minute}&apos;</span>
                   <div className="min-w-0 flex-1">
                     <div className={`flex items-center gap-2 ${isLongName(s.inPlayer?.name ?? s.in) ? "text-xs" : ""}`}>
                       <span className="shrink-0 text-green-400">↑</span>
@@ -506,10 +506,10 @@ export default function MatchClient({
                       <span className="shrink-0 text-red-500">↓</span>
                       <span className="text-brand-muted">{s.outPlayer?.name ?? s.out}</span>
                     </div>
+                    <div className="mt-1 text-[10px] uppercase tracking-wide text-brand-muted/70">
+                      {s.team}
+                    </div>
                   </div>
-                  <span className="shrink-0 text-[10px] uppercase tracking-wide text-brand-muted">
-                    {s.team}
-                  </span>
                 </div>
               ))}
           </div>
