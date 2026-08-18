@@ -35,7 +35,7 @@ export default async function NextMatchPill() {
     <>
       <span className="text-[9px] lg:text-[10px]">{next.homeIsLegsad ? "🏠" : "🚌"}</span>
       <span className="text-[9px] uppercase tracking-wide text-white/70 lg:text-[11px]">
-        {date} · vs {opponent}
+        {date} · {next.time} · vs {opponent}
       </span>
     </>
   );

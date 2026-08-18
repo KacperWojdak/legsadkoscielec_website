@@ -38,7 +38,7 @@ export default async function TerminarzPage() {
             <h1 className="font-bebas text-5xl text-white md:text-6xl">
               Terminarz
             </h1>
-            <p className="mt-2 text-sm text-brand-muted">
+            <p className="mt-2 text-sm text-white/60">
               {currentSeason?.league ?? ""}
             </p>
           </div>
