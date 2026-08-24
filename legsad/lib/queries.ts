@@ -268,3 +268,26 @@ export async function getMatchesWithPhotos() {
     }
   `);
 }
+
+// TABELA LIGOWA 
+export async function getLeagueTable() {
+  return client.fetch(`
+    *[_type == "leagueTable" && season->isCurrent == true][0] {
+      _id,
+      leagueName,
+      lastUpdated,
+      rows[] {
+        isLegsad,
+        matchesPlayed,
+        wins,
+        draws,
+        losses,
+        goalsFor,
+        goalsAgainst,
+        pointsDeduction,
+        zoneStatus,
+        team-> { _id, name, logo }
+      }
+    }
+  `);
+}

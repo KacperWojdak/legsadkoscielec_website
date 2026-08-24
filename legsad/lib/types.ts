@@ -161,3 +161,33 @@ export type NewsArticle = {
   lead?: string;
   body?: unknown[];
 };
+
+// ===== TABELA =====
+export interface LeagueTableRow {
+  index: number;
+  positionStatus: "Upper" | "Lower" | "None";
+  promotionStatus: "Promotion" | "Demotion" | "None";
+  stats: {
+    points: number;
+    matchesCount: number;
+    winsCount: number;
+    drawsCount: number;
+    losesCount: number;
+    goalsCount: number;
+    lostGoalsCount: number;
+    balanceGoalsCount: number;
+  };
+  team: {
+    id: string;
+    logo?: string;
+    name: string;
+    abbreviation?: string;
+  };
+  isCancelled: boolean;
+}
+
+export interface LeagueTableResponse {
+  league: { id: string; name: string };
+  play: { id: string; name: string; zpn: { id: string; name: string } };
+  rows: LeagueTableRow[];
+}
