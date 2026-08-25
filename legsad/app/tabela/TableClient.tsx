@@ -26,6 +26,12 @@ const zoneCardBorder: Record<string, string> = {
   none: "border-brand-border",
 };
 
+const resultColor: Record<string, string> = {
+  W: "bg-green-900/50 text-green-400",
+  P: "bg-red-900/50 text-red-400",
+  R: "bg-yellow-900/50 text-yellow-400",
+};
+
 function zoneCellClasses(zone: string, position: "first" | "middle" | "last") {
   const color = zoneColor[zone];
   if (!color) return "";
@@ -52,14 +58,36 @@ function TeamLogo({ logo }: { logo: any }) {
   );
 }
 
-export default function TableClient({ rows }: { rows: ComputedTableRow[] }) {
+function FormSquares({ form }: { form: ("W" | "R" | "P")[] }) {
+  if (form.length === 0) {
+    return <span className="text-xs text-brand-muted">—</span>;
+  }
+  return (
+    <div className="flex items-center gap-1">
+      {form.slice(0, 5).map((result, i) => (
+        <span
+          key={i}
+          className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-sm text-[10px] font-bold ${resultColor[result]}`}
+        >
+          {result}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export default function TableClient({
+  rows
+}: {
+  rows: ComputedTableRow[];
+}) {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   return (
     <>
       {/* DESKTOP */}
       <div className="hidden overflow-x-auto rounded-2xl border border-brand-border bg-brand-surface md:block">
-        <table className="w-full min-w-160 border-collapse text-sm">
+        <table className="w-full min-w-176 border-collapse text-sm">
           <thead>
             <tr className="border-b border-brand-border text-left text-xs uppercase tracking-widest text-brand-muted">
               <th className="px-3 py-3 text-center">#</th>
@@ -71,6 +99,7 @@ export default function TableClient({ rows }: { rows: ComputedTableRow[] }) {
               <th className="px-3 py-3 text-center">Bramki</th>
               <th className="px-3 py-3 text-center">Bilans</th>
               <th className="px-3 py-3 text-center">Pkt</th>
+              <th className="px-3 py-3 text-center">Forma</th>
             </tr>
           </thead>
           <tbody>
@@ -105,7 +134,12 @@ export default function TableClient({ rows }: { rows: ComputedTableRow[] }) {
                   {row.goalDifference > 0 ? "+" : ""}
                   {row.goalDifference}
                 </td>
-                <td className={`px-3 py-3 text-center font-bebas text-lg text-white ${zoneCellClasses(row.zoneStatus, "last")}`}>{row.points}</td>
+                <td className={`px-3 py-3 text-center font-bebas text-lg text-white ${zoneCellClasses(row.zoneStatus, "middle")}`}>{row.points}</td>
+                <td className={`px-3 py-3 ${zoneCellClasses(row.zoneStatus, "last")}`}>
+                  <div className="flex items-center justify-center">
+                    <FormSquares form={row.form} />
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -156,6 +190,12 @@ export default function TableClient({ rows }: { rows: ComputedTableRow[] }) {
                       <span className="font-bebas text-lg text-white">{stat.value}</span>
                     </div>
                   ))}
+                  <div className="flex items-center justify-between py-2.5 text-sm">
+                    <span className="text-brand-muted">Forma</span>
+                    <div className="flex items-center">
+                      <FormSquares form={row.form} />
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

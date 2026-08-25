@@ -286,6 +286,7 @@ export async function getLeagueTable() {
         goalsAgainst,
         pointsDeduction,
         zoneStatus,
+        form,
         team-> { _id, name, logo }
       }
     }

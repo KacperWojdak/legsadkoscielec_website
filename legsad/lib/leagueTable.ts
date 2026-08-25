@@ -1,4 +1,4 @@
-import { getLeagueTable as fetchLeagueTable } from "./queries";
+import { getLeagueTable as fetchLeagueTable, getSeasons, getMatchesBySeason } from "./queries";
 
 export interface ComputedTableRow {
   team: { _id: string; name: string; logo?: any };
@@ -12,6 +12,7 @@ export interface ComputedTableRow {
   goalDifference: number;
   points: number;
   zoneStatus: "none" | "promotion" | "relegation" | "playoff";
+  form: ("W" | "R" | "P")[];
 }
 
 export async function getComputedLeagueTable() {
@@ -33,10 +34,10 @@ export async function getComputedLeagueTable() {
       goalDifference,
       points,
       zoneStatus: r.zoneStatus ?? "none",
+      form: r.form ?? [],
     };
   });
 
-  // Sortowanie: punkty desc → bilans bramek desc → bramki strzelone desc
   rows.sort((a, b) => {
     if (b.points !== a.points) return b.points - a.points;
     if (b.goalDifference !== a.goalDifference) return b.goalDifference - a.goalDifference;

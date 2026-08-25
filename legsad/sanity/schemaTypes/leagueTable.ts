@@ -112,6 +112,22 @@ export default defineType({
               },
               initialValue: "none",
             }),
+            defineField({
+              name: "form",
+              title: "Forma (ostatnie 5 meczów)",
+              description: "Od najnowszego do najstarszego. Zostaw puste, jeśli nie chcesz pokazywać formy tej drużyny.",
+              type: "array",
+              of: [{ type: "string" }],
+              options: {
+                list: [
+                  { title: "Wygrana", value: "W" },
+                  { title: "Remis", value: "R" },
+                  { title: "Porażka", value: "P" },
+                ],
+                layout: "tags",
+              },
+              validation: (Rule) => Rule.max(5),
+            }),
           ],
           preview: {
             select: {
