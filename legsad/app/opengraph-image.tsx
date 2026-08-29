@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "GKS Legsad Kościelec";
+export const alt = "GKS Legsad Kościelec — Oficjalna strona klubu";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const dynamic = "force-dynamic";
 
 export default async function Image() {
   const logoUrl = "https://gkslegsadkoscielec.pl/images/logo-pink.png";
@@ -29,7 +30,7 @@ export default async function Image() {
             position: "absolute",
             right: 0,
             top: 0,
-            opacity: 0.35,
+            opacity: 0.3,
             objectFit: "cover",
           }}
         />
@@ -47,32 +48,26 @@ export default async function Image() {
           <div
             style={{
               display: "flex",
-              width: 220,
-              height: 220,
+              width: 200,
+              height: 200,
               borderRadius: "50%",
               backgroundColor: "white",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 40,
+              marginBottom: 34,
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={logoUrl}
-              width={170}
-              height={170}
-              style={{ objectFit: "contain" }}
-            />
+            <img src={logoUrl} width={155} height={155} style={{ objectFit: "contain" }} />
           </div>
 
           <div
             style={{
               display: "flex",
-              fontSize: 64,
+              fontSize: 60,
               color: "white",
               fontWeight: 900,
               textAlign: "center",
-              letterSpacing: 2,
             }}
           >
             GKS Legsad Kościelec
@@ -84,7 +79,7 @@ export default async function Image() {
               fontSize: 26,
               color: "#c0132a",
               textTransform: "uppercase",
-              letterSpacing: 4,
+              letterSpacing: 3,
               marginTop: 16,
             }}
           >

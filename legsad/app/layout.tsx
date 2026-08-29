@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     siteName: "GKS Legsad Kościelec",
     locale: "pl_PL",
     type: "website",
+    images: [{ url: `${SITE_URL}/images/logo-pink.png`, width: 512, height: 512 }],
   },
   twitter: {
     card: "summary",
