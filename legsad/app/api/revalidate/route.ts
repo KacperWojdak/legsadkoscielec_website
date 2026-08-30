@@ -42,6 +42,9 @@ export async function POST(request: NextRequest) {
     if (type === "season") {
       pathsToRevalidate.push("/", "/terminarz");
     }
+    if (type === "leagueTable") {
+      pathsToRevalidate.push("/tabela");
+    }
 
     for (const path of pathsToRevalidate) {
       revalidatePath(path);
