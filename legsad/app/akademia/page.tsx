@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 import FadeInSection from "../components/FadeInSection";
 import Image from "next/image";
 import Footer from "../components/Footer";
-import { getAcademy } from "../../lib/queries";
+import { getAcademy, getAcademyNews } from "../../lib/queries";
+import AcademyNewsCard from "./aktualnosci/AcademyNewsCard";
 import ScrollToHarmonogram from "./ScrollToHarmonogram";
 
 export const metadata: Metadata = {
@@ -12,7 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default async function AkademiaPage() {
-  const academy = await getAcademy();
+  const [academy, allNews] = await Promise.all([getAcademy(), getAcademyNews()]);
+  const latestNews = allNews.slice(0, 3);
 
   const groups = academy?.groups ?? [];
   const schedule = academy?.schedule ?? [];
@@ -64,6 +66,39 @@ export default async function AkademiaPage() {
       </section>
 
       <div className="mx-auto max-w-5xl px-6 py-16">
+
+        {/* NAJNOWSZE AKTUALNOŚCI */}
+        {latestNews.length > 0 && (
+          <>
+            <FadeInSection>
+              <div className="mb-10 text-center">
+                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-academy-red">
+                  Co słychać
+                </p>
+                <h2 className="font-bebas text-4xl text-academy-ink md:text-5xl">
+                  Najnowsze aktualności
+                </h2>
+              </div>
+            </FadeInSection>
+
+            <FadeInSection delay={0.1}>
+              <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+                {latestNews.map((article: any) => (
+                  <AcademyNewsCard key={article._id} {...article} />
+                ))}
+              </div>
+
+              <div className="mb-16 text-center">
+                <Link
+                  href="/akademia/aktualnosci"
+                  className="inline-block rounded-lg bg-academy-red px-6 py-3 text-sm font-bold uppercase tracking-wide text-white transition-opacity hover:opacity-90"
+                >
+                  Wszystkie aktualności →
+                </Link>
+              </div>
+            </FadeInSection>
+          </>
+        )}
 
         {/* GRUPY WIEKOWE */}
         <FadeInSection>
@@ -138,13 +173,21 @@ export default async function AkademiaPage() {
 
         <FadeInSection delay={0.1}>
           <div className="mb-16 flex flex-wrap justify-center gap-4">
-            {coaches.map((coach: any) => (
+                        {coaches.map((coach: any) => (
               <div
-                key={coach.key}
-                className="flex min-h-28 w-[calc(50%-0.5rem)] flex-col items-center justify-center gap-1 rounded-2xl border border-academy-border bg-academy-surface px-4 py-5 text-center shadow-sm sm:w-56"
+                key={coach._key}
+                className="flex min-h-36 w-[calc(50%-0.5rem)] flex-col items-center justify-center gap-1 rounded-2xl border border-academy-border bg-academy-surface px-4 py-5 text-center shadow-sm sm:w-56"
               >
                 <span className="font-bebas text-xl text-academy-ink">{coach.name}</span>
                 <span className="text-xs uppercase tracking-widest text-academy-muted">{coach.role}</span>
+                {coach.phone && (
+                  <a
+                    href={`tel:+48${String(coach.phone).replace(/\s/g, "")}`}
+                    className="mt-2 text-sm font-bold text-academy-red transition-opacity hover:opacity-70"
+                  >
+                    {coach.phone}
+                  </a>
+                )}
               </div>
             ))}
           </div>

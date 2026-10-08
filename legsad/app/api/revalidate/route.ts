@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
       pathsToRevalidate.push("/druzyna");
     }
     if (type === "news") {
-      pathsToRevalidate.push("/aktualnosci", "/akademia/aktualnosci");
+      pathsToRevalidate.push("/aktualnosci", "/akademia", "/akademia/aktualnosci");
     }
     if (type === "academy") {
       pathsToRevalidate.push("/akademia");

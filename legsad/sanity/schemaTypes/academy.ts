@@ -125,6 +125,12 @@ export default defineType({
               description: 'Np. "Trener grupy Orlik"',
               validation: (Rule) => Rule.required(),
             }),
+            defineField({
+              name: "phone",
+              title: "Telefon",
+              type: "string",
+              description: 'Opcjonalnie, może być ze spacjami, np. "722 183 270"',
+            }),
           ],
           preview: {
             select: { title: "name", subtitle: "role" },
