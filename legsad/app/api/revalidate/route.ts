@@ -34,7 +34,10 @@ export async function POST(request: NextRequest) {
       pathsToRevalidate.push("/druzyna");
     }
     if (type === "news") {
-      pathsToRevalidate.push("/aktualnosci");
+      pathsToRevalidate.push("/aktualnosci", "/akademia/aktualnosci");
+    }
+    if (type === "academy") {
+      pathsToRevalidate.push("/akademia");
     }
     if (type === "sponsor") {
       pathsToRevalidate.push("/");

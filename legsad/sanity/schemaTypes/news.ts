@@ -51,11 +51,26 @@ export default defineType({
         },
       ],
     }),
-  ],
-  preview: {
-    select: {
-      title: "title",
-      media: "mainImage",
+    defineField({
+      name: "isAkademia",
+      title: "Akademia",
+      type: "boolean",
+      description: "Zaznacz, jeśli ta aktualność dotyczy Akademii — pojawi się też na /akademia/aktualnosci i dostanie wyróżnienie na liście głównej.",
+      initialValue: false,
+    }),
+    ],
+    preview: {
+      select: {
+        title: "title",
+        media: "mainImage",
+        isAkademia: "isAkademia",
+      },
+      prepare({ title, media, isAkademia }) {
+        return {
+          title,
+          subtitle: isAkademia ? "Akademia" : undefined,
+          media,
+        };
+      },
     },
-  },
-});
+  });

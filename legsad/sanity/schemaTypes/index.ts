@@ -8,7 +8,8 @@ import staff from './staff'
 import news from './news'
 import gallery from './gallery'
 import leagueTable from './leagueTable'
+import academy from './academy'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [season, club, match, sponsor, player, staff, news, gallery, leagueTable],
+  types: [season, club, match, sponsor, player, staff, news, gallery, leagueTable, academy],
 }

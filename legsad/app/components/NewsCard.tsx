@@ -8,12 +8,14 @@ export default function NewsCard({
   publishedAt,
   mainImage,
   lead,
+  isAkademia,
 }: {
   slug: string;
   title: string;
   publishedAt: string;
   mainImage: any;
   lead: string;
+  isAkademia?: boolean;
 }) {
   function formatDate(dateStr: string) {
     return new Date(dateStr).toLocaleDateString("pl-PL", {
@@ -28,7 +30,11 @@ export default function NewsCard({
   return (
     <Link
       href={`/aktualnosci/${slug}`}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-brand-border bg-brand-surface transition-colors hover:border-brand-red"
+      className={`group flex flex-col overflow-hidden rounded-2xl border bg-brand-surface transition-colors ${
+        isAkademia
+          ? "border-brand-pink/50 hover:border-brand-pink"
+          : "border-brand-border hover:border-brand-red"
+      }`}
     >
       <div className="relative aspect-video w-full overflow-hidden">
         <Image
@@ -40,7 +46,14 @@ export default function NewsCard({
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
-        <span className="text-xs text-brand-muted">{formatDate(publishedAt)}</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-brand-muted">{formatDate(publishedAt)}</span>
+          {isAkademia && (
+            <span className="rounded-md border border-brand-pink/50 bg-brand-pink/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-brand-pink">
+              Akademia
+            </span>
+          )}
+        </div>
         <h3 className="font-bebas text-xl leading-tight text-white">{title}</h3>
         <p className="line-clamp-2 text-sm text-white/60">{lead}</p>
       </div>

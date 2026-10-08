@@ -93,10 +93,11 @@ export default function Footer() {
               Nawigacja
             </p>
             {[
+              { label: "Akademia", href: "/akademia" },
               { label: "Aktualności", href: "/aktualnosci" },
               { label: "Terminarz", href: "/terminarz" },
-              { label: "Tabela", href: "/tabela" },
               { label: "Drużyna", href: "/druzyna" },
+              { label: "Tabela", href: "/tabela" },
               { label: "Galeria", href: "/galeria" },
               { label: "O klubie", href: "/o-klubie" },
             ].map((link) => (

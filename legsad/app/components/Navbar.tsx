@@ -6,10 +6,11 @@ import { useState, type ReactNode } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 const links = [
+  { label: "Akademia", href: "/akademia" },
   { label: "Aktualności", href: "/aktualnosci" },
   { label: "Terminarz", href: "/terminarz" },
-  { label: "Tabela", href: "/tabela" },
   { label: "Drużyna", href: "/druzyna" },
+  { label: "Tabela", href: "/tabela" },
   { label: "Galeria", href: "/galeria" },
   { label: "O klubie", href: "/o-klubie" },
 ];
@@ -29,11 +30,18 @@ export default function Navbar({ matchPill }: { matchPill: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const isAkademia = pathname?.startsWith("/akademia");
 
   return (
     <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
-      <nav className="relative w-full max-w-5xl rounded-2xl border border-white/10 bg-black/30 px-6 py-3 backdrop-blur-lg">
-        <div className="flex items-center justify-between">
+      <nav
+        className={`relative w-full max-w-6xl rounded-2xl border px-6 py-3 backdrop-blur-lg ${
+          isAkademia
+            ? "border-academy-ink/10 bg-academy-ink/90"
+            : "border-white/10 bg-black/30"
+        }`}
+      >
+        <div className="flex items-center justify-between gap-6">
 
           <Link
             href="/"

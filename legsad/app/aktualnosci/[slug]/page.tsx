@@ -75,13 +75,19 @@ export async function generateMetadata({
 
 export default async function NewsDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
 }) {
   const { slug } = await params;
+  const { from } = await searchParams;
   const article = await getNewsBySlug(slug);
 
   if (!article) notFound();
+
+  const backHref = from === "akademia" ? "/akademia/aktualnosci" : "/aktualnosci";
+  const backLabel = from === "akademia" ? "← Wróć do aktualności Akademii" : "← Wróć do aktualności";
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-linear-to-b from-brand-crimson/20 to-brand-black pt-32 pb-20">
@@ -89,10 +95,10 @@ export default async function NewsDetailPage({
       <div className="relative mx-auto max-w-5xl px-6">
 
         <Link
-          href="/aktualnosci"
+          href={backHref}
           className="mb-6 inline-block text-xs uppercase tracking-widest text-brand-muted transition-colors hover:text-white"
         >
-          ← Wróć do aktualności
+          {backLabel}
         </Link>
 
         <FadeInSection>
@@ -101,6 +107,11 @@ export default async function NewsDetailPage({
           <div className="mb-6">
             <div className="mb-3 flex items-center gap-3">
               <span className="text-xs text-brand-muted">{formatDate(article.publishedAt)}</span>
+              {article.isAkademia && (
+                <span className="rounded-md border border-brand-pink/50 bg-brand-pink/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest text-brand-pink">
+                  Akademia
+                </span>
+              )}
             </div>
             <h1 className="font-bebas text-4xl leading-tight text-white md:text-5xl">
               {article.title}

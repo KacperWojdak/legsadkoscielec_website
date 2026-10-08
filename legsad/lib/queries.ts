@@ -219,7 +219,24 @@ export async function getNews() {
       category,
       publishedAt,
       mainImage,
-      lead
+      lead,
+      isAkademia
+    }
+  `);
+}
+
+// AKTUALNOŚCI — AKADEMIA
+export async function getAcademyNews() {
+  return client.fetch(`
+    *[_type == "news" && isAkademia == true] | order(publishedAt desc) {
+      _id,
+      title,
+      "slug": slug.current,
+      category,
+      publishedAt,
+      mainImage,
+      lead,
+      isAkademia
     }
   `);
 }
@@ -235,7 +252,8 @@ export async function getNewsBySlug(slug: string) {
       category,
       publishedAt,
       mainImage,
-      body
+      body,
+      isAkademia
     }
   `,
     { slug }
@@ -289,6 +307,22 @@ export async function getLeagueTable() {
         form,
         team-> { _id, name, logo }
       }
+    }
+  `);
+}
+
+// AKADEMIA
+export async function getAcademy() {
+  return client.fetch(`
+    *[_type == "academy"][0] {
+      groups,
+      schedule,
+      coaches,
+      sallerAkademiaUrl,
+      sallerRodziceUrl,
+      coordinatorName,
+      coordinatorRole,
+      coordinatorPhone
     }
   `);
 }

@@ -12,6 +12,14 @@
   --color-brand-surface: #111111;
   --color-brand-border: #1f1f1f;
   --color-brand-muted: #666666;
+
+  --color-academy-bg: #f7dde4;
+  --color-academy-surface: #ffffff;
+  --color-academy-border: #ffd6e0;
+  --color-academy-red: #e02347;
+  --color-academy-pink: #ff5c8a;
+  --color-academy-ink: #1a1013;
+  --color-academy-muted: #8a5a63;
 }
 
 body {
