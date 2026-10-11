@@ -35,15 +35,11 @@ export function computePlayerStats(matches: SanityMatch[]): Record<string, Playe
       const scorers =
         legsadSide === "home" ? match.reportScorersHome : match.reportScorersAway;
       for (const g of scorers ?? []) {
-        if (g.goalType === "ownGoal") continue;
-
         const scorerName = resolveName(g);
         getOrCreate(scorerName).gole += 1;
 
-        if (g.goalType !== "penalty") {
-          const assistName = g.assistPlayer?.name ?? g.assist;
-          if (assistName) getOrCreate(assistName).asysty += 1;
-        }
+      const assistName = g.assistPlayer?.name ?? g.assist;
+        if (assistName) getOrCreate(assistName).asysty += 1;
       }
     }
 

@@ -40,9 +40,6 @@ export type StaffMember = {
 // Referenja zawodnika
 export type PlayerRef = { _id: string; name: string; number?: number } | null;
 
-// ===== TYP BRAMKI =====
-export type GoalType = "regular" | "penalty" | "ownGoal";
-
 // ===== STATYSTYKI =====
 export type PlayerStats = {
   name: string;
@@ -62,7 +59,6 @@ export type Scorer = {
   minute: number;
   assist?: string;
   assistPlayer?: PlayerRef;
-  goalType?: GoalType;
 };
 
 export type Card = {
@@ -105,8 +101,8 @@ export type SanityMatch = {
   isWalkover?: boolean;
   walkoverReceiver?: "home" | "away";
   opponent?: { name: string };
-  reportScorersHome?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef; goalType?: GoalType }[];
-  reportScorersAway?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef; goalType?: GoalType }[];
+  reportScorersHome?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef; }[];
+  reportScorersAway?: { name?: string; player?: PlayerRef; minute: number; assist?: string; assistPlayer?: PlayerRef; }[];
   reportYellowCardsHome?: { name?: string; player?: PlayerRef; minute: number }[];
   reportYellowCardsAway?: { name?: string; player?: PlayerRef; minute: number }[];
   reportRedCardsHome?: { name?: string; player?: PlayerRef; minute: number; isSecondYellow?: boolean }[];

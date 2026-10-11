@@ -4,7 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import PlayerModal from "../../components/PlayerModal";
 import PhotoGrid from "../../components/PhotoGrid";
-import GoalIcon from "../../components/GoalIcon";
 import type { PlayerStats } from "../../../lib/stats";
 
 type Player = {
@@ -68,25 +67,6 @@ export default function MatchClient({
       );
     }
     return <span className="text-brand-muted">{assistName}</span>;
-  };
-
-    const goalNote = (type?: string) =>
-    type === "penalty" ? "Rzut karny" : type === "ownGoal" ? "Bramka samobójcza" : null;
-
-  const scorerIsLegsad = (g: { goalType?: string }, listIsLegsad: boolean) =>
-    g.goalType === "ownGoal" ? !listIsLegsad : listIsLegsad;
-
-  const hasScorerAssist = (g: any) =>
-    g.goalType !== "penalty" && g.goalType !== "ownGoal" && Boolean(g.assist || g.assistPlayer);
-
-  const renderScorer = (g: any, listIsLegsad: boolean) => {
-    const note = goalNote(g.goalType);
-    return (
-      <>
-        {renderEntry(g, scorerIsLegsad(g, listIsLegsad))}
-        {note && <span className="ml-1 text-xs text-brand-muted">({note})</span>}
-      </>
-    );
   };
 
   const scorersHome = match.reportScorersHome ?? [];
@@ -165,10 +145,10 @@ export default function MatchClient({
               .map((g: any, i: number) => (
                 <div key={i} className="flex items-start gap-2 text-sm">
                   <span className="w-8 shrink-0 text-right text-brand-muted">{g.minute}&apos;</span>
-                  <GoalIcon type={g.goalType} />
+                  <span className="shrink-0">⚽</span>
                   <div className="min-w-0 flex-1">
-                    {renderScorer(g, match.homeIsLegsad)}
-                    {hasScorerAssist(g) && (
+                    {renderEntry(g, match.homeIsLegsad)}
+                    {(g.assist || g.assistPlayer) && (
                       <div className="text-xs text-brand-muted">
                         Asysta: {renderAssist(g)}
                       </div>
@@ -187,14 +167,14 @@ export default function MatchClient({
               .map((g: any, i: number) => (
                 <div key={i} className="flex items-start gap-2 text-sm">
                   <div className="min-w-0 flex-1 text-right">
-                    {renderScorer(g, !match.homeIsLegsad)}
-                    {hasScorerAssist(g) && (
+                    {renderEntry(g, !match.homeIsLegsad)}
+                    {(g.assist || g.assistPlayer) && (
                       <div className="text-xs text-brand-muted">
                         Asysta: {renderAssist(g)}
                       </div>
                     )}
                   </div>
-                  <GoalIcon type={g.goalType} />
+                  <span className="shrink-0">⚽</span>
                   <span className="w-8 shrink-0 text-left text-brand-muted">{g.minute}&apos;</span>
                 </div>
               ))}
@@ -214,12 +194,12 @@ export default function MatchClient({
             .map((g, i) => (
               <div key={i} className="flex items-start gap-3 py-3 text-sm first:pt-0 last:pb-0">
                 <span className="w-8 shrink-0 pt-0.5 text-right text-brand-muted">{g.minute}&apos;</span>
-                <GoalIcon type={g.goalType} className="pt-0.5" />
+                <span className="shrink-0 pt-0.5">⚽</span>
                 <div className="min-w-0 flex-1">
                   <div className={`flex flex-wrap items-baseline gap-x-1 ${isLongName(g.player?.name ?? g.name) ? "text-xs" : ""}`}>
-                    {renderScorer(g, g.isLegsad)}
+                    {renderEntry(g, g.isLegsad)}
                   </div>
-                  {hasScorerAssist(g) && (
+                  {(g.assist || g.assistPlayer) && (
                     <div className="mt-0.5 text-xs text-brand-muted">
                       Asysta: {renderAssist(g)}
                     </div>

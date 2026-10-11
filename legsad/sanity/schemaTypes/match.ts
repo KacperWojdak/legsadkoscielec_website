@@ -7,23 +7,6 @@ const scorerField = defineField({
   type: "object",
   fields: [
     defineField({
-      name: "goalType",
-      title: "Rodzaj bramki",
-      type: "string",
-      options: {
-        list: [
-          { title: "Zwykła", value: "regular" },
-          { title: "Rzut karny", value: "penalty" },
-          { title: "Samobójcza", value: "ownGoal" },
-        ],
-        layout: "radio",
-        direction: "horizontal",
-      },
-      initialValue: "regular",
-      description:
-        "Bramka samobójcza: wpisz ją na liście drużyny, której bramka jest zaliczona, z nazwiskiem zawodnika, który strzelił do własnej siatki.",
-    }),
-    defineField({
       name: "player",
       title: "Zawodnik Legsadu (wybierz z listy)",
       type: "reference",
@@ -42,22 +25,18 @@ const scorerField = defineField({
       title: "Asysta — zawodnik Legsadu (wybierz z listy)",
       type: "reference",
       to: [{ type: "player" }],
-      hidden: ({ parent }) => parent?.goalType === "penalty" || parent?.goalType === "ownGoal",
     }),
     defineField({
       name: "assist",
       title: "Asysta — imię i nazwisko (jeśli przeciwnik)",
       type: "string",
-      hidden: ({ parent }) => parent?.goalType === "penalty" || parent?.goalType === "ownGoal",
     }),
   ],
   preview: {
-    select: { title: "name", playerName: "player.name", subtitle: "minute", goalType: "goalType" },
-    prepare: ({ title, playerName, subtitle, goalType }) => ({
+    select: { title: "name", playerName: "player.name", subtitle: "minute" },
+    prepare: ({ title, playerName, subtitle }) => ({
       title: playerName ?? title,
-      subtitle: `${subtitle}'${
-        goalType === "penalty" ? " · karny" : goalType === "ownGoal" ? " · samobójcza" : ""
-      }`,
+      subtitle: `${subtitle}'`,
     }),
   },
 });
