@@ -146,17 +146,21 @@ export default async function AkademiaPage() {
                 className="rounded-2xl border border-academy-border bg-academy-surface p-5 shadow-sm"
               >
                 <p className="mb-3 font-bebas text-xl text-academy-ink">{block.groups}</p>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-3">
                   {(block.sessions ?? []).map((session: any) => (
-                    <div key={session.day} className="flex items-center justify-between text-sm">
-                      <span className="font-medium text-academy-ink">{session.day}</span>
-                      <span className="text-academy-muted">{session.time}</span>
+                    <div key={session._key} className="flex flex-col gap-0.5 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium text-academy-ink">{session.day}</span>
+                        <span className="text-academy-muted">{session.time}</span>
+                      </div>
+                      {session.location && (
+                        <p className="text-xs uppercase tracking-wide text-academy-red">
+                          📍 {session.location}
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
-                <p className="mt-3 text-xs uppercase tracking-wide text-academy-red">
-                  📍 {block.location}
-                </p>
               </div>
             ))}
           </div>
